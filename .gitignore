@@ -1,0 +1,6 @@
+venv/*
+.directory
+*.pyc
+__pycache__/
+.mypy_cache/
+ants.db
