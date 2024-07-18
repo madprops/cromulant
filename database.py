@@ -3,6 +3,7 @@ from __future__ import annotations
 import sqlite3
 from pathlib import Path
 
+
 class Database:
     connection: sqlite3.Connection
     cursor: sqlite3.Cursor

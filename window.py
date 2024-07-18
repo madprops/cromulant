@@ -1,25 +1,30 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QHBoxLayout, QWidget
-from PySide6.QtWidgets import QGraphicsView, QGraphicsScene, QVBoxLayout
+from PySide6.QtWidgets import QApplication  # type: ignore
+from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QGraphicsView
+from PySide6.QtWidgets import QGraphicsScene
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QPushButton
+from PySide6.QtWidgets import QHBoxLayout
 
+from config import Config
 from ants import Ants
 
 
 class Window:
-    title = "Cromulant"
-    width = 800
-    height = 600
     app: QApplication
     window: QMainWindow
     root: QWidget
+    view: QGraphicsView
 
     @staticmethod
     def make() -> None:
         Window.app = QApplication([])
         Window.window = QMainWindow()
-        Window.window.setWindowTitle(Window.title)
-        Window.window.resize(Window.width, Window.height)
+        Window.window.setWindowTitle(Config.title)
+        Window.window.resize(Config.width, Config.height)
         Window.root = QWidget()
         Window.window.setCentralWidget(Window.root)
 
@@ -40,9 +45,8 @@ class Window:
     @staticmethod
     def add_view() -> None:
         Window.view = QGraphicsView()
-        Window.scene = QGraphicsScene()
-        Window.view.setScene(Window.scene)
-
+        scene = QGraphicsScene()
+        Window.view.setScene(scene)
         layout = QVBoxLayout(Window.root)
         layout.addWidget(Window.view)
 
