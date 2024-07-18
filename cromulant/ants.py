@@ -1,8 +1,8 @@
 from __future__ import annotations
 from typing import ClassVar
 
-from utils import Utils
-from database import Database
+from .utils import Utils
+from .database import Database
 
 
 class Ant:
