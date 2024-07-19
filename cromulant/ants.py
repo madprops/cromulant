@@ -37,7 +37,9 @@ class Ant:
         self.status = data["status"]
         self.hits = data["hits"]
         self.triumph = data["triumph"]
-        self.color = tuple(data["color"])
+
+        c = data["color"]
+        self.color = (c[0], c[1], c[2])
 
     def get_name(self) -> str:
         return self.name or "Nameless"

@@ -3,13 +3,13 @@ from __future__ import annotations
 from PySide6.QtWidgets import QApplication  # type: ignore
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget
-from PySide6.QtWidgets import QGraphicsView
 from PySide6.QtWidgets import QGraphicsScene
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QScrollArea
-from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QLayout
+from PySide6.QtGui import QIcon  # type: ignore
 from PySide6.QtCore import Qt  # type: ignore
 
 from .config import Config
@@ -18,8 +18,8 @@ from .config import Config
 class Window:
     app: QApplication
     window: QMainWindow
-    root: QHBoxLayout
-    view: QGraphicsView
+    root: QVBoxLayout
+    view: QVBoxLayout
     view_scene: QGraphicsScene
 
     @staticmethod
@@ -34,11 +34,10 @@ class Window:
         Window.window = QMainWindow()
         Window.window.setWindowTitle(Config.title)
         Window.window.resize(Config.width, Config.height)
-        Window.root = QHBoxLayout()
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)
-        Window.root.setAlignment(Qt.AlignTop)
+        Window.root.setAlignment(Qt.AlignmentFlag.AlignTop)
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
 
@@ -74,7 +73,7 @@ class Window:
         Window.view = QVBoxLayout()
         parent.addLayout(Window.view)
 
-        Window.view.setAlignment(Qt.AlignTop)
+        Window.view.setAlignment(Qt.AlignmentFlag.AlignTop)
         scroll_area.setWidget(container)
         Window.root.addWidget(scroll_area)
 
@@ -100,7 +99,7 @@ class Window:
         Window.app.quit()
 
     @staticmethod
-    def delete_layout(layout):
+    def delete_layout(layout: QLayout) -> None:
         while layout.count():
             item = layout.takeAt(0)
             if item.widget():

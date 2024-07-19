@@ -4,7 +4,7 @@ import random
 from pathlib import Path
 
 from PySide6.QtCore import Qt  # type: ignore
-from PySide6.QtWidgets import QHBoxLayout
+from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QPixmap  # type: ignore
@@ -62,7 +62,7 @@ class Game:
     @staticmethod
     def make_right_container(title: str, message: str) -> QVBoxLayout:
         container = QVBoxLayout()
-        container.setAlignment(Qt.AlignTop)
+        container.setAlignment(Qt.AlignmentFlag.AlignTop)
         title_label = QLabel(title)
         title_label.setStyleSheet("font-weight: bold;")
         message_label = QLabel(message)
@@ -76,13 +76,20 @@ class Game:
         pixmap = QPixmap(str(image_path))
 
         scaled_pixmap = pixmap.scaled(
-            Config.image_size, pixmap.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+            Config.image_size,
+            pixmap.height(),
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
 
         image_label.setPixmap(scaled_pixmap)
-        image_label.setFixedSize(scaled_pixmap.size())  # Set QLabel size to match QPixmap size
+        image_label.setFixedSize(
+            scaled_pixmap.size()
+        )  # Set QLabel size to match QPixmap size
         border_rgb = Utils.get_rgb(border_color)
-        image_label.setStyleSheet(f"bpyside6. how do i make this start at the top. top alignedorder: 2px solid {border_rgb};")
+        image_label.setStyleSheet(
+            f"bpyside6. how do i make this start at the top. top alignedorder: 2px solid {border_rgb};"
+        )
         return image_label
 
     @staticmethod
