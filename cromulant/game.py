@@ -180,16 +180,10 @@ class Game:
             text.append("Hatch some ants")
         else:
             text.append(f"Ants:{nb}{len(Ants.ants)}")
-
-            hits = Ants.most_hits()
-
             triumph = Ants.most_triumph()
 
             if triumph:
                 text.append(f"Triumph:{nb}{triumph.name}")
-
-            if hits and (triumph and (hits.name != triumph.name)):
-                text.append(f"Hits:{nb}{hits.name}")
 
         Window.info.setText(Config.info_separator.join(text))
         Window.info.adjustSize()
