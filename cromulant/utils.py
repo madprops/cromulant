@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-
 import random
 import colorsys
 import time
 from typing import ClassVar
+
 from fontTools.ttLib import TTFont  # type: ignore
 
 from .config import Config

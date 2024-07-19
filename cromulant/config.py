@@ -36,6 +36,7 @@ class Config:
     hit_icon: str = "🎃"
     triumph_message: str = "Scored a triumph"
     hit_message: str = "Took a hit"
+    song_path: Path
 
     @staticmethod
     def prepare() -> None:
@@ -53,3 +54,4 @@ class Config:
         Config.names_json = Config.here / "data" / "names.json"
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
+        Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"

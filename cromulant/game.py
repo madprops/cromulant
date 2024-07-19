@@ -22,6 +22,7 @@ from .window import Window
 
 class Game:
     timer: QTimer
+    playing_song: bool = False
 
     @staticmethod
     def prepare() -> None:
@@ -122,6 +123,7 @@ class Game:
             rgb = Utils.get_rgb(color)
             image_label.setStyleSheet(f"border: 2px solid {rgb};")
 
+        image_label.mousePressEvent = lambda event: Game.toggle_song()
         return image_label
 
     @staticmethod
@@ -210,3 +212,13 @@ class Game:
 
         Window.info.setText(Config.info_separator.join(text))
         Window.info.adjustSize()
+
+    @staticmethod
+    def toggle_song() -> None:
+        if Game.playing_song:
+            Window.stop_audio()
+        else:
+            path = str(Config.song_path)
+            Window.play_audio(path)
+
+        Game.playing_song = not Game.playing_song

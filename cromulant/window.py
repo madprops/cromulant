@@ -21,6 +21,9 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtCore import Signal
+from PySide6.QtCore import QUrl
+from PySide6.QtMultimedia import QMediaPlayer  # type: ignore
+from PySide6.QtMultimedia import QAudioOutput
 
 from .config import Config
 
@@ -46,6 +49,8 @@ class Window:
     info: SpecialButton
     font: str
     emoji_font: str
+    player: QMediaPlayer
+    audio: QAudioOutput
 
     @staticmethod
     def prepare() -> None:
@@ -102,9 +107,11 @@ class Window:
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
         btn_terminate = SpecialButton("Terminate")
+
         btn_terminate.setToolTip(
             "Terminate a random ant\nMiddle Click to terminate all"
         )
+
         btn_terminate.clicked.connect(lambda e: Ants.terminate())
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
@@ -215,3 +222,16 @@ class Window:
         container.addWidget(Window.info)
         root.setLayout(container)
         Window.root.addWidget(root)
+
+    @staticmethod
+    def play_audio(path: str) -> None:
+        Window.player = QMediaPlayer()
+        Window.audio = QAudioOutput()
+        Window.player.setAudioOutput(Window.audio)
+        Window.player.setSource(QUrl.fromLocalFile(path))
+        Window.audio.setVolume(100)
+        Window.player.play()
+
+    @staticmethod
+    def stop_audio() -> None:
+        Window.player.stop()
