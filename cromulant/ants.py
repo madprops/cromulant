@@ -65,6 +65,8 @@ class Ants:
 
     @staticmethod
     def hatch() -> None:
+        from .game import Game
+
         if len(Ants.ants) >= Config.max_ants:
             Utils.print("Too many ants")
             return
@@ -79,11 +81,27 @@ class Ants:
 
         Ants.ants.append(ant)
         Ants.save()
-        Utils.print(f"Ant hatched: {ant.name}")
+
+        image_path = Config.hatched_image_path
+        Game.add_message(f"{ant.name} is born", image_path)
 
     @staticmethod
     def terminate() -> None:
-        pass
+        from .game import Game
+
+        if not len(Ants.ants):
+            return
+
+        ant = Ants.get_random_ant()
+        Ants.ants.remove(ant)
+        Ants.save()
+
+        image_path = Config.terminated_image_path
+        Game.add_message(f"{ant.name} was terminated", image_path)
+
+    @staticmethod
+    def get_random_ant() -> Ant:
+        return random.choice(Ants.ants)
 
     @staticmethod
     def get_names() -> list[str]:
@@ -97,7 +115,19 @@ class Ants:
     def get_lazy() -> Ant:
         return min(Ants.ants, key=lambda ant: ant.updated)
 
-    @staticmethod
+    def set_status(ant: Ant, status: str) -> None:
+        from .game import Game
+
+        status = status.strip()
+
+        if not status:
+            return
+
+        ant.status = status
+        ant.updated = Utils.now()
+        Game.add_status(ant)
+        Ants.save()
+
     def get_other(ant: Ant) -> Ant:
         ants = [a for a in Ants.ants if a.name != ant.name]
         return random.choice(ants)

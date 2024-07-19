@@ -8,9 +8,7 @@ from PySide6.QtWidgets import QGraphicsScene
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QHBoxLayout
-from PySide6.QtWidgets import QTextEdit
-from PySide6.QtWidgets import QLabel
-from PySide6.QtGui import QPixmap  # type: ignore
+from PySide6.QtWidgets import QScrollArea
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtCore import QTimer
@@ -24,7 +22,6 @@ class Window:
     root: QHBoxLayout
     view: QGraphicsView
     view_scene: QGraphicsScene
-    log: QTextEdit
     timer: QTimer
 
     @staticmethod
@@ -32,7 +29,6 @@ class Window:
         Window.make()
         Window.add_buttons()
         Window.add_view()
-        Window.add_log()
         Window.start_timer()
         Window.start()
 
@@ -46,9 +42,14 @@ class Window:
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)
+        Window.root.setAlignment(Qt.AlignTop)
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
-        Window.app.setStyleSheet("QWidget { background-color: #3c3681; color: #FFF; }")
+
+        style = f"QWidget {{ background-color: {Config.background_color}; \
+        color: {Config.text_color}; font-size: 20px}}"
+
+        Window.app.setStyleSheet(style)
 
     @staticmethod
     def add_buttons() -> None:
@@ -69,28 +70,17 @@ class Window:
 
     @staticmethod
     def add_view() -> None:
+        scroll_area = QScrollArea()
+        scroll_area.setWidgetResizable(True)
+
+        container = QWidget()
+        parent = QVBoxLayout(container)
         Window.view = QVBoxLayout()
-        Window.root.addLayout(Window.view)
+        parent.addLayout(Window.view)
 
-    @staticmethod
-    def add_log() -> None:
-        container = QHBoxLayout()
-
-        image_label = QLabel()
-        pixmap = QPixmap(str(Config.image_path))
-        scaled_pixmap = pixmap.scaled(
-            100, pixmap.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation
-        )
-        image_label.setPixmap(scaled_pixmap)
-        image_label.setFixedWidth(100)
-        container.addWidget(image_label)
-
-        Window.log = QTextEdit()
-        Window.log.setReadOnly(True)
-        Window.log.setFixedHeight(100)
-        container.addWidget(Window.log)
-
-        Window.root.addLayout(container)
+        Window.view.setAlignment(Qt.AlignTop)
+        scroll_area.setWidget(container)
+        Window.root.addWidget(scroll_area)
 
     @staticmethod
     def hatch() -> None:

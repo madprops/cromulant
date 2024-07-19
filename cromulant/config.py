@@ -7,14 +7,20 @@ import appdirs  # type: ignore
 
 class Config:
     title: str = "Cromulant"
-    width: int = 800
-    height: int = 600
+    width: int = 1000
+    height: int = 800
     max_ants: int = 100
     here: Path
     ants_json: Path
     icon_path: Path
-    image_path: Path
+    status_image_path: Path
+    hatched_image_path: Path
+    terminated_image_path: Path
     names_json: Path
+    background_color: str = "#2c2c2c"
+    text_color: str = "#ffffff"
+    image_size: int = 50
+    space_1: int = 25
 
     @staticmethod
     def prepare() -> None:
@@ -26,5 +32,7 @@ class Config:
             Config.ants_json.write_text("[]")
 
         Config.icon_path = Config.here / "img" / "icon_4.jpg"
-        Config.image_path = Config.here / "img" / "icon_7.jpg"
+        Config.status_image_path = Config.here / "img" / "icon_5.jpg"
+        Config.hatched_image_path = Config.here / "img" / "icon_7.jpg"
+        Config.terminated_image_path = Config.here / "img" / "icon_6.jpg"
         Config.names_json = Config.here / "data" / "names.json"

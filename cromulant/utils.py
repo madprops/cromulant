@@ -85,3 +85,7 @@ class Utils:
         used = Ants.get_names()
         filtered = [name for name in Utils.names if name not in used]
         return random.choice(filtered)
+
+    @staticmethod
+    def get_rgb(color: tuple[int, int, int]) -> str:
+        return f"rgb{color}"
