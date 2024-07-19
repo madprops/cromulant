@@ -11,7 +11,6 @@ from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QScrollArea
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
-from PySide6.QtCore import QTimer
 
 from .config import Config
 
@@ -22,15 +21,12 @@ class Window:
     root: QHBoxLayout
     view: QGraphicsView
     view_scene: QGraphicsScene
-    timer: QTimer
 
     @staticmethod
     def prepare() -> None:
         Window.make()
         Window.add_buttons()
         Window.add_view()
-        Window.start_timer()
-        Window.start()
 
     @staticmethod
     def make() -> None:
@@ -95,15 +91,6 @@ class Window:
         Ants.terminate()
 
     @staticmethod
-    def start_timer() -> None:
-        from .game import Game
-
-        interval_ms = 3_000
-        Window.timer = QTimer()
-        Window.timer.timeout.connect(Game.get_status)
-        Window.timer.start(interval_ms)
-
-    @staticmethod
     def start() -> None:
         Window.window.show()
         Window.app.exec()
@@ -111,3 +98,14 @@ class Window:
     @staticmethod
     def close() -> None:
         Window.app.quit()
+
+    @staticmethod
+    def delete_layout(layout):
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+            elif item.layout():
+                Window.delete_layout(item.layout())
+
+        layout.deleteLater()

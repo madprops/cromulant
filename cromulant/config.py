@@ -19,8 +19,10 @@ class Config:
     names_json: Path
     background_color: str = "#2c2c2c"
     text_color: str = "#ffffff"
-    image_size: int = 50
+    image_size: int = 80
     space_1: int = 25
+    max_messages: int = 120
+    loop_delay: int = 2_000
 
     @staticmethod
     def prepare() -> None:

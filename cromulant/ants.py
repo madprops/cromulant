@@ -56,12 +56,7 @@ class Ants:
 
     @staticmethod
     def prepare() -> None:
-        objs = Storage.get_ants()
-
-        for obj in objs:
-            ant = Ant()
-            ant.from_dict(obj)
-            Ants.ants.append(ant)
+        Ants.get_ants()
 
     @staticmethod
     def hatch() -> None:
@@ -83,7 +78,7 @@ class Ants:
         Ants.save()
 
         image_path = Config.hatched_image_path
-        Game.add_message(f"{ant.name} is born", image_path)
+        Game.add_message("Hatched", f"{ant.name} is born", image_path)
 
     @staticmethod
     def terminate() -> None:
@@ -97,7 +92,7 @@ class Ants:
         Ants.save()
 
         image_path = Config.terminated_image_path
-        Game.add_message(f"{ant.name} was terminated", image_path)
+        Game.add_message("Terminated", f"{ant.name} is gone", image_path)
 
     @staticmethod
     def get_random_ant() -> Ant:
@@ -115,6 +110,7 @@ class Ants:
     def get_lazy() -> Ant:
         return min(Ants.ants, key=lambda ant: ant.updated)
 
+    @staticmethod
     def set_status(ant: Ant, status: str) -> None:
         from .game import Game
 
@@ -128,6 +124,16 @@ class Ants:
         Game.add_status(ant)
         Ants.save()
 
+    @staticmethod
     def get_other(ant: Ant) -> Ant:
         ants = [a for a in Ants.ants if a.name != ant.name]
         return random.choice(ants)
+
+    @staticmethod
+    def get_ants() -> None:
+        objs = Storage.get_ants()
+
+        for obj in objs:
+            ant = Ant()
+            ant.from_dict(obj)
+            Ants.ants.append(ant)

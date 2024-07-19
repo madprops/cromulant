@@ -5,8 +5,10 @@ from pathlib import Path
 
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtWidgets import QHBoxLayout
+from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QPixmap  # type: ignore
+from PySide6.QtCore import QTimer
 
 from wonderwords import RandomSentence  # type: ignore
 
@@ -18,32 +20,55 @@ from .window import Window
 
 
 class Game:
+    timer: QTimer
+
+    @staticmethod
+    def prepare() -> None:
+        Game.initial_fill()
+
     @staticmethod
     def add_status(ant: Ant) -> None:
         container = QHBoxLayout()
         image_label = Game.get_image(Config.status_image_path, ant.color)
-        name = QLabel(ant.name)
-        status = QLabel(ant.status)
+        right_container = Game.make_right_container(ant.name, ant.status)
 
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
-        container.addWidget(name)
-        container.addSpacing(Config.space_1)
-        container.addWidget(status)
-
-        Window.view.insertLayout(0, container)
+        container.addLayout(right_container)
+        Game.add_view_container(container)
 
     @staticmethod
-    def add_message(message: str, image_path: Path) -> None:
+    def add_message(title: str, message: str, image_path: Path) -> None:
         container = QHBoxLayout()
         image_label = Game.get_image(image_path, (255, 255, 255))
-        message_label = QLabel(message)
+        right_container = Game.make_right_container(title, message)
 
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
-        container.addWidget(message_label)
+        container.addLayout(right_container)
+        Game.add_view_container(container)
 
+    @staticmethod
+    def add_view_container(container: QHBoxLayout) -> None:
         Window.view.insertLayout(0, container)
+
+        while Window.view.count() > Config.max_messages:
+            item = Window.view.takeAt(Window.view.count() - 1)
+            if item.widget():
+                item.widget().deleteLater()
+            elif item.layout():
+                Window.delete_layout(item.layout())
+
+    @staticmethod
+    def make_right_container(title: str, message: str) -> QVBoxLayout:
+        container = QVBoxLayout()
+        container.setAlignment(Qt.AlignTop)
+        title_label = QLabel(title)
+        title_label.setStyleSheet("font-weight: bold;")
+        message_label = QLabel(message)
+        container.addWidget(title_label)
+        container.addWidget(message_label)
+        return container
 
     @staticmethod
     def get_image(image_path: Path, border_color: tuple[int, int, int]) -> QLabel:
@@ -91,3 +116,20 @@ class Game:
             status = s.sentence()
 
         Ants.set_status(ant, status)
+
+    @staticmethod
+    def initial_fill() -> None:
+        if not len(Ants.ants):
+            return
+
+        ants = sorted(Ants.ants, key=lambda ant: ant.updated)
+
+        for ant in ants:
+            Game.add_status(ant)
+
+    @staticmethod
+    def start_loop() -> None:
+        interval_ms = Config.loop_delay
+        Game.timer = QTimer()
+        Game.timer.timeout.connect(Game.get_status)
+        Game.timer.start(interval_ms)
