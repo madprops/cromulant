@@ -188,7 +188,7 @@ class Game:
             if triumph:
                 text.append(f"Triumph:{nb}{triumph.name}")
 
-            if hits:
+            if hits and (hits.name != triumph.name):
                 text.append(f"Hits:{nb}{hits.name}")
 
         Window.info.setText(Config.info_separator.join(text))
