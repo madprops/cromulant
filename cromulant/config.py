@@ -28,6 +28,8 @@ class Config:
     hatch_burst: int = 3
     font_size: int = 20
     info_separator: str = "  -  "
+    font_path: Path
+    emoji_font_path: Path
 
     @staticmethod
     def prepare() -> None:
@@ -43,3 +45,5 @@ class Config:
         Config.hatched_image_path = Config.here / "img" / "icon_7.jpg"
         Config.terminated_image_path = Config.here / "img" / "icon_6.jpg"
         Config.names_json = Config.here / "data" / "names.json"
+        Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
+        Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"

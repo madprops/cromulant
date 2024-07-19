@@ -16,7 +16,8 @@ from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QMessageBox
-from PySide6.QtGui import QMouseEvent  # type: ignore
+from PySide6.QtGui import QFontDatabase  # type: ignore
+from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtCore import Signal
@@ -43,6 +44,8 @@ class Window:
     speed: QComboBox
     scroll_area: QScrollArea
     info: SpecialButton
+    font: str
+    emoji_font: str
 
     @staticmethod
     def prepare() -> None:
@@ -64,9 +67,24 @@ class Window:
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
 
-        style = f"QWidget {{ background-color: {Config.background_color}; \
-        color: {Config.text_color}; font-size: {Config.font_size}px}}"
+        font_id = QFontDatabase.addApplicationFont(str(Config.font_path))
+        emoji_font_id = QFontDatabase.addApplicationFont(str(Config.emoji_font_path))
 
+        if font_id != -1:
+            Window.font = QFontDatabase.applicationFontFamilies(font_id)[0]
+
+        if emoji_font_id != -1:
+            Window.emoji_font = QFontDatabase.applicationFontFamilies(emoji_font_id)[0]
+
+        style = f"""
+            QWidget {{
+                background-color: {Config.background_color};
+                color: {Config.text_color};
+                font-size: {Config.font_size}px;
+            }}
+            """.strip()
+
+        Window.app.setFont(Window.font)
         Window.root.setContentsMargins(0, 0, 0, 0)
         Window.app.setStyleSheet(style)
 

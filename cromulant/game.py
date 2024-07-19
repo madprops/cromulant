@@ -119,14 +119,14 @@ class Game:
         status = ""
 
         if num == 1:
-            ant.hits += 1
-            status = f"Took a hit ({ant.hits} total)"
-        elif num == 2:
             ant.triumph += 1
-            status = f"Scored a triumph ({ant.triumph} total)"
+            status = f"😀 Scored a triumph ({ant.triumph} total)"
+        elif num == 2:
+            ant.hits += 1
+            status = f"🎃 Took a hit ({ant.hits} total)"
         elif (num == 3) and (num_ants > 1):
             other = Ants.get_other(ant)
-            status = f"Is thinking about {other.name}"
+            status = f"🫠 Is thinking about {other.name}"
         elif num == 4:
             status = s.simple_sentence()
         elif num == 5:
@@ -188,7 +188,7 @@ class Game:
             if triumph:
                 text.append(f"Triumph:{nb}{triumph.name}")
 
-            if hits and (hits.name != triumph.name):
+            if hits and (triumph and (hits.name != triumph.name)):
                 text.append(f"Hits:{nb}{hits.name}")
 
         Window.info.setText(Config.info_separator.join(text))
