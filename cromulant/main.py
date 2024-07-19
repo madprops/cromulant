@@ -1,23 +1,16 @@
 from __future__ import annotations
 
 from .config import Config
-from .database import Database
-from .window import Window
+from .utils import Utils
 from .ants import Ants
+from .window import Window
 
 
 def main() -> None:
     Config.prepare()
-    Database.prepare()
-    Database.create()
-
-    Ants.get_all()
-
-    Window.make()
-    Window.add_buttons()
-    Window.add_view()
-    Window.add_log()
-    Window.start()
+    Utils.prepare()
+    Ants.prepare()
+    Window.prepare()
 
 
 if __name__ == "__main__":

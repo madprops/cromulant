@@ -1,7 +1,16 @@
+import random
+import colorsys
 import time
 
+from .storage import Storage
 
 class Utils:
+    names: list[str] = []
+
+    @staticmethod
+    def prepare() -> None:
+        Utils.names = Storage.get_names()
+
     @staticmethod
     def now() -> float:
         return int(time.time())
@@ -53,3 +62,17 @@ class Utils:
     @staticmethod
     def print(text: str) -> None:
         print(text)  # noqa: T201
+
+    @staticmethod
+    def random_color() -> str:
+        h,s,l = random.random(), 0.5 + random.random()/2.0, 0.4 + random.random()/5.0
+        r, g, b = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
+        return r, g, b
+
+    @staticmethod
+    def random_name() -> str:
+        from .ants import Ants
+
+        used = Ants.get_names()
+        filtered = [name for name in Utils.names if name not in used]
+        return random.choice(filtered)

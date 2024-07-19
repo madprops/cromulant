@@ -1,20 +1,41 @@
 from __future__ import annotations
-from typing import ClassVar
+from typing import ClassVar, Any
 
+from .config import Config
 from .utils import Utils
-from .database import Database
+from .storage import Storage
 
 
 class Ant:
     def __init__(self) -> None:
         now = Utils.now()
-        self.id: int
         self.created = now
         self.updated = now
         self.name = ""
         self.status = ""
         self.hits = 0
         self.triumph = 0
+        self.color: tuple[int, int, int]
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "created": self.created,
+            "updated": self.updated,
+            "name": self.name,
+            "status": self.status,
+            "hits": self.hits,
+            "triumph": self.triumph,
+            "color": self.color,
+        }
+
+    def from_dict(self, data: dict[str, Any]) -> None:
+        self.created = data["created"]
+        self.updated = data["updated"]
+        self.name = data["name"]
+        self.status = data["status"]
+        self.hits = data["hits"]
+        self.triumph = data["triumph"]
+        self.color = tuple(data["color"])
 
     def get_name(self) -> str:
         return self.name or "Nameless"
@@ -32,41 +53,36 @@ class Ants:
     ants: ClassVar[list[Ant]] = []
 
     @staticmethod
-    def get_all() -> None:
-        Database.cursor.execute(
-            "SELECT id, created, updated, name, status, hits, triumph FROM ants"
-        )
-        rows = Database.cursor.fetchall()
+    def prepare() -> None:
+        objs = Storage.get_ants()
 
-        for row in rows:
+        for obj in objs:
             ant = Ant()
-            ant.id = row[0]
-            ant.created = row[1]
-            ant.updated = row[2]
-            ant.name = row[3]
-            ant.status = row[4]
-            ant.hits = row[5]
-            ant.triumph = row[6]
+            ant.from_dict(obj)
             Ants.ants.append(ant)
 
     @staticmethod
     def hatch() -> None:
+        if len(Ants.ants) >= Config.max_ants:
+            Utils.print("Too many ants")
+            return
+
         now = Utils.now()
 
-        Database.cursor.execute(
-            "INSERT INTO ants (created, updated) VALUES (?, ?)",
-            (now, now),
-        )
-
-        Database.connection.commit()
-        Database.cursor.execute("SELECT last_insert_rowid()")
-        row = Database.cursor.fetchone()
-
         ant = Ant()
-        ant.id = row[0]
+        ant.created = now
+        ant.updated = now
+        ant.name = Utils.random_name()
+        ant.color = Utils.random_color()
 
-        Utils.print(f"Ant hatched: {ant.id}")
+        Ants.ants.append(ant)
+        Storage.save_ants(Ants.ants)
+        Utils.print(f"Ant hatched: {ant.name}")
 
     @staticmethod
     def terminate() -> None:
         pass
+
+    @staticmethod
+    def get_names() -> list[str]:
+        return [ant.name for ant in Ants.ants]
