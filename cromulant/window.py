@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from typing import Any
+from collections.abc import Callable
+
 from PySide6.QtWidgets import QApplication  # type: ignore
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget
@@ -11,10 +14,23 @@ from PySide6.QtWidgets import QScrollArea
 from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
-from PySide6.QtGui import QIcon  # type: ignore
+from PySide6.QtWidgets import QMessageBox
+from PySide6.QtGui import QMouseEvent  # type: ignore
+from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
+from PySide6.QtCore import Signal
 
 from .config import Config
+
+
+class SpecialButton(QPushButton):  # type: ignore
+    middleClicked = Signal()
+
+    def mousePressEvent(self, e: QMouseEvent) -> None:
+        if e.button() == Qt.MouseButton.MiddleButton:
+            self.middleClicked.emit()
+        else:
+            super().mousePressEvent(e)
 
 
 class Window:
@@ -51,21 +67,23 @@ class Window:
 
     @staticmethod
     def add_buttons() -> None:
+        from .ants import Ants
         from .game import Game
 
-        btn_hatch = QPushButton("Hatch")
-        btn_terminate = QPushButton("Terminate")
+        btn_hatch = SpecialButton("Hatch")
+        btn_hatch.clicked.connect(lambda e: Ants.hatch())
+        btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
-        btn_close = QPushButton("Close")
-
-        btn_hatch.clicked.connect(Window.hatch)
-        btn_terminate.clicked.connect(Window.terminate)
+        btn_terminate = SpecialButton("Terminate")
+        btn_terminate.clicked.connect(lambda e: Ants.terminate())
+        btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
         Window.speed = QComboBox()
         Window.speed.addItems(["Fast", "Normal", "Slow"])
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
+        btn_close = QPushButton("Close")
         btn_close.clicked.connect(Window.close)
 
         layout = QHBoxLayout()
@@ -91,18 +109,6 @@ class Window:
         Window.root.addWidget(scroll_area)
 
     @staticmethod
-    def hatch() -> None:
-        from .ants import Ants
-
-        Ants.hatch()
-
-    @staticmethod
-    def terminate() -> None:
-        from .ants import Ants
-
-        Ants.terminate()
-
-    @staticmethod
     def start() -> None:
         Window.window.show()
         Window.app.exec()
@@ -125,3 +131,27 @@ class Window:
     @staticmethod
     def expand(widget: QWidget) -> None:
         widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+    @staticmethod
+    def confirm(message: str, action: Callable[..., Any]) -> None:
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Icon.Question)
+        msg_box.setWindowTitle("Confirm")
+        msg_box.setText(message)
+
+        msg_box.setStandardButtons(
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        msg_box.setDefaultButton(QMessageBox.StandardButton.No)
+        msg_box.button(QMessageBox.StandardButton.Yes).clicked.connect(action)
+        msg_box.exec()
+
+    @staticmethod
+    def clear_view() -> None:
+        while Window.view.count():
+            item = Window.view.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+            elif item.layout():
+                Window.delete_layout(item.layout())

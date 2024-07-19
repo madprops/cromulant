@@ -25,6 +25,7 @@ class Config:
     loop_delay_fast: int = 3_000
     loop_delay_normal: int = 20_000
     loop_delay_slow: int = 60_000
+    hatch_burst: int = 3
 
     @staticmethod
     def prepare() -> None:

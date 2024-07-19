@@ -7,6 +7,8 @@ from .config import Config
 from .utils import Utils
 from .storage import Storage
 
+from .window import Window
+
 
 class Ant:
     def __init__(self) -> None:
@@ -61,26 +63,33 @@ class Ants:
         Ants.get_ants()
 
     @staticmethod
-    def hatch() -> None:
+    def hatch(num: int = 1) -> None:
         from .game import Game
 
         if len(Ants.ants) >= Config.max_ants:
-            Utils.print("Too many ants")
             return
 
         now = Utils.now()
 
-        ant = Ant()
-        ant.created = now
-        ant.updated = now
-        ant.name = Utils.random_name()
-        ant.color = Utils.random_color()
+        for _ in range(num):
+            ant = Ant()
+            ant.created = now
+            ant.updated = now
+            ant.name = Utils.random_name()
+            ant.color = Utils.random_color()
 
-        Ants.ants.append(ant)
+            Ants.ants.append(ant)
+            image_path = Config.hatched_image_path
+            Game.add_message("Hatched", f"{ant.name} is born", image_path)
+
+            if len(Ants.ants) >= Config.max_ants:
+                break
+
         Ants.save()
 
-        image_path = Config.hatched_image_path
-        Game.add_message("Hatched", f"{ant.name} is born", image_path)
+    @staticmethod
+    def hatch_burst() -> None:
+        Ants.hatch(Config.hatch_burst)
 
     @staticmethod
     def terminate() -> None:
@@ -95,6 +104,15 @@ class Ants:
 
         image_path = Config.terminated_image_path
         Game.add_message("Terminated", f"{ant.name} is gone", image_path)
+
+    @staticmethod
+    def terminate_all() -> None:
+        def action() -> None:
+            Ants.ants = []
+            Ants.save()
+            Window.clear_view()
+
+        Window.confirm("Terminate all ants?", action)
 
     @staticmethod
     def get_random_ant() -> Ant:

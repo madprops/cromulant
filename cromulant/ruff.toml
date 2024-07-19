@@ -38,6 +38,7 @@ select = [
 ignore = [
     "W292",
     "N802",
+    "N815",
 ]
 
 exclude = [
