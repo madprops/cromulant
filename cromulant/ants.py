@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+import random
 from typing import ClassVar, Any
 
 from .config import Config
@@ -76,7 +78,7 @@ class Ants:
         ant.color = Utils.random_color()
 
         Ants.ants.append(ant)
-        Storage.save_ants(Ants.ants)
+        Ants.save()
         Utils.print(f"Ant hatched: {ant.name}")
 
     @staticmethod
@@ -86,3 +88,16 @@ class Ants:
     @staticmethod
     def get_names() -> list[str]:
         return [ant.name for ant in Ants.ants]
+
+    @staticmethod
+    def save() -> None:
+        Storage.save_ants(Ants.ants)
+
+    @staticmethod
+    def get_lazy() -> Ant:
+        return min(Ants.ants, key=lambda ant: ant.updated)
+
+    @staticmethod
+    def get_other(ant: Ant) -> Ant:
+        ants = [a for a in Ants.ants if a.name != ant.name]
+        return random.choice(ants)

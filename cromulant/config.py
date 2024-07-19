@@ -1,19 +1,20 @@
+from __future__ import annotations
+
 from pathlib import Path
 
 import appdirs  # type: ignore
 
 
 class Config:
-    title = "Cromulant"
-    width = 800
-    height = 600
-    max_ants = 100
-    here: str
+    title: str = "Cromulant"
+    width: int = 800
+    height: int = 600
+    max_ants: int = 100
+    here: Path
     ants_json: Path
     icon_path: Path
     image_path: Path
     names_json: Path
-
 
     @staticmethod
     def prepare() -> None:

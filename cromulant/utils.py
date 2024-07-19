@@ -1,11 +1,15 @@
+from __future__ import annotations
+
 import random
 import colorsys
 import time
+from typing import ClassVar
 
 from .storage import Storage
 
+
 class Utils:
-    names: list[str] = []
+    names: ClassVar[list[str]] = []
 
     @staticmethod
     def prepare() -> None:
@@ -64,9 +68,14 @@ class Utils:
         print(text)  # noqa: T201
 
     @staticmethod
-    def random_color() -> str:
-        h,s,l = random.random(), 0.5 + random.random()/2.0, 0.4 + random.random()/5.0
-        r, g, b = [int(256*i) for i in colorsys.hls_to_rgb(h,l,s)]
+    def random_color() -> tuple[int, int, int]:
+        h, s, l = (
+            random.random(),
+            0.5 + random.random() / 2.0,
+            0.4 + random.random() / 5.0,
+        )
+
+        r, g, b = (int(256 * i) for i in colorsys.hls_to_rgb(h, l, s))
         return r, g, b
 
     @staticmethod

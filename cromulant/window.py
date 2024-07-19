@@ -10,9 +10,10 @@ from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QTextEdit
 from PySide6.QtWidgets import QLabel
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap  # type: ignore
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt  # type: ignore
+from PySide6.QtCore import QTimer
 
 from .config import Config
 
@@ -24,6 +25,7 @@ class Window:
     view: QGraphicsView
     view_scene: QGraphicsScene
     log: QTextEdit
+    timer: QTimer
 
     @staticmethod
     def prepare() -> None:
@@ -31,6 +33,7 @@ class Window:
         Window.add_buttons()
         Window.add_view()
         Window.add_log()
+        Window.start_timer()
         Window.start()
 
     @staticmethod
@@ -51,18 +54,15 @@ class Window:
     def add_buttons() -> None:
         btn_hatch = QPushButton("Hatch")
         btn_terminate = QPushButton("Terminate")
-        btn_update = QPushButton("Update")
         btn_close = QPushButton("Close")
 
         btn_hatch.clicked.connect(Window.hatch)
         btn_terminate.clicked.connect(Window.terminate)
-        btn_update.clicked.connect(Window.update_view)
         btn_close.clicked.connect(Window.close)
 
         layout = QHBoxLayout()
         layout.addWidget(btn_hatch)
         layout.addWidget(btn_terminate)
-        layout.addWidget(btn_update)
         layout.addWidget(btn_close)
 
         Window.root.addLayout(layout)
@@ -78,7 +78,9 @@ class Window:
 
         image_label = QLabel()
         pixmap = QPixmap(str(Config.image_path))
-        scaled_pixmap = pixmap.scaled(100, pixmap.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        scaled_pixmap = pixmap.scaled(
+            100, pixmap.height(), Qt.KeepAspectRatio, Qt.SmoothTransformation
+        )
         image_label.setPixmap(scaled_pixmap)
         image_label.setFixedWidth(100)
         container.addWidget(image_label)
@@ -91,19 +93,25 @@ class Window:
         Window.root.addLayout(container)
 
     @staticmethod
-    def update_view() -> None:
-        from .game import Game
-        Game.update_view()
-
-    @staticmethod
     def hatch() -> None:
         from .ants import Ants
+
         Ants.hatch()
 
     @staticmethod
     def terminate() -> None:
         from .ants import Ants
+
         Ants.terminate()
+
+    @staticmethod
+    def start_timer() -> None:
+        from .game import Game
+
+        interval_ms = 3_000
+        Window.timer = QTimer()
+        Window.timer.timeout.connect(Game.get_status)
+        Window.timer.start(interval_ms)
 
     @staticmethod
     def start() -> None:

@@ -35,6 +35,11 @@ select = [
     "PLR1711",
 ]
 
+ignore = [
+    "W292",
+    "N802",
+]
+
 exclude = [
     "pyperclip.py",
     "tests.py",
