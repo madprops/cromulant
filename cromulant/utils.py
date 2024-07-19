@@ -68,7 +68,10 @@ class Utils:
         print(text)  # noqa: T201
 
     @staticmethod
-    def random_color() -> tuple[int, int, int]:
+    def random_color(seed: str) -> tuple[int, int, int]:
+        seed_int = hash(seed)
+        random.seed(seed_int)
+
         h, s, l = (
             random.random(),
             0.5 + random.random() / 2.0,

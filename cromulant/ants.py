@@ -76,7 +76,7 @@ class Ants:
             ant.created = now
             ant.updated = now
             ant.name = Utils.random_name()
-            ant.color = Utils.random_color()
+            ant.color = Utils.random_color(ant.name)
 
             Ants.ants.append(ant)
             image_path = Config.hatched_image_path
