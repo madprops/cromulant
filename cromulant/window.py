@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 from collections.abc import Callable
+import signal
 
 from PySide6.QtWidgets import QApplication  # type: ignore
 from PySide6.QtWidgets import QMainWindow
@@ -78,19 +79,23 @@ class Window:
         container = QHBoxLayout()
 
         btn_hatch = SpecialButton("Hatch")
+        btn_hatch.setToolTip("Hatch a new ant")
         btn_hatch.clicked.connect(lambda e: Ants.hatch())
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
         btn_terminate = SpecialButton("Terminate")
+        btn_terminate.setToolTip("Terminate a random ant")
         btn_terminate.clicked.connect(lambda e: Ants.terminate())
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
         Window.speed = QComboBox()
+        Window.speed.setToolTip("Change the speed of the updates")
         Window.speed.addItems(["Fast", "Normal", "Slow"])
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         btn_top = SpecialButton("Top")
+        btn_top.setToolTip("Scroll to the top")
         btn_top.clicked.connect(Window.to_top)
 
         container.addWidget(btn_hatch)
@@ -117,6 +122,7 @@ class Window:
 
     @staticmethod
     def start() -> None:
+        signal.signal(signal.SIGINT, signal.SIG_DFL)
         Window.window.show()
         Window.app.exec()
 
@@ -179,6 +185,7 @@ class Window:
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
+        Window.info.setToolTip("Scroll to the bottom")
         Window.info.clicked.connect(Window.to_bottom)
         Window.expand(Window.info)
         container.addWidget(Window.info)
