@@ -95,13 +95,11 @@ class Game:
         )
 
         image_label.setPixmap(scaled_pixmap)
-
         image_label.setFixedSize(scaled_pixmap.size())
-
         border_rgb = Utils.get_rgb(border_color)
 
         image_label.setStyleSheet(
-            f"bpyside6. how do i make this start at the top. top alignedorder: 2px solid {border_rgb};"
+            f"border: 2px solid {border_rgb};"
         )
 
         return image_label

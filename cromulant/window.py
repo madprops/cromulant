@@ -97,12 +97,12 @@ class Window:
         container = QHBoxLayout()
 
         btn_hatch = SpecialButton("Hatch")
-        btn_hatch.setToolTip("Hatch a new ant")
+        btn_hatch.setToolTip("Hatch a new ant\nMiddle Click to hatch Trio")
         btn_hatch.clicked.connect(lambda e: Ants.hatch())
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
         btn_terminate = SpecialButton("Terminate")
-        btn_terminate.setToolTip("Terminate a random ant")
+        btn_terminate.setToolTip("Terminate a random ant\nMiddle Click to terminate all")
         btn_terminate.clicked.connect(lambda e: Ants.terminate())
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
@@ -113,8 +113,9 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         btn_top = SpecialButton("Top")
-        btn_top.setToolTip("Scroll to the top")
+        btn_top.setToolTip("Scroll to the top\nMiddle Click to scroll to the bottom")
         btn_top.clicked.connect(Window.to_top)
+        btn_top.middleClicked.connect(Window.to_bottom)
 
         container.addWidget(btn_hatch)
         container.addWidget(btn_terminate)
@@ -203,8 +204,9 @@ class Window:
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
-        Window.info.setToolTip("Scroll to the bottom")
+        Window.info.setToolTip("Scroll to the bottom\nMiddle Click to scroll to the top")
         Window.info.clicked.connect(Window.to_bottom)
+        Window.info.middleClicked.connect(Window.to_top)
         Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)
         root.setLayout(container)
