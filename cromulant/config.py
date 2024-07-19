@@ -28,6 +28,7 @@ class Config:
     hatch_burst: int = 3
     font_size: int = 20
     footer_font_size: int = 18
+    footer_background_color: str = "#424242"
 
     @staticmethod
     def prepare() -> None:

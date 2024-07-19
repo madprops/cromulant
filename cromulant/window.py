@@ -67,6 +67,7 @@ class Window:
         style = f"QWidget {{ background-color: {Config.background_color}; \
         color: {Config.text_color}; font-size: {Config.font_size}px}}"
 
+        Window.root.setContentsMargins(0, 0, 0, 0)
         Window.app.setStyleSheet(style)
 
     @staticmethod
@@ -166,10 +167,13 @@ class Window:
 
     @staticmethod
     def add_footer() -> None:
+        root = QWidget()
+        root.setStyleSheet(f"background-color: {Config.footer_background_color};")
         layout = QHBoxLayout()
         Window.info = QLabel("---")
         Window.info.setWordWrap(True)
         Window.info.setStyleSheet(f"font-size: {Config.footer_font_size}px;")
         Window.expand(Window.info)
         layout.addWidget(Window.info)
-        Window.root.addLayout(layout)
+        root.setLayout(layout)
+        Window.root.addWidget(root)
