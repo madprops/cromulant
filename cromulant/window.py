@@ -15,7 +15,6 @@ from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QMessageBox
-from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QMouseEvent  # type: ignore
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
@@ -42,7 +41,7 @@ class Window:
     view_scene: QGraphicsScene
     speed: QComboBox
     scroll_area: QScrollArea
-    info: QLabel
+    info: SpecialButton
 
     @staticmethod
     def prepare() -> None:
@@ -75,6 +74,9 @@ class Window:
         from .ants import Ants
         from .game import Game
 
+        root = QWidget()
+        container = QHBoxLayout()
+
         btn_hatch = SpecialButton("Hatch")
         btn_hatch.clicked.connect(lambda e: Ants.hatch())
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
@@ -88,16 +90,16 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
-        btn_top = QPushButton("Top")
+        btn_top = SpecialButton("Top")
         btn_top.clicked.connect(Window.to_top)
 
-        layout = QHBoxLayout()
-        layout.addWidget(btn_hatch)
-        layout.addWidget(btn_terminate)
-        layout.addWidget(Window.speed)
-        layout.addWidget(btn_top)
+        container.addWidget(btn_hatch)
+        container.addWidget(btn_terminate)
+        container.addWidget(Window.speed)
+        container.addWidget(btn_top)
 
-        Window.root.addLayout(layout)
+        root.setLayout(container)
+        Window.root.addWidget(root)
 
     @staticmethod
     def add_view() -> None:
@@ -166,14 +168,19 @@ class Window:
         Window.scroll_area.verticalScrollBar().setValue(0)
 
     @staticmethod
+    def to_bottom() -> None:
+        Window.scroll_area.verticalScrollBar().setValue(
+            Window.scroll_area.verticalScrollBar().maximum()
+        )
+
+    @staticmethod
     def add_footer() -> None:
         root = QWidget()
-        root.setStyleSheet(f"background-color: {Config.footer_background_color};")
-        layout = QHBoxLayout()
-        Window.info = QLabel("---")
-        Window.info.setWordWrap(True)
-        Window.info.setStyleSheet(f"font-size: {Config.footer_font_size}px;")
+        root.setContentsMargins(0, 0, 0, 0)
+        container = QHBoxLayout()
+        Window.info = SpecialButton("---")
+        Window.info.clicked.connect(Window.to_bottom)
         Window.expand(Window.info)
-        layout.addWidget(Window.info)
-        root.setLayout(layout)
+        container.addWidget(Window.info)
+        root.setLayout(container)
         Window.root.addWidget(root)
