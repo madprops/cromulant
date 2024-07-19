@@ -65,7 +65,7 @@ class Window:
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
 
         style = f"QWidget {{ background-color: {Config.background_color}; \
-        color: {Config.text_color}; font-size: 20px}}"
+        color: {Config.text_color}; font-size: {Config.font_size}px}}"
 
         Window.app.setStyleSheet(style)
 
@@ -169,6 +169,7 @@ class Window:
         layout = QHBoxLayout()
         Window.info = QLabel("---")
         Window.info.setWordWrap(True)
+        Window.info.setStyleSheet(f"font-size: {Config.footer_font_size}px;")
         Window.expand(Window.info)
         layout.addWidget(Window.info)
         Window.root.addLayout(layout)
