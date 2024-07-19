@@ -17,8 +17,8 @@ class Ant:
         self.updated = now
         self.name = ""
         self.status = ""
-        self.hits = 0
         self.triumph = 0
+        self.hits = 0
         self.color: tuple[int, int, int]
 
     def to_dict(self) -> dict[str, Any]:

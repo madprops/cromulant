@@ -183,13 +183,13 @@ class Game:
 
             hits = Ants.most_hits()
 
-            if hits:
-                text.append(f"Most{nb}Hits:{nb}{hits.name}")
-
             triumph = Ants.most_triumph()
 
             if triumph:
-                text.append(f"Most{nb}Triumph:{nb}{triumph.name}")
+                text.append(f"Triumph:{nb}{triumph.name}")
+
+            if hits:
+                text.append(f"Hits:{nb}{hits.name}")
 
         Window.info.setText("   |   ".join(text))
         Window.info.adjustSize()
