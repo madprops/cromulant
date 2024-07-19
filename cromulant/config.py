@@ -27,7 +27,7 @@ class Config:
     loop_delay_slow: int = 60_000
     hatch_burst: int = 3
     font_size: int = 20
-    footer_font_size: int = 18
+    info_separator: str = "  -  "
 
     @staticmethod
     def prepare() -> None:

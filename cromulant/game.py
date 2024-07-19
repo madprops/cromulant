@@ -191,5 +191,5 @@ class Game:
             if hits:
                 text.append(f"Hits:{nb}{hits.name}")
 
-        Window.info.setText("   |   ".join(text))
+        Window.info.setText(Config.info_separator.join(text))
         Window.info.adjustSize()

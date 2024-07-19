@@ -187,7 +187,7 @@ class Window:
         Window.info = SpecialButton("---")
         Window.info.setToolTip("Scroll to the bottom")
         Window.info.clicked.connect(Window.to_bottom)
-        Window.expand(Window.info)
+        Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)
         root.setLayout(container)
         Window.root.addWidget(root)
