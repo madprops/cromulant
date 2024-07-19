@@ -23,13 +23,19 @@ class Config:
     space_1: int = 20
     max_messages: int = 200
     loop_delay_fast: int = 3_000
-    loop_delay_normal: int = 30_000
-    loop_delay_slow: int = 60_000
+    loop_delay_normal: int = 60_000
+    loop_delay_slow: int = 120_000
     hatch_burst: int = 3
     font_size: int = 20
     info_separator: str = "  -  "
     font_path: Path
     emoji_font_path: Path
+    triumph_color: tuple[int, int, int] = (255, 255, 0)
+    hit_color: tuple[int, int, int] = (255, 0, 77)
+    triumph_icon: str = "😀"
+    hit_icon: str = "🎃"
+    triumph_message: str = "Scored a triumph"
+    hit_message: str = "Took a hit"
 
     @staticmethod
     def prepare() -> None:

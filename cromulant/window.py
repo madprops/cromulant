@@ -29,7 +29,7 @@ class SpecialButton(QPushButton):  # type: ignore
     middleClicked = Signal()
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        if e.button() == Qt.MouseButton.MiddleButton:
+        if e.button() == Qt.MiddleButton:
             self.middleClicked.emit()
         else:
             super().mousePressEvent(e)
@@ -63,7 +63,7 @@ class Window:
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)
-        Window.root.setAlignment(Qt.AlignmentFlag.AlignTop)
+        Window.root.setAlignment(Qt.AlignTop)
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
 
@@ -102,7 +102,9 @@ class Window:
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
         btn_terminate = SpecialButton("Terminate")
-        btn_terminate.setToolTip("Terminate a random ant\nMiddle Click to terminate all")
+        btn_terminate.setToolTip(
+            "Terminate a random ant\nMiddle Click to terminate all"
+        )
         btn_terminate.clicked.connect(lambda e: Ants.terminate())
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
@@ -135,7 +137,7 @@ class Window:
         Window.view = QVBoxLayout()
         parent.addLayout(Window.view)
 
-        Window.view.setAlignment(Qt.AlignmentFlag.AlignTop)
+        Window.view.setAlignment(Qt.AlignTop)
         Window.scroll_area.setWidget(container)
         Window.root.addWidget(Window.scroll_area)
 
@@ -204,7 +206,9 @@ class Window:
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
-        Window.info.setToolTip("Scroll to the bottom\nMiddle Click to scroll to the top")
+        Window.info.setToolTip(
+            "Scroll to the bottom\nMiddle Click to scroll to the top"
+        )
         Window.info.clicked.connect(Window.to_bottom)
         Window.info.middleClicked.connect(Window.to_top)
         Window.info.setMinimumSize(35, 35)

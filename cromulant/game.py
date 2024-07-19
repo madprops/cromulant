@@ -31,8 +31,22 @@ class Game:
     @staticmethod
     def add_status(ant: Ant) -> None:
         container = QHBoxLayout()
-        image_label = Game.get_image(Config.status_image_path, ant.color)
-        right_container = Game.make_right_container(ant.name, ant.status)
+        status = ant.status
+        color = None
+
+        if ant.method == "triumph":
+            total = f"({ant.triumph} total)"
+            status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
+            color = Config.triumph_color
+        elif ant.method == "hit":
+            total = f"({ant.hits} total)"
+            status = f"{Config.hit_icon} {Config.hit_message} {total}"
+            color = Config.hit_color
+        elif ant.method == "thinking":
+            status = f"Thinking about {status}"
+
+        image_label = Game.get_image(Config.status_image_path, color)
+        right_container = Game.make_right_container(ant.name, status)
 
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
@@ -40,9 +54,14 @@ class Game:
         Game.add_view_container(container)
 
     @staticmethod
-    def add_message(title: str, message: str, image_path: Path) -> None:
+    def add_message(
+        title: str,
+        message: str,
+        image_path: Path,
+        color: tuple[int, int, int] = (255, 255, 255),
+    ) -> None:
         container = QHBoxLayout()
-        image_label = Game.get_image(image_path, (255, 255, 255))
+        image_label = Game.get_image(image_path, color)
         right_container = Game.make_right_container(title, message)
 
         container.addWidget(image_label)
@@ -65,7 +84,7 @@ class Game:
     def make_right_container(title: str, message: str) -> QWidget:
         root = QWidget()
         container = QVBoxLayout()
-        container.setAlignment(Qt.AlignmentFlag.AlignTop)
+        container.setAlignment(Qt.AlignTop)
 
         title_label = QLabel(title)
         title_label.setStyleSheet("font-weight: bold;")
@@ -83,24 +102,25 @@ class Game:
         return root
 
     @staticmethod
-    def get_image(image_path: Path, border_color: tuple[int, int, int]) -> QLabel:
+    def get_image(
+        image_path: Path, color: tuple[int, int, int] | None = None
+    ) -> QLabel:
         image_label = QLabel()
         pixmap = QPixmap(str(image_path))
 
         scaled_pixmap = pixmap.scaled(
             Config.image_size,
             pixmap.height(),
-            Qt.AspectRatioMode.KeepAspectRatio,
-            Qt.TransformationMode.SmoothTransformation,
+            Qt.KeepAspectRatio,
+            Qt.SmoothTransformation,
         )
 
         image_label.setPixmap(scaled_pixmap)
         image_label.setFixedSize(scaled_pixmap.size())
-        border_rgb = Utils.get_rgb(border_color)
 
-        image_label.setStyleSheet(
-            f"border: 2px solid {border_rgb};"
-        )
+        if color:
+            rgb = Utils.get_rgb(color)
+            image_label.setStyleSheet(f"border: 2px solid {rgb};")
 
         return image_label
 
@@ -115,26 +135,31 @@ class Game:
         num = random.randint(1, 10)
         s = RandomSentence()
         status = ""
+        method = "normal"
 
         if num == 1:
             ant.triumph += 1
-            status = f"😀 Scored a triumph ({ant.triumph} total)"
+            method = "triumph"
         elif num == 2:
             ant.hits += 1
-            status = f"🎃 Took a hit ({ant.hits} total)"
+            method = "hit"
         elif (num == 3) and (num_ants > 1):
             other = Ants.get_other(ant)
-            status = f"🫠 Is thinking about {other.name}"
+            status = other.name
+            method = "thinking"
         elif num == 4:
             status = s.simple_sentence()
         elif num == 5:
             status = s.bare_bone_sentence()
         elif num == 6:
             status = s.bare_bone_with_adjective()
+        elif num == 7:
+            status = Utils.get_random_emoji(3)
+            method = "thinking"
         else:
             status = s.sentence()
 
-        Ants.set_status(ant, status)
+        Ants.set_status(ant, status, method)
 
     @staticmethod
     def initial_fill() -> None:

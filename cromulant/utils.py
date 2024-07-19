@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+
 import random
 import colorsys
 import time
 from typing import ClassVar
+from fontTools.ttLib import TTFont  # type: ignore
 
+from .config import Config
 from .storage import Storage
 
 
@@ -92,3 +95,16 @@ class Utils:
     @staticmethod
     def get_rgb(color: tuple[int, int, int]) -> str:
         return f"rgb{color}"
+
+    @staticmethod
+    def get_random_character(font_path: str, num: int) -> str:
+        font = TTFont(font_path)
+        cmap = font["cmap"]
+        unicode_map = cmap.getBestCmap()
+        characters = [chr(code_point) for code_point in unicode_map]
+        selected = random.sample(characters, num)
+        return " ".join(selected)
+
+    @staticmethod
+    def get_random_emoji(num: int) -> str:
+        return Utils.get_random_character(str(Config.emoji_font_path), num)

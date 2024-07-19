@@ -17,9 +17,9 @@ class Ant:
         self.updated = now
         self.name = ""
         self.status = ""
+        self.method = "normal"
         self.triumph = 0
         self.hits = 0
-        self.color: tuple[int, int, int]
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -27,9 +27,9 @@ class Ant:
             "updated": self.updated,
             "name": self.name,
             "status": self.status,
+            "method": self.method,
             "hits": self.hits,
             "triumph": self.triumph,
-            "color": self.color,
         }
 
     def from_dict(self, data: dict[str, Any]) -> None:
@@ -37,11 +37,9 @@ class Ant:
         self.updated = data["updated"]
         self.name = data["name"]
         self.status = data["status"]
+        self.method = data["method"]
         self.hits = data["hits"]
         self.triumph = data["triumph"]
-
-        c = data["color"]
-        self.color = (c[0], c[1], c[2])
 
     def get_name(self) -> str:
         return self.name or "Nameless"
@@ -76,7 +74,6 @@ class Ants:
             ant.created = now
             ant.updated = now
             ant.name = Utils.random_name()
-            ant.color = Utils.random_color(ant.name)
 
             Ants.ants.append(ant)
             image_path = Config.hatched_image_path
@@ -136,16 +133,14 @@ class Ants:
         return min(Ants.ants, key=lambda ant: ant.updated)
 
     @staticmethod
-    def set_status(ant: Ant, status: str) -> None:
+    def set_status(ant: Ant, status: str, method: str) -> None:
         from .game import Game
 
         status = status.strip()
-
-        if not status:
-            return
-
         ant.status = status
+        ant.method = method
         ant.updated = Utils.now()
+
         Game.add_status(ant)
         Ants.save()
 
