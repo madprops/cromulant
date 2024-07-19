@@ -8,7 +8,7 @@ import appdirs  # type: ignore
 class Config:
     title: str = "Cromulant"
     width: int = 900
-    height: int = 800
+    height: int = 900
     max_ants: int = 100
     here: Path
     ants_json: Path
@@ -37,6 +37,7 @@ class Config:
     triumph_message: str = "Scored a triumph"
     hit_message: str = "Took a hit"
     song_path: Path
+    logo_path: Path
 
     @staticmethod
     def prepare() -> None:
@@ -55,3 +56,4 @@ class Config:
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
+        Config.logo_path = Config.here / "img" / "logo_3.jpg"

@@ -82,12 +82,12 @@ class Window:
             Window.emoji_font = QFontDatabase.applicationFontFamilies(emoji_font_id)[0]
 
         style = f"""
-            QWidget {{
-                background-color: {Config.background_color};
-                color: {Config.text_color};
-                font-size: {Config.font_size}px;
-            }}
-            """.strip()
+        QWidget {{
+            background-color: {Config.background_color};
+            color: {Config.text_color};
+            font-size: {Config.font_size}px;
+        }}
+        """.strip()
 
         Window.app.setFont(Window.font)
         Window.root.setContentsMargins(0, 0, 0, 0)
@@ -138,6 +138,19 @@ class Window:
     def add_view() -> None:
         Window.scroll_area = QScrollArea()
         Window.scroll_area.setWidgetResizable(True)
+
+        # image_path = str(Config.logo_path)
+        # image_url = QUrl.fromLocalFile(image_path).toString()
+
+        # style = f"""
+        # QWidget {{
+        #     background-image: url({image_url});
+        #     background-repeat: no-repeat;
+        #     background-position: center;
+        # }}
+        # """
+
+        # Window.scroll_area.setStyleSheet(style)
 
         container = QWidget()
         parent = QVBoxLayout(container)
