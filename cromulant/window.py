@@ -8,7 +8,9 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QScrollArea
+from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
+from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtGui import QIcon  # type: ignore
 from PySide6.QtCore import Qt  # type: ignore
 
@@ -21,6 +23,7 @@ class Window:
     root: QVBoxLayout
     view: QVBoxLayout
     view_scene: QGraphicsScene
+    speed: QComboBox
 
     @staticmethod
     def prepare() -> None:
@@ -48,17 +51,27 @@ class Window:
 
     @staticmethod
     def add_buttons() -> None:
+        from .game import Game
+
         btn_hatch = QPushButton("Hatch")
         btn_terminate = QPushButton("Terminate")
+
         btn_close = QPushButton("Close")
 
         btn_hatch.clicked.connect(Window.hatch)
         btn_terminate.clicked.connect(Window.terminate)
+
+        Window.speed = QComboBox()
+        Window.speed.addItems(["Fast", "Normal", "Slow"])
+        Window.speed.setCurrentIndex(1)
+        Window.speed.currentIndexChanged.connect(Game.update_speed)
+
         btn_close.clicked.connect(Window.close)
 
         layout = QHBoxLayout()
         layout.addWidget(btn_hatch)
         layout.addWidget(btn_terminate)
+        layout.addWidget(Window.speed)
         layout.addWidget(btn_close)
 
         Window.root.addLayout(layout)
@@ -108,3 +121,7 @@ class Window:
                 Window.delete_layout(item.layout())
 
         layout.deleteLater()
+
+    @staticmethod
+    def expand(widget: QWidget) -> None:
+        widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)

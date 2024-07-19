@@ -7,7 +7,7 @@ import appdirs  # type: ignore
 
 class Config:
     title: str = "Cromulant"
-    width: int = 1000
+    width: int = 900
     height: int = 800
     max_ants: int = 100
     here: Path
@@ -22,7 +22,9 @@ class Config:
     image_size: int = 80
     space_1: int = 25
     max_messages: int = 120
-    loop_delay: int = 2_000
+    loop_delay_fast: int = 3_000
+    loop_delay_normal: int = 20_000
+    loop_delay_slow: int = 60_000
 
     @staticmethod
     def prepare() -> None:
