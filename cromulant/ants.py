@@ -86,6 +86,7 @@ class Ants:
                 break
 
         Ants.save()
+        Game.update_info()
 
     @staticmethod
     def hatch_burst() -> None:
@@ -104,13 +105,17 @@ class Ants:
 
         image_path = Config.terminated_image_path
         Game.add_message("Terminated", f"{ant.name} is gone", image_path)
+        Game.update_info()
 
     @staticmethod
     def terminate_all() -> None:
+        from .game import Game
+
         def action() -> None:
             Ants.ants = []
             Ants.save()
             Window.clear_view()
+            Game.update_info()
 
         Window.confirm("Terminate all ants?", action)
 
@@ -157,3 +162,17 @@ class Ants:
             ant = Ant()
             ant.from_dict(obj)
             Ants.ants.append(ant)
+
+    @staticmethod
+    def most_hits() -> Ant | None:
+        if not len(Ants.ants):
+            return None
+
+        return max(Ants.ants, key=lambda a: a.hits)
+
+    @staticmethod
+    def most_triumph() -> Ant | None:
+        if not len(Ants.ants):
+            return None
+
+        return max(Ants.ants, key=lambda a: a.triumph)

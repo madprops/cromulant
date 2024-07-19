@@ -26,6 +26,7 @@ class Game:
     @staticmethod
     def prepare() -> None:
         Game.initial_fill()
+        Game.update_info()
 
     @staticmethod
     def add_status(ant: Ant) -> None:
@@ -145,7 +146,8 @@ class Game:
         ants = sorted(Ants.ants, key=lambda ant: ant.updated)
 
         for ant in ants:
-            Game.add_status(ant)
+            if ant.status:
+                Game.add_status(ant)
 
     @staticmethod
     def start_loop() -> None:
@@ -166,3 +168,28 @@ class Game:
     def update_speed() -> None:
         Game.timer.stop()
         Game.start_loop()
+
+    @staticmethod
+    def update_info() -> None:
+        text = []
+
+        # Non-breaking space
+        nb = "\u00a0"
+
+        if not len(Ants.ants):
+            text.append("Hatch some ants")
+        else:
+            text.append(f"Ants:{nb}{len(Ants.ants)}")
+
+            hits = Ants.most_hits()
+
+            if hits:
+                text.append(f"Most{nb}Hits:{nb}{hits.name}")
+
+            triumph = Ants.most_triumph()
+
+            if triumph:
+                text.append(f"Most{nb}Triumph:{nb}{triumph.name}")
+
+        Window.info.setText("   |   ".join(text))
+        Window.info.adjustSize()

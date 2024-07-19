@@ -20,7 +20,7 @@ class Config:
     background_color: str = "#2c2c2c"
     text_color: str = "#ffffff"
     image_size: int = 80
-    space_1: int = 25
+    space_1: int = 20
     max_messages: int = 120
     loop_delay_fast: int = 3_000
     loop_delay_normal: int = 20_000

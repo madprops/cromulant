@@ -15,6 +15,7 @@ from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QLabel
 from PySide6.QtGui import QMouseEvent  # type: ignore
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import Qt  # type: ignore
@@ -40,12 +41,15 @@ class Window:
     view: QVBoxLayout
     view_scene: QGraphicsScene
     speed: QComboBox
+    scroll_area: QScrollArea
+    info: QLabel
 
     @staticmethod
     def prepare() -> None:
         Window.make()
         Window.add_buttons()
         Window.add_view()
+        Window.add_footer()
 
     @staticmethod
     def make() -> None:
@@ -83,21 +87,21 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
-        btn_close = QPushButton("Close")
-        btn_close.clicked.connect(Window.close)
+        btn_top = QPushButton("Top")
+        btn_top.clicked.connect(Window.to_top)
 
         layout = QHBoxLayout()
         layout.addWidget(btn_hatch)
         layout.addWidget(btn_terminate)
         layout.addWidget(Window.speed)
-        layout.addWidget(btn_close)
+        layout.addWidget(btn_top)
 
         Window.root.addLayout(layout)
 
     @staticmethod
     def add_view() -> None:
-        scroll_area = QScrollArea()
-        scroll_area.setWidgetResizable(True)
+        Window.scroll_area = QScrollArea()
+        Window.scroll_area.setWidgetResizable(True)
 
         container = QWidget()
         parent = QVBoxLayout(container)
@@ -105,8 +109,8 @@ class Window:
         parent.addLayout(Window.view)
 
         Window.view.setAlignment(Qt.AlignmentFlag.AlignTop)
-        scroll_area.setWidget(container)
-        Window.root.addWidget(scroll_area)
+        Window.scroll_area.setWidget(container)
+        Window.root.addWidget(Window.scroll_area)
 
     @staticmethod
     def start() -> None:
@@ -155,3 +159,16 @@ class Window:
                 item.widget().deleteLater()
             elif item.layout():
                 Window.delete_layout(item.layout())
+
+    @staticmethod
+    def to_top() -> None:
+        Window.scroll_area.verticalScrollBar().setValue(0)
+
+    @staticmethod
+    def add_footer() -> None:
+        layout = QHBoxLayout()
+        Window.info = QLabel("---")
+        Window.info.setWordWrap(True)
+        Window.expand(Window.info)
+        layout.addWidget(Window.info)
+        Window.root.addLayout(layout)
