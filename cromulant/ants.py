@@ -99,7 +99,11 @@ class Ants:
         if Ants.empty():
             return
 
-        ant = Ants.get_random_ant()
+        ant = Ants.random_ant()
+
+        if not ant:
+            return
+
         Ants.ants.remove(ant)
         Ants.save()
 
@@ -120,7 +124,10 @@ class Ants:
         Window.confirm("Terminate all ants?", action)
 
     @staticmethod
-    def get_random_ant() -> Ant:
+    def random_ant() -> Ant | None:
+        if Ants.empty():
+            return None
+
         return random.choice(Ants.ants)
 
     @staticmethod
@@ -136,9 +143,18 @@ class Ants:
         return len(Ants.ants) == 0
 
     @staticmethod
-    def get_lazy() -> Ant | None:
+    def get_next() -> Ant | None:
         if Ants.empty():
             return None
+
+        if len(Ants.ants) == 1:
+            return Ants.ants[0]
+
+        ignore = []
+        current = Ants.get_current()
+
+        if current:
+            ignore.append(current)
 
         now = Utils.now()
         mins = 10 * 60
@@ -148,7 +164,15 @@ class Ants:
         if not len(ants):
             ants = Ants.ants
 
+        ants = [a for a in ants if a not in ignore]
         return random.choice(ants)
+
+    @staticmethod
+    def get_current() -> Ant | None:
+        if Ants.empty():
+            return None
+
+        return max(Ants.ants, key=lambda ant: ant.updated)
 
     @staticmethod
     def set_status(ant: Ant, status: str, method: str) -> None:

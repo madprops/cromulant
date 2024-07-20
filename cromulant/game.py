@@ -161,7 +161,7 @@ class Game:
         if Ants.empty():
             return
 
-        ant = Ants.get_lazy()
+        ant = Ants.get_next()
 
         if not ant:
             return
