@@ -36,3 +36,8 @@ class Storage:
     def save_settings(settings: dict[str, Any]) -> None:
         with Config.settings_json.open("w") as file:
             json.dump(settings, file)
+
+    @staticmethod
+    def get_countries() -> Any:
+        with Config.countries_json.open() as file:
+            return json.load(file)

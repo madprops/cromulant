@@ -46,6 +46,8 @@ class Game:
             color = Config.hit_color
         elif ant.method == "thinking":
             status = f"Thinking about {status}"
+        elif ant.method == "travel":
+            status = f"Traveling to {status}"
 
         tooltip = ""
         tooltip += f"Updated: {Utils.to_date(ant.updated)}"
@@ -178,7 +180,7 @@ class Game:
             ant.hits += 1
             method = "hit"
         elif num == 3:
-            status = Utils.random_name([ant.name])
+            status = Utils.random_name([])
             method = "thinking"
         elif num == 4:
             status = s.simple_sentence()
@@ -189,6 +191,9 @@ class Game:
         elif num == 7:
             status = Utils.random_emoji(3)
             method = "thinking"
+        elif num == 8:
+            status = Utils.random_country([])
+            method = "travel"
         else:
             status = s.sentence()
 

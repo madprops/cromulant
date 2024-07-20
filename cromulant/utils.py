@@ -14,10 +14,12 @@ from .storage import Storage
 
 class Utils:
     names: ClassVar[list[str]] = []
+    countries: ClassVar[list[str]] = []
 
     @staticmethod
     def prepare() -> None:
         Utils.names = Storage.get_names()
+        Utils.countries = Storage.get_countries()
 
     @staticmethod
     def now() -> float:
@@ -132,3 +134,8 @@ class Utils:
             return "1 minute"
 
         return f"{minutes} minutes"
+
+    @staticmethod
+    def random_country(ignore: list[str]) -> str:
+        filtered = [country for country in Utils.countries if country not in ignore]
+        return random.choice(filtered)

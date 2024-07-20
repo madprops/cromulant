@@ -52,6 +52,7 @@ class Config:
     input_border_color: str = "rgb(120, 120, 120)"
     input_caret_color: str = "rgb(18, 18, 18)"
     settings_json: Path
+    countries_json: Path
 
     @staticmethod
     def prepare() -> None:
@@ -70,11 +71,12 @@ class Config:
             Config.settings_json.parent.mkdir(parents=True, exist_ok=True)
             Config.settings_json.write_text("{}")
 
+        Config.names_json = Config.here / "data" / "names.json"
+        Config.countries_json = Config.here / "data" / "countries.json"
         Config.icon_path = Config.here / "img" / "icon_1.jpg"
         Config.status_image_path = Config.here / "img" / "icon_2.jpg"
         Config.terminated_image_path = Config.here / "img" / "icon_3.jpg"
         Config.hatched_image_path = Config.here / "img" / "icon_4.jpg"
-        Config.names_json = Config.here / "data" / "names.json"
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
