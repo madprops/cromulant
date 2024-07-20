@@ -20,6 +20,7 @@ from PySide6.QtWidgets import QLineEdit
 from PySide6.QtGui import QFontDatabase  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QIcon
+from PySide6.QtGui import QKeyEvent
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtCore import Signal
 from PySide6.QtCore import QUrl
@@ -38,6 +39,14 @@ class SpecialButton(QPushButton):  # type: ignore
             self.middleClicked.emit()
         else:
             super().mousePressEvent(e)
+
+
+class FilterLineEdit(QLineEdit):  # type: ignore
+    def keyPressEvent(self, e: QKeyEvent) -> None:
+        if e.key() == Qt.Key_Escape:
+            self.clear()
+        else:
+            super().keyPressEvent(e)
 
 
 class Window:
@@ -207,8 +216,7 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
-
-        Window.filter = QLineEdit()
+        Window.filter = FilterLineEdit()
         Window.filter.setToolTip("Filter the updates\nClick to scroll to the top")
         Window.filter.setFixedWidth(120)
         Window.filter.setPlaceholderText("Filter")
@@ -312,9 +320,7 @@ class Window:
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
 
-        Window.info.setToolTip(
-            "Click to scroll to the bottom or top"
-        )
+        Window.info.setToolTip("Click to scroll to the bottom or top")
 
         Window.info.clicked.connect(Window.toggle_scroll)
         Window.info.setMinimumSize(35, 35)

@@ -8,8 +8,8 @@ from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QKeyEvent
-from PySide6.QtGui import QPixmap  # type: ignore
+from PySide6.QtGui import QKeyEvent  # type: ignore
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QTimer
 
 from wonderwords import RandomSentence  # type: ignore
@@ -79,6 +79,7 @@ class Game:
     def add_view_container(container: QHBoxLayout) -> None:
         root = QWidget()
         root.setContentsMargins(0, 0, 0, 0)
+        container.setContentsMargins(0, 0, 0, 0)
         root.setLayout(container)
         Window.view.insertWidget(0, root)
 
@@ -286,8 +287,8 @@ class Game:
 
             layout2 = widget.layout()
 
-            for i in range(layout2.count()):
-                wid = layout2.itemAt(i).widget()
+            for j in range(layout2.count()):
+                wid = layout2.itemAt(j).widget()
 
                 if not wid:
                     continue
@@ -297,9 +298,7 @@ class Game:
                 if not name:
                     continue
 
-                if name == "view_title":
-                    text.append(wid.text().lower())
-                elif name == "view_message":
+                if (name == "view_title") or (name == "view_message"):
                     text.append(wid.text().lower())
 
         return text
