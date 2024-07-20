@@ -159,7 +159,7 @@ class Ants:
         now = Utils.now()
         mins = 10 * 60
         # Filter ants where updated is older than 10 minutes
-        ants = [a for a in Ants.ants if (now - a.updated) > mins]
+        ants = [a for a in Ants.ants if (now - a.updated) >= mins]
 
         if not len(ants):
             ants = Ants.ants
