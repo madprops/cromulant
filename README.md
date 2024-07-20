@@ -36,6 +36,12 @@ The ant with the highest score is shown in the footer.
 
 Just open it, hatch some ants, and place it somewhere in your monitor.
 
+## Installation
+
+```sh
+pipx install git+https://github.com/madprops/cromulant --force
+```
+
 ## Algorithm
 
 A random ant is picked based on weights (oldest update date weighs more).
