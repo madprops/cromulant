@@ -63,9 +63,12 @@ class Window:
     @staticmethod
     def make() -> None:
         Window.app = QApplication([])
+        Window.app.setApplicationName(Config.program)
+
         Window.window = QMainWindow()
         Window.window.setWindowTitle(Config.title)
         Window.window.resize(Config.width, Config.height)
+
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)
