@@ -47,6 +47,8 @@ class Game:
             status = f"Thinking about {status}"
 
         tooltip = Utils.to_date(ant.updated)
+        tooltip += f"\nTriumph: {ant.triumph}"
+        tooltip += f"\nHits: {ant.hits}"
         image_label = Game.get_image(Config.status_image_path, color, tooltip=tooltip)
         right_container = Game.make_right_container(ant.name, status)
 
@@ -110,6 +112,7 @@ class Game:
         path: Path, color: tuple[int, int, int] | None = None, tooltip: str = ""
     ) -> QLabel:
         image_label = QLabel()
+        image_label.setObjectName("view_image")
         pixmap = QPixmap(str(path))
 
         scaled_pixmap = pixmap.scaled(
@@ -124,7 +127,14 @@ class Game:
 
         if color:
             rgb = Utils.get_rgb(color)
-            image_label.setStyleSheet(f"border: 2px solid {rgb};")
+
+            style = f"""
+            QLabel#view_image {{
+                border: 2px solid {rgb};
+            }}
+            """
+
+            image_label.setStyleSheet(style)
 
         if tooltip:
             image_label.setToolTip(tooltip)
