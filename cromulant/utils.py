@@ -95,17 +95,23 @@ class Utils:
         return f"rgb{color}"
 
     @staticmethod
-    def get_random_character(font_path: str, num: int) -> str:
+    def random_character(font_path: str, num: int) -> str:
         font = TTFont(font_path)
         cmap = font["cmap"]
         unicode_map = cmap.getBestCmap()
         characters = [chr(code_point) for code_point in unicode_map]
-        selected = random.sample(characters, num)
-        return " ".join(selected)
+
+        for _ in range(10):  # Try up to 10 times
+            selected = random.sample(characters, num)
+
+            if all((char.isprintable() and not char.isspace()) for char in selected):
+                return " ".join(selected)
+
+        return ""
 
     @staticmethod
-    def get_random_emoji(num: int) -> str:
-        return Utils.get_random_character(str(Config.emoji_font_path), num)
+    def random_emoji(num: int) -> str:
+        return Utils.random_character(str(Config.emoji_font_path), num)
 
     @staticmethod
     def to_date(timestamp: float) -> str:

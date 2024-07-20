@@ -168,19 +168,26 @@ class Ants:
             Ants.save()
 
     @staticmethod
-    def most_hits() -> Ant | None:
-        if not len(Ants.ants):
-            return None
-
-        return max(Ants.ants, key=lambda a: a.hits)
-
-    @staticmethod
-    def most_triumph() -> Ant | None:
-        if not len(Ants.ants):
-            return None
-
-        return max(Ants.ants, key=lambda a: a.triumph)
-
-    @staticmethod
     def random_name() -> str:
         return Utils.random_name(Ants.get_names())
+
+    @staticmethod
+    def get_top_ant() -> tuple[Ant, int] | None:
+        if not len(Ants.ants):
+            return None
+
+        top = None
+        top_score = 0
+
+        # This could be a one-liner but I might expand the algorithm later
+        for ant in Ants.ants:
+            score = max(0, ant.triumph - ant.hits)
+
+            if (not top) or (score > top_score):
+                top = ant
+                top_score = score
+
+        if not top:
+            return None
+
+        return top, top_score

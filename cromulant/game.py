@@ -172,7 +172,7 @@ class Game:
         elif num == 6:
             status = s.bare_bone_with_adjective()
         elif num == 7:
-            status = Utils.get_random_emoji(3)
+            status = Utils.random_emoji(3)
             method = "thinking"
         else:
             status = s.sentence()
@@ -221,10 +221,12 @@ class Game:
             text.append("Hatch some ants")
         else:
             text.append(f"Ants:{nb}{len(Ants.ants)}")
-            triumph = Ants.most_triumph()
+            top = Ants.get_top_ant()
 
-            if triumph:
-                text.append(f"Top:{nb}{triumph.name} ({triumph.triumph})")
+            if top:
+                ant = top[0]
+                score = top[1]
+                text.append(f"Top:{nb}{ant.name} ({score})")
 
         Window.info.setText(Config.info_separator.join(text))
         Window.info.adjustSize()
