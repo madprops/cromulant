@@ -51,6 +51,7 @@ class Config:
     input_text_color: str = "rgb(18, 18, 18)"
     input_border_color: str = "rgb(140, 140, 140)"
     input_caret_color: str = "rgb(18, 18, 18)"
+    settings_json: Path
 
     @staticmethod
     def prepare() -> None:
@@ -60,6 +61,14 @@ class Config:
         if not Config.ants_json.exists():
             Config.ants_json.parent.mkdir(parents=True, exist_ok=True)
             Config.ants_json.write_text("[]")
+
+        Config.settings_json = (
+            Path(appdirs.user_config_dir()) / "cromulant" / "settings.json"
+        )
+
+        if not Config.settings_json.exists():
+            Config.settings_json.parent.mkdir(parents=True, exist_ok=True)
+            Config.settings_json.write_text("{}")
 
         Config.icon_path = Config.here / "img" / "icon_4.jpg"
         Config.status_image_path = Config.here / "img" / "icon_5.jpg"

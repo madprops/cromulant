@@ -18,6 +18,7 @@ from .utils import Utils
 from .ants import Ant
 from .ants import Ants
 from .window import Window
+from .settings import Settings
 
 
 class Game:
@@ -204,14 +205,14 @@ class Game:
 
     @staticmethod
     def start_loop() -> None:
-        speed = Window.speed.currentText()
+        speed = Settings.speed
 
-        if speed == "Fast":
+        if speed == "fast":
             delay = Config.loop_delay_fast
-        elif speed == "Normal":
-            delay = Config.loop_delay_normal
-        else:
+        elif speed == "slow":
             delay = Config.loop_delay_slow
+        else:
+            delay = Config.loop_delay_normal
 
         Game.timer = QTimer()
         Game.timer.timeout.connect(Game.get_status)
@@ -219,6 +220,12 @@ class Game:
 
     @staticmethod
     def update_speed() -> None:
+        speed = Window.speed.currentText().lower()
+
+        if speed == Settings.speed:
+            return
+
+        Settings.set_speed(speed)
         Game.timer.stop()
         Game.start_loop()
 

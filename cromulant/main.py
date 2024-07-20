@@ -5,6 +5,7 @@ from .utils import Utils
 from .ants import Ants
 from .window import Window
 from .game import Game
+from .settings import Settings
 
 
 def main() -> None:
@@ -12,6 +13,7 @@ def main() -> None:
     Utils.prepare()
     Ants.prepare()
     Window.prepare()
+    Settings.prepare()
     Game.prepare()
     Game.start_loop()
     Window.start()

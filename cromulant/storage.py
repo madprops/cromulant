@@ -26,3 +26,13 @@ class Storage:
     def get_names() -> Any:
         with Config.names_json.open() as file:
             return json.load(file)
+
+    @staticmethod
+    def get_settings() -> Any:
+        with Config.settings_json.open() as file:
+            return json.load(file)
+
+    @staticmethod
+    def save_settings(settings: dict[str, Any]) -> None:
+        with Config.settings_json.open("w") as file:
+            json.dump(settings, file)
