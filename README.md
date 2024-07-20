@@ -1,10 +1,12 @@
+# Cromulant
+
 ![](https://i.imgur.com/iujtRIU.jpeg)
 
 ![](https://i.imgur.com/nBjUANS.jpeg)
 
 ![](https://i.imgur.com/KqyqA8l.jpeg)
 
-# Cromulant
+## What is this?
 
 This is a kind of toy you can use for your amusement.
 
