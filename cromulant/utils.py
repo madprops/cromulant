@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 import colorsys
 import time
+from datetime import datetime
 from typing import ClassVar
 
 from fontTools.ttLib import TTFont  # type: ignore
@@ -108,3 +109,9 @@ class Utils:
     @staticmethod
     def get_random_emoji(num: int) -> str:
         return Utils.get_random_character(str(Config.emoji_font_path), num)
+
+    @staticmethod
+    def to_date(timestamp: float) -> str:
+        dt_object = datetime.fromtimestamp(timestamp)
+        hour = dt_object.strftime("%I").lstrip("0")
+        return dt_object.strftime(f"%b %d %Y - {hour}:%M %p")

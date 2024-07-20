@@ -46,7 +46,8 @@ class Game:
         elif ant.method == "thinking":
             status = f"Thinking about {status}"
 
-        image_label = Game.get_image(Config.status_image_path, color)
+        tooltip = Utils.to_date(ant.updated)
+        image_label = Game.get_image(Config.status_image_path, color, tooltip=tooltip)
         right_container = Game.make_right_container(ant.name, status)
 
         container.addWidget(image_label)
@@ -104,7 +105,8 @@ class Game:
 
     @staticmethod
     def get_image(
-        image_path: Path, color: tuple[int, int, int] | None = None
+        image_path: Path, color: tuple[int, int, int] | None = None,
+        tooltip: str = ""
     ) -> QLabel:
         image_label = QLabel()
         pixmap = QPixmap(str(image_path))
@@ -122,6 +124,9 @@ class Game:
         if color:
             rgb = Utils.get_rgb(color)
             image_label.setStyleSheet(f"border: 2px solid {rgb};")
+
+        if tooltip:
+            image_label.setToolTip(tooltip)
 
         image_label.mousePressEvent = lambda event: Game.toggle_song()
         return image_label
