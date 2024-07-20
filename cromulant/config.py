@@ -49,7 +49,7 @@ class Config:
     message_box_button_text_color: str = "white"
     message_box_button_hover_background_color: str = "rgb(66, 66, 66)"
     message_box_button_hover_text_color: str = "white"
-    scrollbar_handle_color: str = "rgb(66, 66, 66)"
+    scrollbar_handle_color: str = "rgb(69, 69, 69)"
 
     @staticmethod
     def prepare() -> None:

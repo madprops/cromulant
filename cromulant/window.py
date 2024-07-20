@@ -189,6 +189,16 @@ class Window:
             background: {Config.scrollbar_handle_color};
             min-height: 20px;
         }}
+
+        QScrollBar::add-line:vertical {{
+            border: none;
+            background: none;
+        }}
+
+        QScrollBar::sub-line:vertical {{
+            border: none;
+            background: none;
+        }}
         """
 
         Window.scroll_area.setStyleSheet(style)
