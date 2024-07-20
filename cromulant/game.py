@@ -105,11 +105,10 @@ class Game:
 
     @staticmethod
     def get_image(
-        image_path: Path, color: tuple[int, int, int] | None = None,
-        tooltip: str = ""
+        path: Path, color: tuple[int, int, int] | None = None, tooltip: str = ""
     ) -> QLabel:
         image_label = QLabel()
-        pixmap = QPixmap(str(image_path))
+        pixmap = QPixmap(str(path))
 
         scaled_pixmap = pixmap.scaled(
             Config.image_size,
