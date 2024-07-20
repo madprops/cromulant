@@ -17,7 +17,7 @@ class Ant:
         self.updated = now
         self.name = ""
         self.status = ""
-        self.method = "normal"
+        self.method = ""
         self.triumph = 0
         self.hits = 0
 
