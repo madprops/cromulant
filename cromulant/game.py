@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
+from PySide6.QtGui import QKeyEvent
 from PySide6.QtGui import QPixmap  # type: ignore
 from PySide6.QtCore import QTimer
 
@@ -76,10 +77,14 @@ class Game:
 
     @staticmethod
     def add_view_container(container: QHBoxLayout) -> None:
-        Window.view.insertLayout(0, container)
+        root = QWidget()
+        root.setContentsMargins(0, 0, 0, 0)
+        root.setLayout(container)
+        Window.view.insertWidget(0, root)
 
         while Window.view.count() > Config.max_messages:
             item = Window.view.takeAt(Window.view.count() - 1)
+
             if item.widget():
                 item.widget().deleteLater()
             elif item.layout():
@@ -88,6 +93,7 @@ class Game:
     @staticmethod
     def make_right_container(title: str, message: str) -> QWidget:
         root = QWidget()
+        root.setObjectName("view_right")
         container = QVBoxLayout()
         container.setAlignment(Qt.AlignTop)
 
@@ -95,11 +101,13 @@ class Game:
         title_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         title_label.setStyleSheet("font-weight: bold;")
         title_label.setWordWrap(True)
+        title_label.setObjectName("view_title")
         Window.expand(title_label)
 
         message_label = QLabel(message)
         message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         message_label.setWordWrap(True)
+        message_label.setObjectName("view_message")
         Window.expand(message_label)
 
         container.addWidget(title_label)
@@ -240,3 +248,58 @@ class Game:
             Window.play_audio(path)
 
         Game.playing_song = not Game.playing_song
+
+    @staticmethod
+    def filter(event: QKeyEvent) -> None:
+        value = Window.filter.text().lower().strip().lower()
+
+        for i in range(Window.view.count()):
+            item = Window.view.itemAt(i)
+            text = Game.get_filter_text(item)
+            hide = True
+
+            for txt in text:
+                if value in txt:
+                    hide = False
+                    break
+
+            if hide:
+                item.widget().hide()
+            else:
+                item.widget().show()
+
+    @staticmethod
+    def get_filter_text(item: QWidget) -> list[str]:
+        text = []
+        layout = item.widget().layout()
+
+        for i in range(layout.count()):
+            widget = layout.itemAt(i).widget()
+
+            if not widget:
+                continue
+
+            name = widget.objectName()
+
+            if name != "view_right":
+                continue
+
+            layout2 = widget.layout()
+
+            for i in range(layout2.count()):
+                wid = layout2.itemAt(i).widget()
+
+                if not wid:
+                    continue
+
+                name = wid.objectName()
+
+                if not name:
+                    continue
+
+                if name == "view_title":
+                    text.append(wid.text().lower())
+                elif name == "view_message":
+                    text.append(wid.text().lower())
+
+        return text

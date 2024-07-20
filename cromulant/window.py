@@ -53,6 +53,7 @@ class Window:
     emoji_font: str
     player: QMediaPlayer
     audio: QAudioOutput
+    filter: QLineEdit
 
     @staticmethod
     def prepare() -> None:
@@ -207,16 +208,17 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
 
-        filter_input = QLineEdit()
-        filter_input.setToolTip("Filter the updates\nClick to scroll to the top")
-        filter_input.setFixedWidth(120)
-        filter_input.setPlaceholderText("Filter")
-        filter_input.mousePressEvent = lambda e: Window.to_top()
+        Window.filter = QLineEdit()
+        Window.filter.setToolTip("Filter the updates\nClick to scroll to the top")
+        Window.filter.setFixedWidth(120)
+        Window.filter.setPlaceholderText("Filter")
+        Window.filter.mousePressEvent = lambda e: Window.to_top()
+        Window.filter.keyReleaseEvent = lambda e: Game.filter(e)
 
         container.addWidget(btn_hatch)
         container.addWidget(btn_terminate)
         container.addWidget(Window.speed)
-        container.addWidget(filter_input)
+        container.addWidget(Window.filter)
 
         root.setLayout(container)
         Window.root.addWidget(root)
