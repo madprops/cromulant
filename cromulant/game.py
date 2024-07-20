@@ -224,7 +224,7 @@ class Game:
             triumph = Ants.most_triumph()
 
             if triumph:
-                text.append(f"Triumph:{nb}{triumph.name}")
+                text.append(f"Top:{nb}{triumph.name} ({triumph.triumph})")
 
         Window.info.setText(Config.info_separator.join(text))
         Window.info.adjustSize()
