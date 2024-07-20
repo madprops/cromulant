@@ -52,6 +52,9 @@ class Ant:
         Utils.print(f"Name is {self.get_name()}")
         Utils.print(f"It hatched {self.get_age()}")
 
+    def get_score(self) -> int:
+        return self.triumph - self.hits
+
 
 class Ants:
     ants: ClassVar[list[Ant]] = []
@@ -94,7 +97,7 @@ class Ants:
     def terminate() -> None:
         from .game import Game
 
-        if not len(Ants.ants):
+        if Ants.empty():
             return
 
         ant = Ants.get_random_ant()
@@ -130,8 +133,23 @@ class Ants:
         Storage.save_ants(Ants.ants)
 
     @staticmethod
-    def get_lazy() -> Ant:
-        return min(Ants.ants, key=lambda ant: ant.updated)
+    def empty() -> bool:
+        return len(Ants.ants) == 0
+
+    @staticmethod
+    def get_lazy() -> Ant | None:
+        if Ants.empty():
+            return None
+
+        now = Utils.now()
+        mins = 10 * 60
+        # Filter ants where updated is older than 10 minutes
+        ants = [a for a in Ants.ants if (now - a.updated) > mins]
+
+        if not len(ants):
+            ants = Ants.ants
+
+        return random.choice(ants)
 
     @staticmethod
     def set_status(ant: Ant, status: str, method: str) -> None:
@@ -173,7 +191,7 @@ class Ants:
 
     @staticmethod
     def get_top_ant() -> tuple[Ant, int] | None:
-        if not len(Ants.ants):
+        if Ants.empty():
             return None
 
         top = None
@@ -181,7 +199,10 @@ class Ants:
 
         # This could be a one-liner but I might expand the algorithm later
         for ant in Ants.ants:
-            score = max(0, ant.triumph - ant.hits)
+            score = ant.get_score()
+
+            if score <= 0:
+                continue
 
             if (not top) or (score > top_score):
                 top = ant

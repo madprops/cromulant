@@ -158,12 +158,14 @@ class Game:
 
     @staticmethod
     def get_status() -> None:
-        num_ants = len(Ants.ants)
-
-        if not num_ants:
+        if Ants.empty():
             return
 
         ant = Ants.get_lazy()
+
+        if not ant:
+            return
+
         num = random.randint(1, 10)
         s = RandomSentence()
         status = ""
