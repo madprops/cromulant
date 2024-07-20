@@ -97,34 +97,48 @@ class Window:
         }}
 
         QMenu {{
-            background-color: {Config.context_menu_background_color};
-            color: {Config.context_menu_text_color};
+            background-color: {Config.alt_background_color};
+            color: {Config.alt_text_color};
+            border: 1px solid {Config.alt_border_color};
         }}
 
         QMenu::item:selected {{
-            background-color: {Config.context_menu_hover_background_color};
-            color: {Config.context_menu_hover_text_color};
+            background-color: {Config.alt_hover_background_color};
+            color: {Config.alt_hover_text_color};
         }}
 
         QMessageBox {{
-            background-color: {Config.message_box_background_color};
-            color: {Config.message_box_text_color};
+            background-color: {Config.alt_background_color};
+            color: {Config.alt_text_color};
+            border: 1px solid {Config.alt_border_color};
         }}
 
         QMessageBox QLabel {{
-            background-color: {Config.message_box_background_color};
-            color: {Config.message_box_label_text_color};
+            background-color: {Config.alt_background_color};
+            color: {Config.alt_text_color};
         }}
 
         QMessageBox QPushButton {{
-            background-color: {Config.message_box_button_background_color};
-            color: {Config.message_box_button_text_color};
+            background-color: {Config.alt_background_color};
+            color: {Config.alt_text_color};
         }}
 
         QMessageBox QPushButton:hover {{
             background-color: {Config.message_box_button_hover_background_color};
             color: {Config.message_box_button_hover_text_color};
         }}
+
+        QComboBox {{
+            selection-background-color: {Config.alt_hover_background_color};
+            selection-color: {Config.alt_hover_text_color};
+        }}
+
+        QComboBox QAbstractItemView {{
+            background-color: {Config.alt_background_color};
+            color: {Config.alt_text_color};
+            border: 1px solid {Config.alt_border_color};
+        }}
+
         """.strip()
 
         Window.app.setStyleSheet(style)
