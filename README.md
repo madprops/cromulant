@@ -54,6 +54,15 @@ For each number an action happens to produce an update.
 
 This is made with python + qt (pyside6)
 
+## The name
+
+I read the word cromulent being used somewhere which turned out to be invented by The Simpsons.
+
+[It's in the dictionary now](https://www.merriam-webster.com/wordplay/what-does-cromulent-mean)
+
+
+I created a random programming project to practice/study and tried to write that word but made a typo. I liked it and made a game about ants.
+
 ---
 
 ![](cromulant/img/logo_1.jpg)
