@@ -7,7 +7,7 @@ import appdirs  # type: ignore
 
 class Config:
     title: str = "Cromulant"
-    width: int = 900
+    width: int = 820
     height: int = 900
     max_ants: int = 100
     here: Path
