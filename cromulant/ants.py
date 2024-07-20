@@ -6,7 +6,6 @@ from typing import ClassVar, Any
 from .config import Config
 from .utils import Utils
 from .storage import Storage
-
 from .window import Window
 
 
