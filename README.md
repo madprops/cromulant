@@ -36,6 +36,10 @@ Clicking the footer scrolls to the bottom.
 
 There is a filter to filter updates.
 
+## Usage
+
+Just open it, hatch some ants, and place it somewhere in your monitor.
+
 ## Algorithm
 
 A random ant from ants that haven't had an update in at least 10 minutes is picked.

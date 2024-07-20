@@ -49,7 +49,7 @@ class Config:
     scrollbar_handle_color: str = "rgb(69, 69, 69)"
     input_background_color: str = "rgb(111, 111, 111)"
     input_text_color: str = "rgb(18, 18, 18)"
-    input_border_color: str = "rgb(140, 140, 140)"
+    input_border_color: str = "rgb(120, 120, 120)"
     input_caret_color: str = "rgb(18, 18, 18)"
     settings_json: Path
 
