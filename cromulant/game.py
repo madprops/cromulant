@@ -46,9 +46,10 @@ class Game:
         elif ant.method == "thinking":
             status = f"Thinking about {status}"
 
-        tooltip = Utils.to_date(ant.updated)
-        tooltip += f"\nTriumph: {ant.triumph}"
-        tooltip += f"\nHits: {ant.hits}"
+        tooltip = ""
+        tooltip += f"Updated: {Utils.to_date(ant.updated)}"
+        tooltip += f"\nCreated: {Utils.to_date(ant.created)}"
+        tooltip += f"\nTriumph: {ant.triumph} | Hits: {ant.hits}"
         image_label = Game.get_image(Config.status_image_path, color, tooltip=tooltip)
         right_container = Game.make_right_container(ant.name, status)
 
