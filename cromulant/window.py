@@ -26,6 +26,7 @@ from PySide6.QtMultimedia import QMediaPlayer  # type: ignore
 from PySide6.QtMultimedia import QAudioOutput
 
 from .config import Config
+from .utils import Utils
 
 
 class SpecialButton(QPushButton):  # type: ignore
@@ -149,7 +150,11 @@ class Window:
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
         Window.speed = QComboBox()
-        Window.speed.setToolTip("Change the speed of the updates")
+        tooltip = "Change the speed of the loop\n"
+        tooltip += f"Fast: {Utils.get_seconds(Config.loop_delay_fast)}\n"
+        tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
+        tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}"
+        Window.speed.setToolTip(tooltip)
         Window.speed.addItems(["Fast", "Normal", "Slow"])
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)

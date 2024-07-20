@@ -115,3 +115,17 @@ class Utils:
         dt_object = datetime.fromtimestamp(timestamp)
         hour = dt_object.strftime("%I").lstrip("0")
         return dt_object.strftime(f"%b %d %Y - {hour}:%M %p")
+
+    @staticmethod
+    def get_seconds(msecs: int) -> str:
+        seconds = msecs // 1000
+
+        if seconds < 60:
+            return f"{seconds} seconds"
+
+        minutes = seconds // 60
+
+        if minutes == 1:
+            return "1 minute"
+
+        return f"{minutes} minutes"
