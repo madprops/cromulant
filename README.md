@@ -46,6 +46,10 @@ Then a number between 1 and 10 is randomly picked.
 
 For each number an action happens to produce an update.
 
+## Technology
+
+This is made with python + qt (pyside6)
+
 ---
 
 ![](cromulant/img/logo_1.jpg)
