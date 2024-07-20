@@ -89,11 +89,13 @@ class Game:
         container.setAlignment(Qt.AlignTop)
 
         title_label = QLabel(title)
+        title_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         title_label.setStyleSheet("font-weight: bold;")
         title_label.setWordWrap(True)
         Window.expand(title_label)
 
         message_label = QLabel(message)
+        message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
         message_label.setWordWrap(True)
         Window.expand(message_label)
 

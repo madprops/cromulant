@@ -38,6 +38,10 @@ class Config:
     hit_message: str = "Took a hit"
     song_path: Path
     logo_path: Path
+    context_menu_background_color: str = "rgb(22, 22, 22)"
+    context_menu_text_color: str = "white"
+    context_menu_hover_background_color: str = "rgb(36, 36, 36)"
+    context_menu_hover_text_color: str = "white"
 
     @staticmethod
     def prepare() -> None:

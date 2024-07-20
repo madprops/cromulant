@@ -87,6 +87,16 @@ class Window:
             color: {Config.text_color};
             font-size: {Config.font_size}px;
         }}
+
+        QMenu {{
+            background-color: {Config.context_menu_background_color};
+            color: {Config.context_menu_text_color};
+        }}
+
+        QMenu::item:selected {{
+            background-color: {Config.context_menu_hover_background_color};
+            color: {Config.context_menu_hover_text_color};
+        }}
         """.strip()
 
         Window.app.setStyleSheet(style)
