@@ -17,7 +17,7 @@ class Config:
     hatched_image_path: Path
     terminated_image_path: Path
     names_json: Path
-    background_color: str = "#2c2c2c"
+    background_color: str = "rgb(44, 44, 44)"
     text_color: str = "#ffffff"
     image_size: int = 80
     space_1: int = 20
