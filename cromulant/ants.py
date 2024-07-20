@@ -74,7 +74,7 @@ class Ants:
             ant = Ant()
             ant.created = now
             ant.updated = now
-            ant.name = Utils.random_name()
+            ant.name = Ants.random_name()
 
             Ants.ants.append(ant)
             image_path = Config.hatched_image_path
@@ -180,3 +180,7 @@ class Ants:
             return None
 
         return max(Ants.ants, key=lambda a: a.triumph)
+
+    @staticmethod
+    def random_name() -> str:
+        return Utils.random_name(Ants.get_names())

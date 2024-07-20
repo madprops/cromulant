@@ -86,11 +86,8 @@ class Utils:
         return r, g, b
 
     @staticmethod
-    def random_name() -> str:
-        from .ants import Ants
-
-        used = Ants.get_names()
-        filtered = [name for name in Utils.names if name not in used]
+    def random_name(ignore: list[str]) -> str:
+        filtered = [name for name in Utils.names if name not in ignore]
         return random.choice(filtered)
 
     @staticmethod

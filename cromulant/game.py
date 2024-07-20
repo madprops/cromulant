@@ -162,9 +162,8 @@ class Game:
         elif num == 2:
             ant.hits += 1
             method = "hit"
-        elif (num == 3) and (num_ants > 1):
-            other = Ants.get_other(ant)
-            status = other.name
+        elif num == 3:
+            status = Utils.random_name([ant.name])
             method = "thinking"
         elif num == 4:
             status = s.simple_sentence()
