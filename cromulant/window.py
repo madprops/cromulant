@@ -329,12 +329,19 @@ class Window:
         Window.root.addWidget(root)
 
     @staticmethod
-    def play_audio(path: str) -> None:
+    def play_audio(path: str, on_stop: Callable[..., Any] | None = None) -> None:
         Window.player = QMediaPlayer()
         Window.audio = QAudioOutput()
         Window.player.setAudioOutput(Window.audio)
         Window.player.setSource(QUrl.fromLocalFile(path))
         Window.audio.setVolume(100)
+
+        def handle_state_change(state: QMediaPlayer.State) -> None:
+            if state == QMediaPlayer.StoppedState:
+                if on_stop:
+                    on_stop()
+
+        Window.player.playbackStateChanged.connect(handle_state_change)
         Window.player.play()
 
     @staticmethod

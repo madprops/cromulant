@@ -256,8 +256,12 @@ class Game:
     def toggle_song() -> None:
         if Game.playing_song:
             Window.stop_audio()
+            Game.playing_song = False
         else:
             path = str(Config.song_path)
-            Window.play_audio(path)
 
-        Game.playing_song = not Game.playing_song
+            def on_stop() -> None:
+                Game.playing_song = False
+
+            Window.play_audio(path, on_stop)
+            Game.playing_song = True
