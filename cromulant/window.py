@@ -150,7 +150,7 @@ class Window:
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
 
         Window.speed = QComboBox()
-        tooltip = "Change the speed of the loop\n"
+        tooltip = "Change the speed of the updates\n"
         tooltip += f"Fast: {Utils.get_seconds(Config.loop_delay_fast)}\n"
         tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
         tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}"
