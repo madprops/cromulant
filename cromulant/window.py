@@ -188,6 +188,7 @@ class Window:
     def add_buttons() -> None:
         from .ants import Ants
         from .game import Game
+        from .filter import Filter
 
         root = QWidget()
         container = QHBoxLayout()
@@ -220,7 +221,7 @@ class Window:
         Window.filter.setFixedWidth(120)
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
-        Window.filter.keyReleaseEvent = lambda e: Game.filter(e)
+        Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
 
         container.addWidget(btn_hatch)
         container.addWidget(btn_terminate)
