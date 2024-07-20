@@ -9,7 +9,7 @@ class Config:
     title: str = "Cromulant"
     width: int = 900
     height: int = 900
-    max_ants: int = 10
+    max_ants: int = 100
     here: Path
     ants_json: Path
     icon_path: Path
