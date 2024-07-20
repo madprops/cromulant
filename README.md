@@ -1,4 +1,6 @@
-![](https://i.imgur.com/hsxCaaG.jpg)
+![](https://i.imgur.com/iujtRIU.jpeg)
+
+![](https://i.imgur.com/nBjUANS.jpeg)
 
 # Cromulant
 
@@ -39,3 +41,13 @@ Or any ant is picked if none meet that requirement.
 Then a number between 1 and 10 is randomly picked.
 
 For each number an action happens to produce an update.
+
+---
+
+![](cromulant/img/logo_1.jpg)
+
+![](cromulant/img/logo_2.jpg)
+
+![](cromulant/img/logo_3.jpg)
+
+![](cromulant/img/logo_4.jpg)

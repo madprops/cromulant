@@ -64,7 +64,7 @@ class Game:
         title: str,
         message: str,
         image_path: Path,
-        color: tuple[int, int, int] = (255, 255, 255),
+        color: tuple[int, int, int] | None = None,
     ) -> None:
         container = QHBoxLayout()
         image_label = Game.get_image(image_path, color)
