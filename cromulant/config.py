@@ -70,10 +70,10 @@ class Config:
             Config.settings_json.parent.mkdir(parents=True, exist_ok=True)
             Config.settings_json.write_text("{}")
 
-        Config.icon_path = Config.here / "img" / "icon_4.jpg"
-        Config.status_image_path = Config.here / "img" / "icon_5.jpg"
-        Config.hatched_image_path = Config.here / "img" / "icon_7.jpg"
-        Config.terminated_image_path = Config.here / "img" / "icon_6.jpg"
+        Config.icon_path = Config.here / "img" / "icon_1.jpg"
+        Config.status_image_path = Config.here / "img" / "icon_2.jpg"
+        Config.terminated_image_path = Config.here / "img" / "icon_3.jpg"
+        Config.hatched_image_path = Config.here / "img" / "icon_4.jpg"
         Config.names_json = Config.here / "data" / "names.json"
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
