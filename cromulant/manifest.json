@@ -1,0 +1,8 @@
+{
+    "version": "1.0.0",
+    "title": "Cromulant",
+    "program": "cromulant",
+    "author": "madprops",
+    "repo": "github.com/madprops/cromulant",
+    "description": "Toy game about ants"
+}

@@ -44,6 +44,8 @@ Then a random number between 1 and 10 is picked.
 
 For each number an action happens to produce an update.
 
+The top score is calculated as (Triumph - Hits).
+
 ## Technology
 
 This is made with python + qt (pyside6)
