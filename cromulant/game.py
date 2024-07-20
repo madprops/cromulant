@@ -177,7 +177,7 @@ class Game:
         ants = sorted(Ants.ants, key=lambda ant: ant.updated)
 
         for ant in ants:
-            if ant.status:
+            if ant.status or ant.method:
                 Game.add_status(ant)
 
     @staticmethod
