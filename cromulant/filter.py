@@ -1,14 +1,15 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QWidget  # type: ignore
 from PySide6.QtGui import QKeyEvent  # type: ignore
 
 from .window import Window
 
+
 class Filter:
     @staticmethod
     def get_value() -> str:
-        return Window.filter.text().lower().strip()
+        return str(Window.filter.text()).lower().strip()
 
     @staticmethod
     def filter(event: QKeyEvent | None = None) -> None:

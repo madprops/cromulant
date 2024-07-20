@@ -8,7 +8,7 @@ from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap  # type: ignore
 from PySide6.QtCore import QTimer
 
 from wonderwords import RandomSentence  # type: ignore
