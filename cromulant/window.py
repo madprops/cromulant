@@ -217,7 +217,6 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         Window.filter = FilterLineEdit()
-        Window.filter.setToolTip("Filter the updates\nClick to scroll to the top")
         Window.filter.setFixedWidth(120)
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
