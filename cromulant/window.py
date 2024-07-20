@@ -71,7 +71,11 @@ class Window:
         Window.root.setAlignment(Qt.AlignTop)
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
+        Window.root.setContentsMargins(0, 0, 0, 0)
+        Window.set_style()
 
+    @staticmethod
+    def set_style() -> None:
         font_id = QFontDatabase.addApplicationFont(str(Config.font_path))
         emoji_font_id = QFontDatabase.addApplicationFont(str(Config.emoji_font_path))
 
@@ -97,11 +101,30 @@ class Window:
             background-color: {Config.context_menu_hover_background_color};
             color: {Config.context_menu_hover_text_color};
         }}
+
+        QMessageBox {{
+            background-color: {Config.message_box_background_color};
+            color: {Config.message_box_text_color};
+        }}
+
+        QMessageBox QLabel {{
+            background-color: {Config.message_box_background_color};
+            color: {Config.message_box_label_text_color};
+        }}
+
+        QMessageBox QPushButton {{
+            background-color: {Config.message_box_button_background_color};
+            color: {Config.message_box_button_text_color};
+        }}
+
+        QMessageBox QPushButton:hover {{
+            background-color: {Config.message_box_button_hover_background_color};
+            color: {Config.message_box_button_hover_text_color};
+        }}
         """.strip()
 
         Window.app.setStyleSheet(style)
         Window.app.setFont(Window.font)
-        Window.root.setContentsMargins(0, 0, 0, 0)
 
     @staticmethod
     def add_buttons() -> None:
@@ -245,3 +268,12 @@ class Window:
     @staticmethod
     def stop_audio() -> None:
         Window.player.stop()
+
+    @staticmethod
+    def alert(message: str) -> None:
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setText(message)
+        msg_box.setWindowTitle("Information")
+        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.exec()

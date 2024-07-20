@@ -9,7 +9,7 @@ class Config:
     title: str = "Cromulant"
     width: int = 900
     height: int = 900
-    max_ants: int = 100
+    max_ants: int = 10
     here: Path
     ants_json: Path
     icon_path: Path
@@ -42,6 +42,13 @@ class Config:
     context_menu_text_color: str = "white"
     context_menu_hover_background_color: str = "rgb(36, 36, 36)"
     context_menu_hover_text_color: str = "white"
+    message_box_background_color: str = "rgb(22, 22, 22)"
+    message_box_text_color: str = "white"
+    message_box_label_text_color: str = "white"
+    message_box_button_background_color: str = "rgb(44, 44, 44)"
+    message_box_button_text_color: str = "white"
+    message_box_button_hover_background_color: str = "rgb(66, 66, 66)"
+    message_box_button_hover_text_color: str = "white"
 
     @staticmethod
     def prepare() -> None:

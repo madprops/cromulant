@@ -65,6 +65,7 @@ class Ants:
         from .game import Game
 
         if len(Ants.ants) >= Config.max_ants:
+            Window.alert("Max ants reached\nTerminate some to hatch new ones")
             return
 
         now = Utils.now()
@@ -152,11 +153,19 @@ class Ants:
     @staticmethod
     def get_ants() -> None:
         objs = Storage.get_ants()
+        changed = False
+
+        if len(objs) > Config.max_ants:
+            objs = objs[: Config.max_ants]
+            changed = True
 
         for obj in objs:
             ant = Ant()
             ant.from_dict(obj)
             Ants.ants.append(ant)
+
+        if changed:
+            Ants.save()
 
     @staticmethod
     def most_hits() -> Ant | None:
