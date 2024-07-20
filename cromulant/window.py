@@ -16,6 +16,7 @@ from PySide6.QtWidgets import QComboBox
 from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QMessageBox
+from PySide6.QtWidgets import QLineEdit
 from PySide6.QtGui import QFontDatabase  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QIcon
@@ -162,6 +163,12 @@ class Window:
             background: none;
         }}
 
+        QLineEdit {{
+            background-color: {Config.input_background_color};
+            color: {Config.input_text_color};
+            border: 1px solid {Config.input_border_color};
+        }}
+
         """.strip()
 
         Window.app.setStyleSheet(style)
@@ -199,15 +206,17 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
-        btn_top = SpecialButton("Top")
-        btn_top.setToolTip("Scroll to the top\nMiddle Click to scroll to the bottom")
-        btn_top.clicked.connect(Window.to_top)
-        btn_top.middleClicked.connect(Window.to_bottom)
+
+        filter_input = QLineEdit()
+        filter_input.setToolTip("Filter the updates\nClick to scroll to the top")
+        filter_input.setFixedWidth(120)
+        filter_input.setPlaceholderText("Filter")
+        filter_input.mousePressEvent = lambda e: Window.to_top()
 
         container.addWidget(btn_hatch)
         container.addWidget(btn_terminate)
         container.addWidget(Window.speed)
-        container.addWidget(btn_top)
+        container.addWidget(filter_input)
 
         root.setLayout(container)
         Window.root.addWidget(root)
@@ -286,16 +295,26 @@ class Window:
         )
 
     @staticmethod
+    def toggle_scroll() -> None:
+        maxim = Window.scroll_area.verticalScrollBar().maximum()
+
+        if Window.scroll_area.verticalScrollBar().value() == maxim:
+            Window.to_top()
+        else:
+            Window.to_bottom()
+
+    @staticmethod
     def add_footer() -> None:
         root = QWidget()
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
+
         Window.info.setToolTip(
-            "Scroll to the bottom\nMiddle Click to scroll to the top"
+            "Click to scroll to the bottom or top"
         )
-        Window.info.clicked.connect(Window.to_bottom)
-        Window.info.middleClicked.connect(Window.to_top)
+
+        Window.info.clicked.connect(Window.toggle_scroll)
         Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)
         root.setLayout(container)
