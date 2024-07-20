@@ -38,17 +38,18 @@ class Config:
     hit_message: str = "Took a hit"
     song_path: Path
     logo_path: Path
-    context_menu_background_color: str = "rgb(22, 22, 22)"
+    context_menu_background_color: str = "rgb(33, 33, 33)"
     context_menu_text_color: str = "white"
-    context_menu_hover_background_color: str = "rgb(36, 36, 36)"
+    context_menu_hover_background_color: str = "rgb(44, 44, 44)"
     context_menu_hover_text_color: str = "white"
-    message_box_background_color: str = "rgb(22, 22, 22)"
+    message_box_background_color: str = "rgb(33, 33, 33)"
     message_box_text_color: str = "white"
     message_box_label_text_color: str = "white"
     message_box_button_background_color: str = "rgb(44, 44, 44)"
     message_box_button_text_color: str = "white"
     message_box_button_hover_background_color: str = "rgb(66, 66, 66)"
     message_box_button_hover_text_color: str = "white"
+    scrollbar_handle_color: str = "rgb(66, 66, 66)"
 
     @staticmethod
     def prepare() -> None:
