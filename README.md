@@ -32,21 +32,15 @@ You watch who gets the most triumphs or the most hits.
 
 The ant with the highest score is shown in the footer.
 
-Clicking the footer scrolls to the bottom.
-
-There is a filter to filter updates.
-
 ## Usage
 
 Just open it, hatch some ants, and place it somewhere in your monitor.
 
 ## Algorithm
 
-A random ant from ants that haven't had an update in at least 10 minutes is picked.
+A random ant is picked based on weights (oldest update date weighs more).
 
-Or any ant is picked if none meet that requirement.
-
-Then a number between 1 and 10 is randomly picked.
+Then a random number between 1 and 10 is picked.
 
 For each number an action happens to produce an update.
 

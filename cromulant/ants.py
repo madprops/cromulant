@@ -147,25 +147,21 @@ class Ants:
         if Ants.empty():
             return None
 
-        if len(Ants.ants) == 1:
-            return Ants.ants[0]
-
-        ignore = []
-        current = Ants.get_current()
-
-        if current:
-            ignore.append(current)
-
         now = Utils.now()
-        mins = 10 * 60
-        # Filter ants where updated is older than 10 minutes
-        ants = [a for a in Ants.ants if (now - a.updated) >= mins]
+        ages = [(now - ant.updated) for ant in Ants.ants]
 
-        if not len(ants):
-            ants = Ants.ants
+        # Normalize ages to create weights
+        total_age = sum(ages)
 
-        ants = [a for a in ants if a not in ignore]
-        return random.choice(ants)
+        if total_age == 0:
+            weights = [1] * len(Ants.ants)  # If all ages are zero, use equal weights
+        else:
+            weights = [
+                int(age / total_age * 1000) for age in ages
+            ]  # Scale and cast to int
+
+        # Perform weighted random selection
+        return random.choices(Ants.ants, weights=weights, k=1)[0]
 
     @staticmethod
     def get_current() -> Ant | None:
