@@ -90,6 +90,7 @@ class Window:
             Window.emoji_font = QFontDatabase.applicationFontFamilies(emoji_font_id)[0]
 
         style = f"""
+
         QWidget {{
             background-color: {Config.background_color};
             color: {Config.text_color};
@@ -137,6 +138,28 @@ class Window:
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
             border: 1px solid {Config.alt_border_color};
+        }}
+
+        QScrollBar:vertical {{
+            border: 0px solid transparent;
+            background: {Config.background_color};
+            width: 15px;
+            margin: 0px 0px 0px 0px;
+        }}
+
+        QScrollBar::handle:vertical {{
+            background: {Config.scrollbar_handle_color};
+            min-height: 20px;
+        }}
+
+        QScrollBar::add-line:vertical {{
+            border: none;
+            background: none;
+        }}
+
+        QScrollBar::sub-line:vertical {{
+            border: none;
+            background: none;
         }}
 
         """.strip()
@@ -194,31 +217,6 @@ class Window:
         Window.scroll_area = QScrollArea()
         Window.scroll_area.setWidgetResizable(True)
 
-        style = f"""
-        QScrollBar:vertical {{
-            border: 0px solid transparent;
-            background: {Config.background_color};
-            width: 15px;
-            margin: 0px 0px 0px 0px;
-        }}
-
-        QScrollBar::handle:vertical {{
-            background: {Config.scrollbar_handle_color};
-            min-height: 20px;
-        }}
-
-        QScrollBar::add-line:vertical {{
-            border: none;
-            background: none;
-        }}
-
-        QScrollBar::sub-line:vertical {{
-            border: none;
-            background: none;
-        }}
-        """
-
-        Window.scroll_area.setStyleSheet(style)
         container = QWidget()
         parent = QVBoxLayout(container)
         Window.view = QVBoxLayout()
