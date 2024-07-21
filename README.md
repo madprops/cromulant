@@ -10,11 +10,9 @@
 
 This is a kind of toy you can use for your amusement.
 
-You hatch ants and they are born from a list of 1000 random names.
+You start with 100 random ants from a list of 1000 names.
 
-You can also terminate them (randomly, you don't decide who is removed).
-
-Then periodically the ants will produce random updates.
+The ants will produce random updates.
 
 The updates can be random non-sensical sentences.
 
@@ -24,19 +22,17 @@ You can adjust the speed of the updates.
 
 ## Game Loop
 
-You hatch and terminate ants.
-
 You read some funny updates.
 
 You watch who gets the most triumphs or the most hits.
 
 The ant with the highest score is shown in the footer.
 
-You can also merge 2 ants into one, combining their names and score.
+Ants get merged and replaced over time.
 
 ## Usage
 
-Just open it, hatch some ants, and place it somewhere in your monitor.
+Just open it and place it somewhere in your monitor.
 
 ## Installation
 
@@ -47,9 +43,7 @@ pipx install git+https://github.com/madprops/cromulant --force
 ## Algorithm
 
 A random ant is picked based on weights (oldest update date weighs more).
-
 Then a random number between 1 and 10 is picked.
-
 For each number an action happens to produce an update.
 
 The top score is calculated as (Triumph - Hits).
