@@ -19,6 +19,18 @@ from .window import Window
 from .settings import Settings
 
 
+class Method:
+    merge = 0
+    triumph = 1
+    hit = 2
+    travel = 3
+    thinking_1 = 4
+    thinking_2 = 5
+    sentence_1 = 6
+    sentence_2 = 7
+    sentence_3 = 8
+
+
 class Game:
     timer: QTimer | None = None
     playing_song: bool = False
@@ -157,7 +169,7 @@ class Game:
 
         min_num = 0
         max_num = 12
-        no_repeat = [0]
+        no_repeat = [Method.merge]
 
         num = random.randint(min_num, max_num)
 
@@ -167,34 +179,34 @@ class Game:
 
         Game.last_update = num
 
-        if num == min_num:
+        if num == Method.merge:
             Ants.merge()
             return
 
         status = ""
         method = "normal"
 
-        if num == 1:
+        if num == Method.triumph:
             ant.triumph += 1
             method = "triumph"
-        elif num == 2:
+        elif num == Method.hit:
             ant.hits += 1
             method = "hit"
-        elif num == 3:
-            status = Utils.random_name([], Ants.get_names())
-            method = "thinking"
-        elif num == 4:
-            status = Utils.rand_sentence.simple_sentence()
-        elif num == 5:
-            status = Utils.rand_sentence.bare_bone_sentence()
-        elif num == 6:
-            status = Utils.rand_sentence.bare_bone_with_adjective()
-        elif num == 7:
-            status = Utils.random_emoji(3)
-            method = "thinking"
-        elif num == 8:
+        elif num == Method.travel:
             status = Utils.random_country([])
             method = "travel"
+        elif num == Method.thinking_1:
+            status = Utils.random_name([], Ants.get_names())
+            method = "thinking"
+        elif num == Method.thinking_2:
+            status = Utils.random_emoji(3)
+            method = "thinking"
+        elif num == Method.sentence_1:
+            status = Utils.rand_sentence.simple_sentence()
+        elif num == Method.sentence_2:
+            status = Utils.rand_sentence.bare_bone_sentence()
+        elif num == Method.sentence_3:
+            status = Utils.rand_sentence.bare_bone_with_adjective()
         else:
             status = Utils.rand_sentence.sentence()
 
