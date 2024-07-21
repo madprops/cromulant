@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 import random
-from pathlib import Path
 
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPixmap  # type: ignore
+from PySide6.QtGui import QMouseEvent  # type: ignore
+from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QTimer
 
 from .config import Config
@@ -29,47 +29,12 @@ class Game:
         Game.update_info()
 
     @staticmethod
-    def add_status(ant: Ant) -> None:
-        container = QHBoxLayout()
-        status = ant.status
-        color = None
-
-        if (not ant.status) and (not ant.method):
-            status = "No update yet"
-
-        if ant.method == "triumph":
-            total = f"({ant.triumph} total)"
-            status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
-            color = Config.triumph_color
-        elif ant.method == "hit":
-            total = f"({ant.hits} total)"
-            status = f"{Config.hit_icon} {Config.hit_message} {total}"
-            color = Config.hit_color
-        elif ant.method == "thinking":
-            status = f"Thinking about {status}"
-        elif ant.method == "travel":
-            status = f"Traveling to {status}"
-
-        tooltip = ant.tooltip()
-        image_label = Game.get_image(Config.status_image_path, color, tooltip=tooltip)
-        right_container = Game.make_right_container(ant.name, status)
-
-        container.addWidget(image_label)
-        container.addSpacing(Config.space_1)
-        container.addWidget(right_container)
-        Game.add_container(container)
-
-    @staticmethod
-    def add_message(
-        title: str,
-        message: str,
-        image_path: Path,
-        color: tuple[int, int, int] | None = None,
-        tooltip: str = "",
+    def add_update(
+        ant: Ant,
     ) -> None:
         container = QHBoxLayout()
-        image_label = Game.get_image(image_path, color, tooltip=tooltip)
-        right_container = Game.make_right_container(title, message)
+        image_label = Game.get_image(ant)
+        right_container = Game.make_right_container(ant)
 
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
@@ -97,7 +62,17 @@ class Game:
         Filter.check()
 
     @staticmethod
-    def make_right_container(title: str, message: str) -> QWidget:
+    def make_right_container(ant: Ant) -> QWidget:
+        if ant.method == "hatched":
+            title = "Hatched"
+            message = f"{ant.name} is born"
+        elif ant.method == "terminated":
+            title = "Terminated"
+            message = f"{ant.name} is gone"
+        else:
+            title = ant.name
+            message = ant.get_status()
+
         root = QWidget()
         root.setObjectName("view_right")
         container = QVBoxLayout()
@@ -124,8 +99,23 @@ class Game:
 
     @staticmethod
     def get_image(
-        path: Path, color: tuple[int, int, int] | None = None, tooltip: str = ""
+        ant: Ant,
     ) -> QLabel:
+        if ant.method == "hatched":
+            path = Config.hatched_image_path
+        elif ant.method == "terminated":
+            path = Config.terminated_image_path
+        else:
+            path = Config.status_image_path
+
+        if ant.method == "triumph":
+            color = Config.triumph_color
+        elif ant.method == "hit":
+            color = Config.hit_color
+        else:
+            color = None
+
+        tooltip = ant.tooltip()
         image_label = QLabel()
         image_label.setObjectName("view_image")
         pixmap = QPixmap(str(path))
@@ -154,7 +144,7 @@ class Game:
         if tooltip:
             image_label.setToolTip(tooltip)
 
-        image_label.mousePressEvent = lambda event: Game.toggle_song()
+        image_label.mousePressEvent = lambda event: Game.image_action(event, ant)
         return image_label
 
     @staticmethod
@@ -207,7 +197,7 @@ class Game:
         ants = sorted(Ants.ants, key=lambda ant: ant.updated)
 
         for ant in ants:
-            Game.add_status(ant)
+            Game.add_update(ant)
 
     @staticmethod
     def start_loop() -> None:
@@ -289,3 +279,12 @@ class Game:
     @staticmethod
     def update_size() -> None:
         pass
+
+    @staticmethod
+    def image_action(event: QMouseEvent, ant: Ant) -> None:
+        if event.button() == Qt.LeftButton:
+            Ants.terminate(ant)
+        elif event.button() == Qt.MiddleButton:
+            Ants.merge(ant)
+        else:
+            Game.toggle_song()

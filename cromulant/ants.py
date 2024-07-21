@@ -17,7 +17,7 @@ class Ant:
         self.updated = now
         self.name = ""
         self.status = ""
-        self.method = ""
+        self.method = "hatched"
         self.triumph = 0
         self.hits = 0
 
@@ -62,6 +62,25 @@ class Ant:
         tooltip += f"\nTriumph: {self.triumph} | Hits: {self.hits}"
         return tooltip
 
+    def get_status(self) -> str:
+        if (not self.status) and (not self.method):
+            return "No update yet"
+
+        status = self.status
+
+        if self.method == "triumph":
+            total = f"({self.triumph} total)"
+            status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
+        elif self.method == "hit":
+            total = f"({self.hits} total)"
+            status = f"{Config.hit_icon} {Config.hit_message} {total}"
+        elif self.method == "thinking":
+            status = f"Thinking about {status}"
+        elif self.method == "travel":
+            status = f"Traveling to {status}"
+
+        return status
+
 
 class Ants:
     ants: ClassVar[list[Ant]] = []
@@ -83,7 +102,7 @@ class Ants:
             ant.name = Ants.random_name()
 
             Ants.ants.append(ant)
-            Ants.announce_hatch(ant)
+            Game.add_update(ant)
 
         Ants.save()
         Game.update_info()
@@ -136,7 +155,7 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
-        Game.add_status(ant)
+        Game.add_update(ant)
         Game.update_info()
         Ants.save()
 
@@ -177,9 +196,8 @@ class Ants:
         return top, top_score
 
     @staticmethod
-    def merge() -> None:
-        if len(Ants.ants) < 2:
-            return
+    def merge(ant_1: Ant | None = None) -> None:
+        from .game import Game
 
         def split(ant: Ant) -> list[str]:
             return re.split(r"[ -]", ant.name)
@@ -195,7 +213,8 @@ class Ants:
 
             return [Utils.capitalize(word) for word in words]
 
-        ant_1 = Ants.random_ant()
+        if not ant_1:
+            ant_1 = Ants.random_ant()
 
         if not ant_1:
             return
@@ -226,11 +245,8 @@ class Ants:
         if not name:
             return
 
-        Ants.announce_terminate(ant_1)
-        Ants.announce_terminate(ant_2)
-
-        Ants.ants.remove(ant_1)
-        Ants.ants.remove(ant_2)
+        Ants.set_terminated(ant_1)
+        Ants.set_terminated(ant_2)
 
         now = Utils.now()
 
@@ -242,27 +258,25 @@ class Ants:
         ant.hits = ant_1.hits + ant_2.hits
 
         Ants.ants.append(ant)
-        Ants.announce_hatch(ant)
+        Game.add_update(ant)
         Ants.hatch()
-
-    @staticmethod
-    def announce_hatch(ant: Ant) -> None:
-        from .game import Game
-
-        image_path = Config.hatched_image_path
-        Game.add_message(
-            "Hatched", f"{ant.name} is born", image_path, tooltip=ant.tooltip()
-        )
-
-    @staticmethod
-    def announce_terminate(ant: Ant) -> None:
-        from .game import Game
-
-        image_path = Config.terminated_image_path
-        Game.add_message(
-            "Terminated", f"{ant.name} is gone", image_path, tooltip=ant.tooltip()
-        )
 
     @staticmethod
     def clear() -> None:
         Ants.ants = []
+
+    @staticmethod
+    def terminate(ant: Ant) -> None:
+        if ant.method == "terminated":
+            return
+
+        Ants.set_terminated(ant)
+        Ants.hatch()
+
+    @staticmethod
+    def set_terminated(ant: Ant) -> None:
+        from .game import Game
+
+        ant.method = "terminated"
+        Game.add_update(ant)
+        Ants.ants.remove(ant)
