@@ -6,6 +6,7 @@ from .ants import Ants
 from .window import Window
 from .game import Game
 from .settings import Settings
+from .filter import Filter
 
 
 def main() -> None:
@@ -14,6 +15,7 @@ def main() -> None:
     Window.prepare()
     Ants.prepare()
     Settings.prepare()
+    Filter.prepare()
     Game.prepare()
     Game.start_loop()
     Window.start()

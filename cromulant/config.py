@@ -52,6 +52,7 @@ class Config:
     settings_json: Path
     countries_json: Path
     filter_width: int = 150
+    filter_debouncer_delay: int = 200
 
     @staticmethod
     def prepare() -> None:

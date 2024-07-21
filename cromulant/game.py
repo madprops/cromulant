@@ -273,7 +273,7 @@ class Game:
 
     @staticmethod
     def restart() -> None:
-        opts = ["25", "50", "100", "200", "300", "400", "500"]
+        opts = ["25", "50", "100", "200", "300"]
         opts = [f"{opt} ants" for opt in opts]
         size = Window.prompt_combobox("Size of the population", opts, 2)
 

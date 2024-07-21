@@ -2,17 +2,33 @@ from __future__ import annotations
 
 from PySide6.QtWidgets import QWidget  # type: ignore
 from PySide6.QtGui import QKeyEvent  # type: ignore
+from PySide6.QtCore import QTimer
 
+from .config import Config
 from .window import Window
 
 
 class Filter:
+    debouncer: QTimer
+
+    @staticmethod
+    def prepare() -> None:
+        Filter.debouncer = QTimer()
+        Filter.debouncer.setSingleShot(True)
+        Filter.debouncer.setInterval(Config.filter_debouncer_delay)
+        Filter.debouncer.timeout.connect(Filter.do_filter)
+
     @staticmethod
     def get_value() -> str:
         return str(Window.filter.text()).lower().strip()
 
     @staticmethod
     def filter(event: QKeyEvent | None = None) -> None:
+        Filter.debouncer.stop()
+        Filter.debouncer.start()
+
+    @staticmethod
+    def do_filter() -> None:
         value = Filter.get_value()
 
         for i in range(Window.view.count()):
