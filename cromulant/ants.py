@@ -248,7 +248,8 @@ class Ants:
                 words.extend(Utils.random_word(2 - len(words)))
 
             words = [
-                word if word.lower() != "of" else Utils.random_word()[0] for word in words
+                word if word.lower() != "of" else Utils.random_word()[0]
+                for word in words
             ]
 
             words = [Utils.capitalize(word) for word in words]
@@ -266,7 +267,6 @@ class Ants:
 
         words_1 = split(ant_1)
         words_2 = split(ant_2)
-
         words_1 = fill(words_1)
         words_2 = fill(words_2)
 
