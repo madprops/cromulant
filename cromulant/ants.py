@@ -90,6 +90,12 @@ class Ants:
     @staticmethod
     def prepare() -> None:
         Ants.get()
+        Ants.check()
+
+    @staticmethod
+    def check() -> None:
+        if not Ants.ants:
+            Ants.populate(Config.default_population)
 
     @staticmethod
     def hatch(num: int = 1, on_change: bool = True) -> None:

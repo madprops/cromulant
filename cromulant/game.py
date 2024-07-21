@@ -287,8 +287,15 @@ class Game:
     @staticmethod
     def restart() -> None:
         opts = ["25", "50", "100", "250"]
+        defindex = 0
+
+        for i, opt in enumerate(opts):
+            if int(opt) == Config.default_population:
+                defindex = i
+                break
+
         opts = [f"{opt} ants" for opt in opts]
-        size = Window.prompt_combobox("Size of the population", opts, 2)
+        size = Window.prompt_combobox("Size of the population", opts, defindex)
 
         if not size:
             return
