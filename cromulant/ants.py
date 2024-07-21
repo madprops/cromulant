@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 import random
+import itertools
 from typing import ClassVar, Any
 
 from .config import Config
@@ -259,9 +260,10 @@ class Ants:
 
         name = ""
         names = Ants.get_names()
+        combinations = list(itertools.product(words_1, words_2))
 
-        for _ in range(12):
-            name = f"{random.choice(words_1)} {random.choice(words_2)}"
+        for combo in combinations:
+            name = f"{combo[0]} {combo[1]}"
 
             if (name == ant_1.name) or (name == ant_2.name):
                 continue
