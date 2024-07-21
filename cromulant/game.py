@@ -22,6 +22,7 @@ from .settings import Settings
 class Game:
     timer: QTimer | None = None
     playing_song: bool = False
+    last_update: int = 0
 
     @staticmethod
     def prepare() -> None:
@@ -154,14 +155,21 @@ class Game:
         if not ant:
             return
 
-        num = random.randint(0, 12)
+        min_num = 0
+        max_num = 12
 
-        if num == 0:
-            Ants.merge()
-            return
+        num = random.randint(min_num, max_num)
+
+        if num == min_num:
+            if Game.last_update == min_num:
+                num = max_num
+            else:
+                Ants.merge()
+                return
 
         status = ""
         method = "normal"
+        Game.last_update = num
 
         if num == 1:
             ant.triumph += 1

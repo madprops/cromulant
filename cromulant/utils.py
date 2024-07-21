@@ -27,7 +27,7 @@ class Utils:
         Utils.rand_sentence = RandomSentence()
 
     @staticmethod
-    def now() -> float:
+    def now() -> int:
         return int(time.time())
 
     @staticmethod
