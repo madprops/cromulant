@@ -32,6 +32,9 @@ Ants get merged and replaced over time.
 
 All of this happens automatically.
 
+You can manually trigger terminations or merges by
+clicking or middle clicking the images on the left.
+
 ## Usage
 
 Just open it and place it somewhere in your monitor.
