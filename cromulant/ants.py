@@ -60,6 +60,8 @@ class Ant:
         tooltip += f"Updated: {Utils.to_date(self.updated)}"
         tooltip += f"\nCreated: {Utils.to_date(self.created)}"
         tooltip += f"\nTriumph: {self.triumph} | Hits: {self.hits}"
+        tooltip += "\nClick to Terminate"
+        tooltip += "\nMiddle Click to Merge"
         return tooltip
 
     def get_status(self) -> str:
@@ -90,7 +92,7 @@ class Ants:
         Ants.get()
 
     @staticmethod
-    def hatch(num: int = 1) -> None:
+    def hatch(num: int = 1, on_change: bool = True) -> None:
         from .game import Game
 
         now = Utils.now()
@@ -103,6 +105,13 @@ class Ants:
 
             Ants.ants.append(ant)
             Game.add_update(ant)
+
+        if on_change:
+            Ants.on_change()
+
+    @staticmethod
+    def on_change() -> None:
+        from .game import Game
 
         Ants.save()
         Game.update_info()
@@ -270,8 +279,9 @@ class Ants:
         if ant.method == "terminated":
             return
 
+        Ants.hatch(on_change=False)
         Ants.set_terminated(ant)
-        Ants.hatch()
+        Ants.on_change()
 
     @staticmethod
     def set_terminated(ant: Ant) -> None:
