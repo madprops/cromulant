@@ -93,7 +93,14 @@ class Utils:
         return r, g, b
 
     @staticmethod
-    def random_name(ignore: list[str]) -> str:
+    def random_name(ignore: list[str], include: list[str] | None = None) -> str:
+        names = Utils.names
+
+        if include:
+            for name in include:
+                if name not in names:
+                    names.append(name)
+
         filtered = [name for name in Utils.names if name not in ignore]
         return random.choice(filtered)
 

@@ -180,7 +180,7 @@ class Game:
             ant.hits += 1
             method = "hit"
         elif num == 3:
-            status = Utils.random_name([])
+            status = Utils.random_name([], Ants.get_names())
             method = "thinking"
         elif num == 4:
             status = Utils.rand_sentence.simple_sentence()
