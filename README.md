@@ -1,8 +1,6 @@
 # Cromulant
 
-![](https://i.imgur.com/5yIX4hl.jpeg)
-
-![](https://i.imgur.com/hjykbiJ.jpeg)
+![](https://i.imgur.com/FBB9mn2.gif)
 
 ## What is this?
 
