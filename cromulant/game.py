@@ -34,6 +34,9 @@ class Game:
         status = ant.status
         color = None
 
+        if (not ant.status) and (not ant.method):
+            status = "No update yet"
+
         if ant.method == "triumph":
             total = f"({ant.triumph} total)"
             status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
@@ -203,8 +206,7 @@ class Game:
         ants = sorted(Ants.ants, key=lambda ant: ant.updated)
 
         for ant in ants:
-            if ant.status or ant.method:
-                Game.add_status(ant)
+            Game.add_status(ant)
 
     @staticmethod
     def start_loop() -> None:

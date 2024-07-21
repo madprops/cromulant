@@ -16,7 +16,7 @@ class Ant:
         self.created = now
         self.updated = now
         self.name = ""
-        self.status = "No update yet"
+        self.status = ""
         self.method = ""
         self.triumph = 0
         self.hits = 0
