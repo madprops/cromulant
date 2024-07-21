@@ -70,15 +70,10 @@ class Ants:
     @staticmethod
     def prepare() -> None:
         Ants.get()
-        Ants.fill()
 
     @staticmethod
     def hatch(num: int = 1) -> None:
         from .game import Game
-
-        if len(Ants.ants) >= Config.max_ants:
-            Window.alert("Max ants reached\nTerminate some to hatch new ones")
-            return
 
         now = Utils.now()
 
@@ -90,9 +85,6 @@ class Ants:
 
             Ants.ants.append(ant)
             Ants.announce_hatch(ant)
-
-            if len(Ants.ants) >= Config.max_ants:
-                break
 
         Ants.save()
         Game.update_info()
@@ -179,28 +171,16 @@ class Ants:
     @staticmethod
     def get() -> None:
         objs = Storage.get_ants()
-        changed = False
-
-        if len(objs) > Config.max_ants:
-            objs = objs[: Config.max_ants]
-            changed = True
 
         for obj in objs:
             ant = Ant()
             ant.from_dict(obj)
             Ants.ants.append(ant)
 
-        if changed:
-            Ants.save()
-
     @staticmethod
-    def fill() -> None:
-        diff = Config.max_ants - len(Ants.ants)
-
-        if diff <= 0:
-            return
-
-        Ants.hatch(diff)
+    def populate(num: int) -> None:
+        Ants.clear()
+        Ants.hatch(num)
 
     @staticmethod
     def random_name() -> str:

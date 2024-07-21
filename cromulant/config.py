@@ -10,7 +10,6 @@ class Config:
     program: str = "cromulant"
     width: int = 820
     height: int = 900
-    max_ants: int = 100
     here: Path
     ants_json: Path
     icon_path: Path

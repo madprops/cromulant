@@ -273,10 +273,19 @@ class Game:
 
     @staticmethod
     def restart() -> None:
-        def action() -> None:
-            Ants.clear()
-            Window.clear_view()
-            Ants.fill()
-            Game.start_loop()
+        opts = ["25", "50", "100", "200", "300", "400", "500"]
+        opts = [f"{opt} ants" for opt in opts]
+        size = Window.prompt_combobox("Size of the population", opts, 2)
 
-        Window.confirm("Restart the ants?", action)
+        if not size:
+            return
+
+        num = int(size.split(" ")[0])
+
+        Window.clear_view()
+        Ants.populate(num)
+        Game.start_loop()
+
+    @staticmethod
+    def update_size() -> None:
+        pass

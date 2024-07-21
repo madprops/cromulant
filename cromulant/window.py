@@ -5,10 +5,12 @@ from collections.abc import Callable
 import signal
 
 from PySide6.QtWidgets import QApplication  # type: ignore
+from PySide6.QtWidgets import QDialog
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QGraphicsScene
 from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QPushButton
 from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QScrollArea
@@ -35,6 +37,39 @@ class FilterLineEdit(QLineEdit):  # type: ignore
             self.clear()
         else:
             super().keyPressEvent(e)
+
+
+class ComboBoxDialog(QDialog):  # type: ignore
+    def __init__(self, message: str, options: list[str], defindex: int) -> None:
+        super().__init__()
+        self.setWindowTitle("Select Option")
+        self.setFixedSize(300, 150)  # Set a fixed size for the dialog
+
+        self.layout = QVBoxLayout()
+
+        self.label = QLabel(message)
+        self.layout.addWidget(self.label)
+
+        self.combo_box = QComboBox()
+        self.combo_box.addItems(options)
+        self.combo_box.setCurrentIndex(defindex)
+        self.layout.addWidget(self.combo_box)
+
+        self.button_layout = QHBoxLayout()
+
+        self.ok_button = QPushButton("OK")
+        self.ok_button.clicked.connect(self.accept)
+        self.button_layout.addWidget(self.ok_button)
+
+        self.cancel_button = QPushButton("Cancel")
+        self.cancel_button.clicked.connect(self.reject)
+        self.button_layout.addWidget(self.cancel_button)
+
+        self.layout.addLayout(self.button_layout)
+        self.setLayout(self.layout)
+
+    def get_selection(self) -> str:
+        return str(self.combo_box.currentText())
 
 
 class Window:
@@ -107,23 +142,23 @@ class Window:
             color: {Config.alt_hover_text_color};
         }}
 
-        QMessageBox {{
+        QDialog {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
             border: 1px solid {Config.alt_border_color};
         }}
 
-        QMessageBox QLabel {{
+        QDialog QLabel {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
         }}
 
-        QMessageBox QPushButton {{
+        QDialog QPushButton {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
         }}
 
-        QMessageBox QPushButton:hover {{
+        QDialog QPushButton:hover {{
             background-color: {Config.message_box_button_hover_background_color};
             color: {Config.message_box_button_hover_text_color};
         }}
@@ -179,6 +214,7 @@ class Window:
 
         root = QWidget()
         container = QHBoxLayout()
+
         btn_restart = QPushButton("Restart")
         btn_restart.setToolTip("Restart with a new set of ants")
         btn_restart.clicked.connect(Game.restart)
@@ -329,3 +365,12 @@ class Window:
         msg_box.setWindowTitle("Information")
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec()
+
+    @staticmethod
+    def prompt_combobox(message: str, options: list[str], defindex: int = 0) -> str:
+        dialog = ComboBoxDialog(message, options, defindex)
+
+        if dialog.exec() == QDialog.Accepted:
+            return dialog.get_selection()
+
+        return ""
