@@ -55,6 +55,13 @@ class Ant:
     def get_score(self) -> int:
         return self.triumph - self.hits
 
+    def tooltip(self) -> str:
+        tooltip = ""
+        tooltip += f"Updated: {Utils.to_date(self.updated)}"
+        tooltip += f"\nCreated: {Utils.to_date(self.created)}"
+        tooltip += f"\nTriumph: {self.triumph} | Hits: {self.hits}"
+        return tooltip
+
 
 class Ants:
     ants: ClassVar[list[Ant]] = []
@@ -93,9 +100,6 @@ class Ants:
     def terminate() -> None:
         from .game import Game
 
-        if Ants.empty():
-            return
-
         ant = Ants.random_ant()
 
         if not ant:
@@ -121,9 +125,6 @@ class Ants:
 
     @staticmethod
     def random_ant(ignore: list[Ant] | None = None) -> Ant | None:
-        if Ants.empty():
-            return None
-
         if ignore:
             ants = [a for a in Ants.ants if a not in ignore]
         else:
@@ -140,14 +141,7 @@ class Ants:
         Storage.save_ants(Ants.ants)
 
     @staticmethod
-    def empty() -> bool:
-        return len(Ants.ants) == 0
-
-    @staticmethod
     def get_next() -> Ant | None:
-        if Ants.empty():
-            return None
-
         now = Utils.now()
         ages = [(now - ant.updated) for ant in Ants.ants]
 
@@ -166,9 +160,6 @@ class Ants:
 
     @staticmethod
     def get_current() -> Ant | None:
-        if Ants.empty():
-            return None
-
         return max(Ants.ants, key=lambda ant: ant.updated)
 
     @staticmethod
@@ -216,9 +207,6 @@ class Ants:
 
     @staticmethod
     def get_top_ant() -> tuple[Ant, int] | None:
-        if Ants.empty():
-            return None
-
         top = None
         top_score = 0
 
@@ -308,14 +296,18 @@ class Ants:
         from .game import Game
 
         image_path = Config.hatched_image_path
-        Game.add_message("Hatched", f"{ant.name} is born", image_path)
+        Game.add_message(
+            "Hatched", f"{ant.name} is born", image_path, tooltip=ant.tooltip()
+        )
 
     @staticmethod
     def announce_terminate(ant: Ant) -> None:
         from .game import Game
 
         image_path = Config.terminated_image_path
-        Game.add_message("Terminated", f"{ant.name} is gone", image_path)
+        Game.add_message(
+            "Terminated", f"{ant.name} is gone", image_path, tooltip=ant.tooltip()
+        )
 
     @staticmethod
     def clear() -> None:

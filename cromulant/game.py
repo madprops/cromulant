@@ -47,10 +47,7 @@ class Game:
         elif ant.method == "travel":
             status = f"Traveling to {status}"
 
-        tooltip = ""
-        tooltip += f"Updated: {Utils.to_date(ant.updated)}"
-        tooltip += f"\nCreated: {Utils.to_date(ant.created)}"
-        tooltip += f"\nTriumph: {ant.triumph} | Hits: {ant.hits}"
+        tooltip = ant.tooltip()
         image_label = Game.get_image(Config.status_image_path, color, tooltip=tooltip)
         right_container = Game.make_right_container(ant.name, status)
 
@@ -65,9 +62,10 @@ class Game:
         message: str,
         image_path: Path,
         color: tuple[int, int, int] | None = None,
+        tooltip: str = "",
     ) -> None:
         container = QHBoxLayout()
-        image_label = Game.get_image(image_path, color)
+        image_label = Game.get_image(image_path, color, tooltip=tooltip)
         right_container = Game.make_right_container(title, message)
 
         container.addWidget(image_label)
@@ -158,9 +156,6 @@ class Game:
 
     @staticmethod
     def get_status() -> None:
-        if Ants.empty():
-            return
-
         ant = Ants.get_next()
 
         if not ant:

@@ -180,7 +180,7 @@ class Window:
         root = QWidget()
         container = QHBoxLayout()
         btn_restart = QPushButton("Restart")
-        btn_restart.setToolTip(f"Restart with a new set of ants")
+        btn_restart.setToolTip("Restart with a new set of ants")
         btn_restart.clicked.connect(Game.restart)
 
         Window.speed = QComboBox()
