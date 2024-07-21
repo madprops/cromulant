@@ -165,12 +165,13 @@ class Game:
             return
 
         num = random.randint(0, 12)
-        status = ""
-        method = "normal"
 
         if num == 0:
             Ants.merge()
             return
+
+        status = ""
+        method = "normal"
 
         if num == 1:
             ant.triumph += 1
