@@ -157,19 +157,22 @@ class Game:
 
         min_num = 0
         max_num = 12
+        no_repeat = [0]
 
         num = random.randint(min_num, max_num)
 
-        if num == min_num:
-            if Game.last_update == min_num:
+        if num in no_repeat:
+            if Game.last_update == num:
                 num = max_num
-            else:
-                Ants.merge()
-                return
+
+        Game.last_update = num
+
+        if num == min_num:
+            Ants.merge()
+            return
 
         status = ""
         method = "normal"
-        Game.last_update = num
 
         if num == 1:
             ant.triumph += 1
