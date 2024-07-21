@@ -20,7 +20,7 @@ You can adjust the speed of the updates.
 
 ## Game Loop
 
-You start a new game with 25 to 500 ants.
+You start a new game with 25 to 250 ants.
 
 You get to read funny updates from the ants.
 
