@@ -2,6 +2,8 @@
 
 ![](https://i.imgur.com/5yIX4hl.jpeg)
 
+![](https://i.imgur.com/hjykbiJ.jpeg)
+
 ## What is this?
 
 This is a kind of toy you can use for your amusement.
