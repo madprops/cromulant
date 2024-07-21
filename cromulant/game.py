@@ -285,6 +285,7 @@ class Game:
 
         Window.clear_view()
         Ants.populate(num)
+        Window.to_top()
         Game.start_loop()
 
     @staticmethod
