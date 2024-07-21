@@ -80,8 +80,7 @@ class Ants:
             ant.name = Ants.random_name()
 
             Ants.ants.append(ant)
-            image_path = Config.hatched_image_path
-            Game.add_message("Hatched", f"{ant.name} is born", image_path)
+            Ants.announce_hatch(ant)
 
             if len(Ants.ants) >= Config.max_ants:
                 break
@@ -108,8 +107,7 @@ class Ants:
         Ants.ants.remove(ant)
         Ants.save()
 
-        image_path = Config.terminated_image_path
-        Game.add_message("Terminated", f"{ant.name} is gone", image_path)
+        Ants.announce_terminate(ant)
         Game.update_info()
 
     @staticmethod
@@ -270,6 +268,7 @@ class Ants:
         words_2 = fill(words_2)
 
         name = ""
+        names = Ants.get_names()
 
         for _ in range(12):
             name = f"{random.choice(words_1)} {random.choice(words_2)}"
@@ -277,14 +276,18 @@ class Ants:
             if (name == ant_1.name) or (name == ant_2.name):
                 continue
 
-            if name in Utils.names:
+            if (name in names) or (name in Utils.names):
                 continue
 
         if not name:
             return
 
+        Ants.announce_terminate(ant_1)
+        Ants.announce_terminate(ant_2)
+
         Ants.ants.remove(ant_1)
         Ants.ants.remove(ant_2)
+
         now = Utils.now()
 
         ant = Ant()
@@ -295,8 +298,20 @@ class Ants:
         ant.hits = ant_1.hits + ant_2.hits
 
         Ants.ants.append(ant)
+        Ants.announce_hatch(ant)
+        Game.update_info()
         Ants.save()
 
+    @staticmethod
+    def announce_hatch(ant: Ant) -> None:
+        from .game import Game
+
         image_path = Config.hatched_image_path
-        Game.add_message("Merged", f"{ant.name} is born", image_path)
-        Game.update_info()
+        Game.add_message("Hatched", f"{ant.name} is born", image_path)
+
+    @staticmethod
+    def announce_terminate(ant: Ant) -> None:
+        from .game import Game
+
+        image_path = Config.terminated_image_path
+        Game.add_message("Terminated", f"{ant.name} is gone", image_path)
