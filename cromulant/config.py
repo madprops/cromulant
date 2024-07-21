@@ -52,6 +52,7 @@ class Config:
     input_caret_color: str = "rgb(18, 18, 18)"
     settings_json: Path
     countries_json: Path
+    filter_width: int = 150
 
     @staticmethod
     def prepare() -> None:

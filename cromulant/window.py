@@ -194,7 +194,7 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         Window.filter = FilterLineEdit()
-        Window.filter.setFixedWidth(150)
+        Window.filter.setFixedWidth(Config.filter_width)
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
         Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
