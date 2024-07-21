@@ -90,10 +90,6 @@ class Ants:
         Game.update_info()
 
     @staticmethod
-    def hatch_burst() -> None:
-        Ants.hatch(Config.hatch_burst)
-
-    @staticmethod
     def terminate() -> None:
         from .game import Game
 
@@ -230,9 +226,6 @@ class Ants:
         for ant in Ants.ants:
             score = ant.get_score()
 
-            if score <= 0:
-                continue
-
             if (not top) or (score > top_score):
                 top = ant
                 top_score = score
@@ -244,8 +237,6 @@ class Ants:
 
     @staticmethod
     def merge() -> None:
-        from .game import Game
-
         if len(Ants.ants) < 2:
             return
 
@@ -310,8 +301,7 @@ class Ants:
 
         Ants.ants.append(ant)
         Ants.announce_hatch(ant)
-        Game.update_info()
-        Ants.save()
+        Ants.hatch()
 
     @staticmethod
     def announce_hatch(ant: Ant) -> None:

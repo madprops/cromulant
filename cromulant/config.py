@@ -26,7 +26,6 @@ class Config:
     loop_delay_fast: int = 1000 * 5
     loop_delay_normal: int = 1000 * 60 * 1
     loop_delay_slow: int = 1000 * 60 * 5
-    hatch_burst: int = 3
     font_size: int = 20
     info_separator: str = "  -  "
     font_path: Path
