@@ -51,6 +51,7 @@ They get filled with random words if less than 2 words.
 One word from each set is picked randomly.
 The triumph and hits get combined.
 The original ants get terminated and the merged one hatches.
+An extra random ant is hatched to fill the gap.
 
 ## Technology
 
