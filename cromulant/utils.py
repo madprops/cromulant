@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 from typing import ClassVar
 
+from wonderwords import RandomWord, RandomSentence  # type: ignore
 from fontTools.ttLib import TTFont  # type: ignore
 
 from .config import Config
@@ -15,11 +16,15 @@ from .storage import Storage
 class Utils:
     names: ClassVar[list[str]] = []
     countries: ClassVar[list[str]] = []
+    rand_word: RandomWord
+    rand_sentence: RandomSentence
 
     @staticmethod
     def prepare() -> None:
         Utils.names = Storage.get_names()
         Utils.countries = Storage.get_countries()
+        Utils.rand_word = RandomWord()
+        Utils.rand_sentence = RandomSentence()
 
     @staticmethod
     def now() -> float:
@@ -139,3 +144,20 @@ class Utils:
     def random_country(ignore: list[str]) -> str:
         filtered = [country for country in Utils.countries if country not in ignore]
         return random.choice(filtered)
+
+    @staticmethod
+    def random_word(num: int = 1) -> list[str]:
+        words = []
+
+        for _ in range(num):
+            word = Utils.rand_word.word(
+                include_parts_of_speech=["nouns", "adjectives"], word_max_length=8
+            )
+
+            words.append(word)
+
+        return words
+
+    @staticmethod
+    def capitalize(word: str) -> str:
+        return word[0].upper() + word[1:]

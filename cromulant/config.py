@@ -22,7 +22,7 @@ class Config:
     text_color: str = "#ffffff"
     image_size: int = 80
     space_1: int = 20
-    max_messages: int = 200
+    max_updates: int = 250
     loop_delay_fast: int = 1000 * 5
     loop_delay_normal: int = 1000 * 60 * 1
     loop_delay_slow: int = 1000 * 60 * 5

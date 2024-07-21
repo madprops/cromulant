@@ -11,8 +11,6 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPixmap  # type: ignore
 from PySide6.QtCore import QTimer
 
-from wonderwords import RandomSentence  # type: ignore
-
 from .config import Config
 from .utils import Utils
 from .ants import Ant
@@ -87,7 +85,7 @@ class Game:
         root.setLayout(container)
         Window.view.insertWidget(0, root)
 
-        while Window.view.count() > Config.max_messages:
+        while Window.view.count() > Config.max_updates:
             item = Window.view.takeAt(Window.view.count() - 1)
 
             if item.widget():
@@ -169,7 +167,6 @@ class Game:
             return
 
         num = random.randint(1, 10)
-        s = RandomSentence()
         status = ""
         method = "normal"
 
@@ -183,11 +180,11 @@ class Game:
             status = Utils.random_name([])
             method = "thinking"
         elif num == 4:
-            status = s.simple_sentence()
+            status = Utils.rand_sentence.simple_sentence()
         elif num == 5:
-            status = s.bare_bone_sentence()
+            status = Utils.rand_sentence.bare_bone_sentence()
         elif num == 6:
-            status = s.bare_bone_with_adjective()
+            status = Utils.rand_sentence.bare_bone_with_adjective()
         elif num == 7:
             status = Utils.random_emoji(3)
             method = "thinking"
@@ -195,7 +192,7 @@ class Game:
             status = Utils.random_country([])
             method = "travel"
         else:
-            status = s.sentence()
+            status = Utils.rand_sentence.sentence()
 
         Ants.set_status(ant, status, method)
 

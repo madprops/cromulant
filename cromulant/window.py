@@ -198,7 +198,8 @@ class Window:
         btn_hatch.clicked.connect(lambda e: Ants.hatch())
         btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
 
-        btn_terminate = SpecialButton("Terminate")
+        btn_terminate = SpecialButton("Term")
+        btn_merge = SpecialButton("Merge")
 
         btn_terminate.setToolTip(
             "Terminate a random ant\nMiddle Click to terminate all"
@@ -206,6 +207,7 @@ class Window:
 
         btn_terminate.clicked.connect(lambda e: Ants.terminate())
         btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
+        btn_merge.clicked.connect(lambda e: Ants.merge())
 
         Window.speed = QComboBox()
         tooltip = "The speed of the updates\n"
@@ -225,6 +227,7 @@ class Window:
 
         container.addWidget(btn_hatch)
         container.addWidget(btn_terminate)
+        container.addWidget(btn_merge)
         container.addWidget(Window.speed)
         container.addWidget(Window.filter)
 

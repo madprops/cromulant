@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 import random
 from typing import ClassVar, Any
 
@@ -124,11 +125,16 @@ class Ants:
         Window.confirm("Terminate all ants?", action)
 
     @staticmethod
-    def random_ant() -> Ant | None:
+    def random_ant(ignore: list[Ant] | None = None) -> Ant | None:
         if Ants.empty():
             return None
 
-        return random.choice(Ants.ants)
+        if ignore:
+            ants = [a for a in Ants.ants if a not in ignore]
+        else:
+            ants = Ants.ants
+
+        return random.choice(ants)
 
     @staticmethod
     def get_names() -> list[str]:
@@ -183,11 +189,6 @@ class Ants:
         Ants.save()
 
     @staticmethod
-    def get_other(ant: Ant) -> Ant:
-        ants = [a for a in Ants.ants if a.name != ant.name]
-        return random.choice(ants)
-
-    @staticmethod
     def get_ants() -> None:
         objs = Storage.get_ants()
         changed = False
@@ -231,3 +232,72 @@ class Ants:
             return None
 
         return top, top_score
+
+    @staticmethod
+    def merge() -> None:
+        from .game import Game
+
+        if len(Ants.ants) < 2:
+            return
+
+        def split(ant: Ant) -> list[str]:
+            return re.split(r"[ -]", ant.name)
+
+        def fill(words: list[str]) -> list[str]:
+            if len(words) < 2:
+                words.extend(Utils.random_word(2 - len(words)))
+
+            words = [
+                word if word.lower() != "of" else Utils.random_word()[0] for word in words
+            ]
+
+            words = [Utils.capitalize(word) for word in words]
+            return [word.lower() if word == "de" else word for word in words]
+
+        ant_1 = Ants.random_ant()
+
+        if not ant_1:
+            return
+
+        ant_2 = Ants.random_ant([ant_1])
+
+        if not ant_2:
+            return
+
+        words_1 = split(ant_1)
+        words_2 = split(ant_2)
+
+        words_1 = fill(words_1)
+        words_2 = fill(words_2)
+
+        name = ""
+
+        for _ in range(12):
+            name = f"{random.choice(words_1)} {random.choice(words_2)}"
+
+            if (name == ant_1.name) or (name == ant_2.name):
+                continue
+
+            if name in Utils.names:
+                continue
+
+        if not name:
+            return
+
+        Ants.ants.remove(ant_1)
+        Ants.ants.remove(ant_2)
+        now = Utils.now()
+
+        ant = Ant()
+        ant.name = name
+        ant.created = now
+        ant.updated = now
+        ant.triumph = ant_1.triumph + ant_2.triumph
+        ant.hits = ant_1.hits + ant_2.hits
+
+        Ants.ants.append(ant)
+        Ants.save()
+
+        image_path = Config.hatched_image_path
+        Game.add_message("Merged", f"{ant.name} is born", image_path)
+        Game.update_info()

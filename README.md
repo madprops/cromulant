@@ -32,6 +32,8 @@ You watch who gets the most triumphs or the most hits.
 
 The ant with the highest score is shown in the footer.
 
+You can also merge 2 ants into one, combining their names and score.
+
 ## Usage
 
 Just open it, hatch some ants, and place it somewhere in your monitor.
