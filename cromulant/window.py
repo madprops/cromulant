@@ -172,6 +172,7 @@ class Window:
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
             border: 1px solid {Config.alt_border_color};
+            padding: 6px;
         }}
 
         QScrollBar:vertical {{
