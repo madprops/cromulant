@@ -54,6 +54,12 @@ For each number an action happens to produce an update.
 
 The top score is calculated as (Triumph - Hits).
 
+For merge, the words of each name are used.
+They get filled with random words if less than 2 words.
+One word from each set is picked randomly.
+The triumph and hits get combined.
+The original ants get terminated and the merged one hatches.
+
 ## Technology
 
 This is made with python + qt (pyside6)
