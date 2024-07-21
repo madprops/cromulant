@@ -243,17 +243,16 @@ class Ants:
         def split(ant: Ant) -> list[str]:
             return re.split(r"[ -]", ant.name)
 
+        def remove(words: list[str], ignore: list[str]) -> list[str]:
+            return [word for word in words if word.lower() not in ignore]
+
         def fill(words: list[str]) -> list[str]:
+            words = remove(words, ["of", "de"])
+
             if len(words) < 2:
                 words.extend(Utils.random_word(2 - len(words)))
 
-            words = [
-                word if word.lower() != "of" else Utils.random_word()[0]
-                for word in words
-            ]
-
-            words = [Utils.capitalize(word) for word in words]
-            return [word.lower() if word == "de" else word for word in words]
+            return [Utils.capitalize(word) for word in words]
 
         ant_1 = Ants.random_ant()
 
