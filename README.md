@@ -1,10 +1,6 @@
 # Cromulant
 
-![](https://i.imgur.com/iujtRIU.jpeg)
-
-![](https://i.imgur.com/nBjUANS.jpeg)
-
-![](https://i.imgur.com/KqyqA8l.jpeg)
+![](https://i.imgur.com/5yIX4hl.jpeg)
 
 ## What is this?
 
@@ -21,6 +17,8 @@ The ants can score triumphs or take hits.
 You can adjust the speed of the updates.
 
 ## Game Loop
+
+You start a new game with 100 ants.
 
 You read some funny updates.
 
