@@ -186,28 +186,13 @@ class Window:
 
     @staticmethod
     def add_buttons() -> None:
-        from .ants import Ants
         from .game import Game
         from .filter import Filter
 
         root = QWidget()
         container = QHBoxLayout()
-
-        btn_hatch = SpecialButton("Hatch")
-        btn_hatch.setToolTip("Hatch a new ant\nMiddle Click to hatch Trio")
-        btn_hatch.clicked.connect(lambda e: Ants.hatch())
-        btn_hatch.middleClicked.connect(lambda: Ants.hatch_burst())
-
-        btn_terminate = SpecialButton("Term")
-        btn_merge = SpecialButton("Merge")
-
-        btn_terminate.setToolTip(
-            "Terminate a random ant\nMiddle Click to terminate all"
-        )
-
-        btn_terminate.clicked.connect(lambda e: Ants.terminate())
-        btn_terminate.middleClicked.connect(lambda: Ants.terminate_all())
-        btn_merge.clicked.connect(lambda e: Ants.merge())
+        btn_restart = QPushButton("Restart")
+        btn_restart.clicked.connect(Game.restart)
 
         Window.speed = QComboBox()
         tooltip = "The speed of the updates\n"
@@ -220,14 +205,12 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         Window.filter = FilterLineEdit()
-        Window.filter.setFixedWidth(120)
+        Window.filter.setFixedWidth(150)
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
         Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
 
-        container.addWidget(btn_hatch)
-        container.addWidget(btn_terminate)
-        container.addWidget(btn_merge)
+        container.addWidget(btn_restart)
         container.addWidget(Window.speed)
         container.addWidget(Window.filter)
 
@@ -322,9 +305,7 @@ class Window:
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
         Window.info = SpecialButton("---")
-
         Window.info.setToolTip("Click to scroll to the bottom or top")
-
         Window.info.clicked.connect(Window.toggle_scroll)
         Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)

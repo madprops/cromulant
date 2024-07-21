@@ -20,7 +20,7 @@ from .settings import Settings
 
 
 class Game:
-    timer: QTimer
+    timer: QTimer | None = None
     playing_song: bool = False
 
     @staticmethod
@@ -166,7 +166,7 @@ class Game:
         if not ant:
             return
 
-        num = random.randint(1, 10)
+        num = random.randint(1, 12)
         status = ""
         method = "normal"
 
@@ -191,6 +191,8 @@ class Game:
         elif num == 8:
             status = Utils.random_country([])
             method = "travel"
+        elif num == 9:
+            Ants.merge()
         else:
             status = Utils.rand_sentence.sentence()
 
@@ -209,6 +211,9 @@ class Game:
 
     @staticmethod
     def start_loop() -> None:
+        if Game.timer:
+            Game.timer.stop()
+
         speed = Settings.speed
 
         if speed == "fast":
@@ -230,7 +235,6 @@ class Game:
             return
 
         Settings.set_speed(speed)
-        Game.timer.stop()
         Game.start_loop()
 
     @staticmethod
@@ -252,7 +256,6 @@ class Game:
                 text.append(f"Top:{nb}{ant.name} ({score})")
 
         Window.info.setText(Config.info_separator.join(text))
-        Window.info.adjustSize()
 
     @staticmethod
     def toggle_song() -> None:
@@ -267,3 +270,13 @@ class Game:
 
             Window.play_audio(path, on_stop)
             Game.playing_song = True
+
+    @staticmethod
+    def restart() -> None:
+        def action() -> None:
+            Ants.clear()
+            Window.clear_view()
+            Ants.fill()
+            Game.start_loop()
+
+        Window.confirm("Restart the ants?", action)

@@ -11,8 +11,8 @@ from .settings import Settings
 def main() -> None:
     Config.prepare()
     Utils.prepare()
-    Ants.prepare()
     Window.prepare()
+    Ants.prepare()
     Settings.prepare()
     Game.prepare()
     Game.start_loop()

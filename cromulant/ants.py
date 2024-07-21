@@ -61,7 +61,8 @@ class Ants:
 
     @staticmethod
     def prepare() -> None:
-        Ants.get_ants()
+        Ants.get()
+        Ants.fill()
 
     @staticmethod
     def hatch(num: int = 1) -> None:
@@ -184,10 +185,11 @@ class Ants:
         ant.updated = Utils.now()
 
         Game.add_status(ant)
+        Game.update_info()
         Ants.save()
 
     @staticmethod
-    def get_ants() -> None:
+    def get() -> None:
         objs = Storage.get_ants()
         changed = False
 
@@ -202,6 +204,15 @@ class Ants:
 
         if changed:
             Ants.save()
+
+    @staticmethod
+    def fill() -> None:
+        diff = Config.max_ants - len(Ants.ants)
+
+        if diff <= 0:
+            return
+
+        Ants.hatch(diff)
 
     @staticmethod
     def random_name() -> str:
@@ -315,3 +326,7 @@ class Ants:
 
         image_path = Config.terminated_image_path
         Game.add_message("Terminated", f"{ant.name} is gone", image_path)
+
+    @staticmethod
+    def clear() -> None:
+        Ants.ants = []
