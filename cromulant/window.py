@@ -227,7 +227,7 @@ class Window:
         tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
         tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}"
         Window.speed.setToolTip(tooltip)
-        Window.speed.addItems(["Fast", "Normal", "Slow"])
+        Window.speed.addItems(["Fast", "Normal", "Slow", "Paused"])
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 

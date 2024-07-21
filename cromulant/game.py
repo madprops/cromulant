@@ -231,10 +231,12 @@ class Game:
 
         if speed == "fast":
             delay = Config.loop_delay_fast
+        elif speed == "normal":
+            delay = Config.loop_delay_normal
         elif speed == "slow":
             delay = Config.loop_delay_slow
         else:
-            delay = Config.loop_delay_normal
+            return
 
         Game.timer = QTimer()
         Game.timer.timeout.connect(Game.get_status)
