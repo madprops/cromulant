@@ -8,7 +8,7 @@
 
 This is a kind of toy you can use for your amusement.
 
-You start with 100 random ants from a list of 1000 names.
+You start with random ants from a list of 1000 names.
 
 The ants will produce random updates.
 
@@ -20,9 +20,9 @@ You can adjust the speed of the updates.
 
 ## Game Loop
 
-You start a new game with 100 ants.
+You start a new game with 25 to 500 ants.
 
-You read some funny updates.
+You get to read funny updates from the ants.
 
 You watch who gets the most triumphs or the most hits.
 
