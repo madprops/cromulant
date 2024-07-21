@@ -8,7 +8,6 @@ from typing import ClassVar, Any
 from .config import Config
 from .utils import Utils
 from .storage import Storage
-from .window import Window
 
 
 class Ant:
@@ -88,33 +87,6 @@ class Ants:
 
         Ants.save()
         Game.update_info()
-
-    @staticmethod
-    def terminate() -> None:
-        from .game import Game
-
-        ant = Ants.random_ant()
-
-        if not ant:
-            return
-
-        Ants.ants.remove(ant)
-        Ants.save()
-
-        Ants.announce_terminate(ant)
-        Game.update_info()
-
-    @staticmethod
-    def terminate_all() -> None:
-        from .game import Game
-
-        def action() -> None:
-            Ants.ants = []
-            Ants.save()
-            Window.clear_view()
-            Game.update_info()
-
-        Window.confirm("Terminate all ants?", action)
 
     @staticmethod
     def random_ant(ignore: list[Ant] | None = None) -> Ant | None:

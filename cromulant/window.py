@@ -57,13 +57,14 @@ class ComboBoxDialog(QDialog):  # type: ignore
 
         self.button_layout = QHBoxLayout()
 
-        self.ok_button = QPushButton("OK")
-        self.ok_button.clicked.connect(self.accept)
-        self.button_layout.addWidget(self.ok_button)
-
         self.cancel_button = QPushButton("Cancel")
         self.cancel_button.clicked.connect(self.reject)
         self.button_layout.addWidget(self.cancel_button)
+
+        self.ok_button = QPushButton("OK")
+        self.ok_button.clicked.connect(self.accept)
+        self.ok_button.setDefault(True)
+        self.button_layout.addWidget(self.ok_button)
 
         self.layout.addLayout(self.button_layout)
         self.setLayout(self.layout)
@@ -283,21 +284,6 @@ class Window:
         widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
 
     @staticmethod
-    def confirm(message: str, action: Callable[..., Any]) -> None:
-        msg_box = QMessageBox()
-        msg_box.setIcon(QMessageBox.Icon.Question)
-        msg_box.setWindowTitle("Confirm")
-        msg_box.setText(message)
-
-        msg_box.setStandardButtons(
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
-
-        msg_box.setDefaultButton(QMessageBox.StandardButton.No)
-        msg_box.button(QMessageBox.StandardButton.Yes).clicked.connect(action)
-        msg_box.exec()
-
-    @staticmethod
     def clear_view() -> None:
         while Window.view.count():
             item = Window.view.takeAt(0)
@@ -361,6 +347,7 @@ class Window:
     @staticmethod
     def alert(message: str) -> None:
         msg_box = QMessageBox()
+        msg_box.setWindowFlags(Qt.Popup)
         msg_box.setIcon(QMessageBox.Information)
         msg_box.setText(message)
         msg_box.setWindowTitle("Information")
@@ -370,6 +357,7 @@ class Window:
     @staticmethod
     def prompt_combobox(message: str, options: list[str], defindex: int = 0) -> str:
         dialog = ComboBoxDialog(message, options, defindex)
+        dialog.setWindowFlags(Qt.Popup)
 
         if dialog.exec() == QDialog.Accepted:
             return dialog.get_selection()
