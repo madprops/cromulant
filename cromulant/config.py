@@ -21,7 +21,7 @@ class Config:
     background_color: str = "rgb(44, 44, 44)"
     text_color: str = "#ffffff"
     image_size: int = 80
-    space_1: int = 20
+    space_1: int = 18
     max_updates: int = 250
     loop_delay_fast: int = 1000 * 5
     loop_delay_normal: int = 1000 * 60 * 1
