@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from PySide6.QtWidgets import QWidget  # type: ignore
 from PySide6.QtGui import QKeyEvent  # type: ignore
-from PySide6.QtCore import QTimer
+from PySide6.QtCore import QTimer  # type: ignore
 
 from .config import Config
 from .window import Window
