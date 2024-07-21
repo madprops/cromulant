@@ -166,9 +166,13 @@ class Game:
         if not ant:
             return
 
-        num = random.randint(1, 12)
+        num = random.randint(0, 12)
         status = ""
         method = "normal"
+
+        if num == 0:
+            Ants.merge()
+            return
 
         if num == 1:
             ant.triumph += 1
@@ -191,8 +195,6 @@ class Game:
         elif num == 8:
             status = Utils.random_country([])
             method = "travel"
-        elif num == 9:
-            Ants.merge()
         else:
             status = Utils.rand_sentence.sentence()
 
