@@ -30,6 +30,8 @@ The ant with the highest score is shown in the footer.
 
 Ants get merged and replaced over time.
 
+All of this happens automatically.
+
 ## Usage
 
 Just open it and place it somewhere in your monitor.
