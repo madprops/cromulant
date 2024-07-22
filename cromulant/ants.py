@@ -211,7 +211,7 @@ class Ants:
         return top, top_score
 
     @staticmethod
-    def merge(ant_1: Ant | None = None) -> None:
+    def merge(ant_1: Ant | None = None) -> bool:
         from .game import Game
 
         def split(ant: Ant) -> list[str]:
@@ -232,12 +232,12 @@ class Ants:
             ant_1 = Ants.random_ant()
 
         if not ant_1:
-            return
+            return False
 
         ant_2 = Ants.random_ant([ant_1])
 
         if not ant_2:
-            return
+            return False
 
         words_1 = split(ant_1)
         words_2 = split(ant_2)
@@ -252,13 +252,15 @@ class Ants:
             name = f"{combo[0]} {combo[1]}"
 
             if (name == ant_1.name) or (name == ant_2.name):
+                name = ""
                 continue
 
             if (name in names) or (name in Utils.names):
+                name = ""
                 continue
 
         if not name:
-            return
+            return False
 
         Ants.set_terminated(ant_1)
         Ants.set_terminated(ant_2)
@@ -275,6 +277,7 @@ class Ants:
         Ants.ants.append(ant)
         Game.add_update(ant)
         Ants.hatch()
+        return True
 
     @staticmethod
     def clear() -> None:

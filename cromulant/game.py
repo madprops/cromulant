@@ -180,8 +180,11 @@ class Game:
         Game.last_update = num
 
         if num == Method.merge:
-            Ants.merge()
-            return
+            if Ants.merge():
+                return
+
+            # If merge failed
+            num = max_num
 
         status = ""
         method = "normal"
