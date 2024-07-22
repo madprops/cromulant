@@ -334,10 +334,12 @@ class Game:
                 return
 
             Ants.terminate(ant)
+            Game.start_loop()
         elif event.button() == Qt.MiddleButton:
             if is_terminated():
                 return
 
             Ants.merge(ant)
+            Game.start_loop()
         else:
             Game.toggle_song()
