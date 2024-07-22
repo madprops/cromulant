@@ -52,6 +52,7 @@ Then a random number between 0 and 12 is picked.
 For each number an action happens to produce an update.
 
 The top score is calculated as (Triumph - Hits).
+If multiple ants have the same score, the oldest one wins.
 
 For merge, the words of each name are used.
 They get filled with random words if less than 2 words.

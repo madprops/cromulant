@@ -101,14 +101,9 @@ class Ants:
     def hatch(num: int = 1, on_change: bool = True) -> None:
         from .game import Game
 
-        now = Utils.now()
-
         for _ in range(num):
             ant = Ant()
-            ant.created = now
-            ant.updated = now
             ant.name = Ants.random_name()
-
             Ants.ants.append(ant)
             Game.add_update(ant)
 
@@ -269,12 +264,8 @@ class Ants:
         Ants.set_terminated(ant_1)
         Ants.set_terminated(ant_2)
 
-        now = Utils.now()
-
         ant = Ant()
         ant.name = name
-        ant.created = now
-        ant.updated = now
         ant.triumph = ant_1.triumph + ant_2.triumph
         ant.hits = ant_1.hits + ant_2.hits
 
