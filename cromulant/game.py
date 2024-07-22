@@ -42,9 +42,7 @@ class Game:
         Game.info()
 
     @staticmethod
-    def update(
-        ant: Ant,
-    ) -> None:
+    def update(ant: Ant) -> None:
         container = QHBoxLayout()
         image_label = Game.get_image(ant)
         right_container = Game.make_right_container(ant)
@@ -111,9 +109,7 @@ class Game:
         return root
 
     @staticmethod
-    def get_image(
-        ant: Ant,
-    ) -> QLabel:
+    def get_image(ant: Ant) -> QLabel:
         if ant.method == "hatched":
             path = Config.hatched_image_path
         elif ant.method == "terminated":
