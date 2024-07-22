@@ -204,6 +204,11 @@ class Window:
             border: 1px solid {Config.input_border_color};
         }}
 
+        QFrame#horizontal_line {{
+            background-color: white;
+            color: white;
+        }}
+
         """.strip()
 
         Window.app.setStyleSheet(style)
@@ -282,6 +287,10 @@ class Window:
     @staticmethod
     def expand(widget: QWidget) -> None:
         widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Preferred)
+
+    @staticmethod
+    def expand_2(widget: QWidget) -> None:
+        widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
 
     @staticmethod
     def clear_view() -> None:

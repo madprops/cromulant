@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
+from PySide6.QtWidgets import QFrame
 from PySide6.QtGui import QMouseEvent  # type: ignore
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QTimer
@@ -60,10 +61,31 @@ class Game:
     def message(text: str) -> None:
         root = QWidget()
         root.setContentsMargins(0, 10, 0, 10)
+
         container = QHBoxLayout()
         container.setAlignment(Qt.AlignCenter)
+
+        left_line = QFrame()
+        left_line.setFrameShape(QFrame.HLine)
+        left_line.setFrameShadow(QFrame.Sunken)
+        left_line.setObjectName("horizontal_line")
+        left_line.setFixedHeight(2)
+        Window.expand_2(left_line)
+
         label = QLabel(text)
+
+        right_line = QFrame()
+        right_line.setFrameShape(QFrame.HLine)
+        right_line.setFrameShadow(QFrame.Sunken)
+        right_line.setObjectName("horizontal_line")
+        right_line.setFixedHeight(2)
+        Window.expand_2(right_line)
+
+        container.addWidget(left_line)
         container.addWidget(label)
+        container.addWidget(right_line)
+
+        container.setSpacing(Config.space_1 * 2)
         root.setLayout(container)
         Game.add_item(root)
 
@@ -350,4 +372,4 @@ class Game:
     @staticmethod
     def intro() -> None:
         version = Config.manifest["version"]
-        Game.message(f"🐜 🐜  Welcome to Cromulant v{version}  🐜 🐜")
+        Game.message(f"Welcome to Cromulant v{version}")
