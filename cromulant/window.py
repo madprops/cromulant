@@ -250,15 +250,14 @@ class Window:
         Window.mode.currentIndexChanged.connect(Game.update_mode)
 
         Window.filter = FilterLineEdit()
-        Window.filter.setFixedWidth(Config.filter_width)
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
         Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
 
-        container.addWidget(btn_restart)
-        container.addWidget(Window.speed)
-        container.addWidget(Window.mode)
-        container.addWidget(Window.filter)
+        container.addWidget(btn_restart, 1)
+        container.addWidget(Window.speed, 1)
+        container.addWidget(Window.mode, 1)
+        container.addWidget(Window.filter, 1)
 
         root.setLayout(container)
         Window.root.addWidget(root)
