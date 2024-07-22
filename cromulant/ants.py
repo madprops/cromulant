@@ -197,7 +197,6 @@ class Ants:
         top = None
         top_score = 0
 
-        # This could be a one-liner but I might expand the algorithm later
         for ant in Ants.ants:
             score = ant.get_score()
 
