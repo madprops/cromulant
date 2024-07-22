@@ -22,15 +22,54 @@ from .settings import Settings
 
 class Method:
     merge = 0
+
     triumph = 1
     hit = 2
+
     travel = 3
+
     thinking_1 = 4
     thinking_2 = 5
+
     sentence_1 = 6
     sentence_2 = 7
     sentence_3 = 8
     sentence_4 = 9
+
+    @staticmethod
+    def opts_all() -> list[int]:
+        return [
+            Method.triumph,
+            Method.hit,
+            Method.travel,
+            Method.thinking_1,
+            Method.thinking_2,
+            Method.sentence_1,
+            Method.sentence_2,
+            Method.sentence_3,
+            Method.sentence_4,
+        ]
+
+    @staticmethod
+    def opts_score() -> list[int]:
+        return [Method.triumph, Method.hit]
+
+    @staticmethod
+    def opts_travel() -> list[int]:
+        return [Method.travel]
+
+    @staticmethod
+    def opts_thought() -> list[int]:
+        return [Method.thinking_1, Method.thinking_2]
+
+    @staticmethod
+    def opts_words() -> list[int]:
+        return [
+            Method.sentence_1,
+            Method.sentence_2,
+            Method.sentence_3,
+            Method.sentence_4,
+        ]
 
 
 class Game:
@@ -201,33 +240,19 @@ class Game:
         opts: list[int]
 
         if mode == "all":
-            opts = [
-                Method.triumph,
-                Method.hit,
-                Method.travel,
-                Method.thinking_1,
-                Method.thinking_2,
-                Method.sentence_1,
-                Method.sentence_2,
-                Method.sentence_3,
-                Method.sentence_4,
-                Method.sentence_4 + 1,
-                Method.sentence_4 + 2,
-                Method.sentence_4 + 3,
-            ]
+            opts = Method.opts_all()
+            # Make sentence more probable
+            opts.extend([101, 102])
         elif mode == "score":
-            opts = [Method.triumph, Method.hit]
+            opts = Method.opts_score()
         elif mode == "travel":
-            opts = [Method.travel]
+            opts = Method.opts_travel()
         elif mode == "thought":
-            opts = [Method.thinking_1, Method.thinking_2]
+            opts = Method.opts_thought()
         elif mode == "words":
-            opts = [
-                Method.sentence_1,
-                Method.sentence_2,
-                Method.sentence_3,
-                Method.sentence_4,
-            ]
+            opts = Method.opts_words()
+        else:
+            return
 
         Game.merge_charge += 1
 
