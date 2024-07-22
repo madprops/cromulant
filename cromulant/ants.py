@@ -148,7 +148,7 @@ class Ants:
             weights = [1] * len(Ants.ants)  # If all ages are zero, use equal weights
         else:
             weights = [
-                int(age / total_age * 1000) for age in ages
+                int((age / total_age) * 1000) for age in ages
             ]  # Scale and cast to int
 
         # Perform weighted random selection

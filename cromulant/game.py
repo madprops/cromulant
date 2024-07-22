@@ -36,9 +36,11 @@ class Method:
     sentence_3 = 8
     sentence_4 = 9
 
+    Opts = tuple[list[int], list[int]]
+
     @staticmethod
-    def opts_all() -> list[int]:
-        return [
+    def opts_all() -> Opts:
+        opts = [
             Method.triumph,
             Method.hit,
             Method.travel,
@@ -50,26 +52,38 @@ class Method:
             Method.sentence_4,
         ]
 
-    @staticmethod
-    def opts_score() -> list[int]:
-        return [Method.triumph, Method.hit]
+        weights = [2, 2, 2, 2, 2, 3, 3, 3, 3]
+        return opts, weights
 
     @staticmethod
-    def opts_travel() -> list[int]:
-        return [Method.travel]
+    def opts_score() -> Opts:
+        opts = [Method.triumph, Method.hit]
+        weights = [2, 2]
+        return opts, weights
 
     @staticmethod
-    def opts_thought() -> list[int]:
-        return [Method.thinking_1, Method.thinking_2]
+    def opts_travel() -> Opts:
+        opts = [Method.travel]
+        weights = [2]
+        return opts, weights
 
     @staticmethod
-    def opts_words() -> list[int]:
-        return [
+    def opts_thought() -> Opts:
+        opts = [Method.thinking_1, Method.thinking_2]
+        weights = [2, 2]
+        return opts, weights
+
+    @staticmethod
+    def opts_words() -> Opts:
+        opts = [
             Method.sentence_1,
             Method.sentence_2,
             Method.sentence_3,
             Method.sentence_4,
         ]
+
+        weights = [2, 2, 2, 2]
+        return opts, weights
 
 
 class Game:
@@ -237,27 +251,29 @@ class Game:
             return
 
         mode = Settings.mode
-        opts: list[int]
+        nums: list[int]
+        weights: list[int]
 
         if mode == "all":
-            opts = Method.opts_all()
+            nums, weights = Method.opts_all()
         elif mode == "score":
-            opts = Method.opts_score()
+            nums, weights = Method.opts_score()
         elif mode == "travel":
-            opts = Method.opts_travel()
+            nums, weights = Method.opts_travel()
         elif mode == "thought":
-            opts = Method.opts_thought()
+            nums, weights = Method.opts_thought()
         elif mode == "words":
-            opts = Method.opts_words()
+            nums, weights = Method.opts_words()
         else:
             return
 
         Game.merge_charge += 1
 
         if Game.merge_charge >= Config.merge_goal:
-            opts.insert(0, Method.merge)
+            nums.insert(0, Method.merge)
+            weights.insert(0, 1)
 
-        num = random.choice(opts)
+        num = random.choices(nums, weights=weights, k=1)[0]
 
         if num == Method.merge:
             if Ants.merge():
