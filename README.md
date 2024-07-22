@@ -2,7 +2,7 @@
 
 ![](https://i.imgur.com/5yIX4hl.jpeg)
 
-![](https://i.imgur.com/hjykbiJ.jpeg)
+![](https://i.imgur.com/e48HxaC.jpeg)
 
 ## What is this?
 
