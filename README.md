@@ -8,6 +8,8 @@
 
 ![](https://i.imgur.com/qZnnxoB.jpeg)
 
+![](https://i.imgur.com/7O5BP5K.jpeg)
+
 ## What is this?
 
 This is a kind of toy you can use for your amusement.
