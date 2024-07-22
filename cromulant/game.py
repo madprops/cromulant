@@ -192,24 +192,32 @@ class Game:
         if num == Method.triumph:
             ant.triumph += 1
             method = "triumph"
+
         elif num == Method.hit:
             ant.hits += 1
             method = "hit"
+
         elif num == Method.travel:
             status = Utils.random_country([])
             method = "travel"
+
         elif num == Method.thinking_1:
             status = Utils.random_name([], Ants.get_names())
             method = "thinking"
+
         elif num == Method.thinking_2:
             status = Utils.random_emoji(3)
             method = "thinking"
+
         elif num == Method.sentence_1:
             status = Utils.rand_sentence.simple_sentence()
+
         elif num == Method.sentence_2:
             status = Utils.rand_sentence.bare_bone_sentence()
+
         elif num == Method.sentence_3:
             status = Utils.rand_sentence.bare_bone_with_adjective()
+
         else:
             status = Utils.rand_sentence.sentence()
 
