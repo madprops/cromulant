@@ -241,8 +241,6 @@ class Game:
 
         if mode == "all":
             opts = Method.opts_all()
-            # Make sentence more probable
-            opts.extend([100, 101, 102])
         elif mode == "score":
             opts = Method.opts_score()
         elif mode == "travel":
