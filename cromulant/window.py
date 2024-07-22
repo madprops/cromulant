@@ -238,7 +238,7 @@ class Window:
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
         Window.mode = QComboBox()
-        tooltip = "Game mode\n"
+        tooltip = "The type of updates\n"
         tooltip += "All: All kind of updates\n"
         tooltip += "Score: Only triumph and hit updates\n"
         tooltip += "Travel: Only travel updates\n"
