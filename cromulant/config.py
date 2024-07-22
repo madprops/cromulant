@@ -54,7 +54,7 @@ class Config:
     filter_width: int = 150
     filter_debouncer_delay: int = 200
     default_population: int = 100
-    merge_goal: int = 8
+    merge_goal: int = 10
     manifest_path: Path
     manifest: dict[str, str]
 

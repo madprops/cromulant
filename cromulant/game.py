@@ -30,6 +30,7 @@ class Method:
     sentence_1 = 6
     sentence_2 = 7
     sentence_3 = 8
+    sentence_4 = 9
 
 
 class Game:
@@ -196,19 +197,51 @@ class Game:
         if not ant:
             return
 
-        min_num = 0
-        max_num = 12
+        mode = Settings.mode
+        opts: list[int]
 
-        num = random.randint(min_num, max_num)
+        if mode == "all":
+            opts = [
+                Method.triumph,
+                Method.hit,
+                Method.travel,
+                Method.thinking_1,
+                Method.thinking_2,
+                Method.sentence_1,
+                Method.sentence_2,
+                Method.sentence_3,
+                Method.sentence_4,
+                Method.sentence_4 + 1,
+                Method.sentence_4 + 2,
+                Method.sentence_4 + 3,
+            ]
+        elif mode == "score":
+            opts = [Method.triumph, Method.hit]
+        elif mode == "travel":
+            opts = [Method.travel]
+        elif mode == "thought":
+            opts = [Method.thinking_1, Method.thinking_2]
+        elif mode == "words":
+            opts = [
+                Method.sentence_1,
+                Method.sentence_2,
+                Method.sentence_3,
+                Method.sentence_4,
+            ]
+
         Game.merge_charge += 1
 
-        if num == Method.merge:
-            if Game.merge_charge >= Config.merge_goal:
-                if Ants.merge():
-                    Game.merge_charge = 0
-                    return
+        if Game.merge_charge >= Config.merge_goal:
+            opts.insert(0, Method.merge)
 
-            num = min_num
+        num = random.choice(opts)
+
+        if num == Method.merge:
+            if Ants.merge():
+                Game.merge_charge = 0
+                return
+
+            num = Method.sentence_4
 
         status = ""
         method = "normal"
@@ -242,8 +275,11 @@ class Game:
         elif num == Method.sentence_3:
             status = Utils.rand_sentence.bare_bone_with_adjective()
 
-        else:
+        elif num >= Method.sentence_4:
             status = Utils.rand_sentence.sentence()
+
+        else:
+            status = "???"
 
         Ants.set_status(ant, status, method)
 
@@ -285,6 +321,16 @@ class Game:
             return
 
         Settings.set_speed(speed)
+        Game.start_loop()
+
+    @staticmethod
+    def update_mode() -> None:
+        mode = Window.mode.currentText().lower()
+
+        if mode == Settings.mode:
+            return
+
+        Settings.set_mode(mode)
         Game.start_loop()
 
     @staticmethod
