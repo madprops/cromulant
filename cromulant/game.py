@@ -269,7 +269,7 @@ class Game:
             text.append("Hatch some ants")
         else:
             text.append(f"Ants:{nb}{len(Ants.ants)}")
-            top = Ants.get_top_ant()
+            top = Ants.get_top()
 
             if top:
                 ant = top[0]

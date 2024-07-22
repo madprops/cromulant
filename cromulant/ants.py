@@ -197,7 +197,7 @@ class Ants:
         return Utils.random_name(names)
 
     @staticmethod
-    def get_top_ant() -> tuple[Ant, int] | None:
+    def get_top() -> tuple[Ant, int] | None:
         top = None
         top_score = 0
 
