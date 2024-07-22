@@ -34,7 +34,7 @@ class Method:
 class Game:
     timer: QTimer | None = None
     playing_song: bool = False
-    last_update: int = 0
+    merge_charge: int = 0
 
     @staticmethod
     def prepare() -> None:
@@ -169,22 +169,17 @@ class Game:
 
         min_num = 0
         max_num = 12
-        no_repeat = [Method.merge]
 
         num = random.randint(min_num, max_num)
-
-        if num in no_repeat:
-            if Game.last_update == num:
-                num = max_num
-
-        Game.last_update = num
+        Game.merge_charge += 1
 
         if num == Method.merge:
-            if Ants.merge():
-                return
+            if Game.merge_charge >= Config.merge_goal:
+                if Ants.merge():
+                    Game.merge_charge = 0
+                    return
 
-            # If merge failed
-            num = max_num
+            num = min_num
 
         status = ""
         method = "normal"
