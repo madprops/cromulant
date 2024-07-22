@@ -41,3 +41,8 @@ class Storage:
     def get_countries() -> Any:
         with Config.countries_json.open() as file:
             return json.load(file)
+
+    @staticmethod
+    def get_manifest() -> Any:
+        with Config.manifest_path.open() as file:
+            return json.load(file)

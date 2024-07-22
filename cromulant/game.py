@@ -40,26 +40,38 @@ class Game:
     def prepare() -> None:
         Game.fill()
         Game.info()
+        Game.intro()
 
     @staticmethod
     def update(ant: Ant) -> None:
+        root = QWidget()
         container = QHBoxLayout()
+        root.setContentsMargins(0, 0, 0, 0)
+        container.setContentsMargins(0, 0, 0, 0)
         image_label = Game.get_image(ant)
         right_container = Game.make_right_container(ant)
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
         container.addWidget(right_container)
-        Game.add_container(container)
+        root.setLayout(container)
+        Game.add_item(root)
 
     @staticmethod
-    def add_container(container: QHBoxLayout) -> None:
+    def message(text: str) -> None:
+        root = QWidget()
+        root.setContentsMargins(0, 10, 0, 10)
+        container = QHBoxLayout()
+        container.setAlignment(Qt.AlignCenter)
+        label = QLabel(text)
+        container.addWidget(label)
+        root.setLayout(container)
+        Game.add_item(root)
+
+    @staticmethod
+    def add_item(item: QWidget) -> None:
         from .filter import Filter
 
-        root = QWidget()
-        root.setContentsMargins(0, 0, 0, 0)
-        container.setContentsMargins(0, 0, 0, 0)
-        root.setLayout(container)
-        Window.view.insertWidget(0, root)
+        Window.view.insertWidget(0, item)
 
         while Window.view.count() > Config.max_updates:
             item = Window.view.takeAt(Window.view.count() - 1)
@@ -333,3 +345,8 @@ class Game:
             Game.start_loop()
         else:
             Game.toggle_song()
+
+    @staticmethod
+    def intro() -> None:
+        version = Config.manifest["version"]
+        Game.message(f"🐜 🐜  Welcome to Cromulant v{version}  🐜 🐜")

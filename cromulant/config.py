@@ -55,10 +55,15 @@ class Config:
     filter_debouncer_delay: int = 200
     default_population: int = 100
     merge_goal: int = 8
+    manifest_path: Path
+    manifest: dict[str, str]
 
     @staticmethod
     def prepare() -> None:
+        from .storage import Storage
+
         Config.here = Path(__file__).parent
+        Config.manifest_path = Config.here / "manifest.json"
         Config.ants_json = Path(appdirs.user_data_dir()) / "cromulant" / "ants.json"
 
         if not Config.ants_json.exists():
@@ -83,3 +88,5 @@ class Config:
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
         Config.logo_path = Config.here / "img" / "logo_3.jpg"
+
+        Config.manifest = Storage.get_manifest()
