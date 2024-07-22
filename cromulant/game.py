@@ -46,7 +46,6 @@ class Game:
         container = QHBoxLayout()
         image_label = Game.get_image(ant)
         right_container = Game.make_right_container(ant)
-
         container.addWidget(image_label)
         container.addSpacing(Config.space_1)
         container.addWidget(right_container)
