@@ -98,12 +98,14 @@ class Ants:
             Ants.populate(Config.default_population)
 
     @staticmethod
-    def hatch(num: int = 1, on_change: bool = True) -> None:
+    def hatch(
+        num: int = 1, on_change: bool = True, ignore: list[str] | None = None
+    ) -> None:
         from .game import Game
 
         for _ in range(num):
             ant = Ant()
-            ant.name = Ants.random_name()
+            ant.name = Ants.random_name(ignore)
             Ants.ants.append(ant)
             Game.update(ant)
 
@@ -184,8 +186,15 @@ class Ants:
         Ants.hatch(num)
 
     @staticmethod
-    def random_name() -> str:
-        return Utils.random_name(Ants.get_names())
+    def random_name(ignore: list[str] | None = None) -> str:
+        names = Ants.get_names()
+
+        if ignore:
+            for name in ignore:
+                if name not in names:
+                    names.append(name)
+
+        return Utils.random_name(names)
 
     @staticmethod
     def get_top_ant() -> tuple[Ant, int] | None:
@@ -271,7 +280,7 @@ class Ants:
 
         Ants.ants.append(ant)
         Game.update(ant)
-        Ants.hatch()
+        Ants.hatch(ignore=[ant_1.name, ant_2.name])
         return True
 
     @staticmethod
@@ -280,9 +289,8 @@ class Ants:
 
     @staticmethod
     def terminate(ant: Ant) -> None:
-        Ants.hatch(on_change=False)
         Ants.set_terminated(ant)
-        Ants.on_change()
+        Ants.hatch(ignore=[ant.name])
 
     @staticmethod
     def set_terminated(ant: Ant) -> None:
