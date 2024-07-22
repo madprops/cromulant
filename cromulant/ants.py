@@ -204,6 +204,9 @@ class Ants:
             if (not top) or (score > top_score):
                 top = ant
                 top_score = score
+            elif score == top_score:
+                if ant.created < top.created:
+                    top = ant
 
         if not top:
             return None
