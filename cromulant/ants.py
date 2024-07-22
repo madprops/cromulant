@@ -105,7 +105,7 @@ class Ants:
             ant = Ant()
             ant.name = Ants.random_name()
             Ants.ants.append(ant)
-            Game.add_update(ant)
+            Game.update(ant)
 
         if on_change:
             Ants.on_change()
@@ -115,7 +115,7 @@ class Ants:
         from .game import Game
 
         Ants.save()
-        Game.update_info()
+        Game.info()
 
     @staticmethod
     def random_ant(ignore: list[Ant] | None = None) -> Ant | None:
@@ -165,8 +165,8 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
-        Game.add_update(ant)
-        Game.update_info()
+        Game.update(ant)
+        Game.info()
         Ants.save()
 
     @staticmethod
@@ -270,7 +270,7 @@ class Ants:
         ant.hits = ant_1.hits + ant_2.hits
 
         Ants.ants.append(ant)
-        Game.add_update(ant)
+        Game.update(ant)
         Ants.hatch()
         return True
 
@@ -289,5 +289,5 @@ class Ants:
         from .game import Game
 
         ant.method = "terminated"
-        Game.add_update(ant)
+        Game.update(ant)
         Ants.ants.remove(ant)

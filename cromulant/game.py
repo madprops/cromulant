@@ -38,11 +38,11 @@ class Game:
 
     @staticmethod
     def prepare() -> None:
-        Game.initial_fill()
-        Game.update_info()
+        Game.fill()
+        Game.info()
 
     @staticmethod
-    def add_update(
+    def update(
         ant: Ant,
     ) -> None:
         container = QHBoxLayout()
@@ -224,14 +224,14 @@ class Game:
         Ants.set_status(ant, status, method)
 
     @staticmethod
-    def initial_fill() -> None:
+    def fill() -> None:
         if not len(Ants.ants):
             return
 
         ants = sorted(Ants.ants, key=lambda ant: ant.updated)
 
         for ant in ants:
-            Game.add_update(ant)
+            Game.update(ant)
 
     @staticmethod
     def start_loop() -> None:
@@ -264,7 +264,7 @@ class Game:
         Game.start_loop()
 
     @staticmethod
-    def update_info() -> None:
+    def info() -> None:
         text = []
 
         # Non-breaking space
