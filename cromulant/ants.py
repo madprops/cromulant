@@ -247,17 +247,19 @@ class Ants:
         name = ""
         names = Ants.get_names()
         combinations = list(itertools.product(words_1, words_2))
+        random.shuffle(combinations)
 
         for combo in combinations:
-            name = f"{combo[0]} {combo[1]}"
+            possible = f"{combo[0]} {combo[1]}"
 
-            if (name == ant_1.name) or (name == ant_2.name):
-                name = ""
+            if (possible == ant_1.name) or (possible == ant_2.name):
                 continue
 
-            if (name in names) or (name in Utils.names):
-                name = ""
+            if (possible in names) or (possible in Utils.names):
                 continue
+
+            name = possible
+            break
 
         if not name:
             return False
@@ -285,9 +287,6 @@ class Ants:
 
     @staticmethod
     def terminate(ant: Ant) -> None:
-        if ant.method == "terminated":
-            return
-
         Ants.hatch(on_change=False)
         Ants.set_terminated(ant)
         Ants.on_change()

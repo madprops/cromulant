@@ -318,9 +318,18 @@ class Game:
 
     @staticmethod
     def image_action(event: QMouseEvent, ant: Ant) -> None:
+        def is_terminated() -> bool:
+            return ant.method == "terminated"
+
         if event.button() == Qt.LeftButton:
+            if is_terminated():
+                return
+
             Ants.terminate(ant)
         elif event.button() == Qt.MiddleButton:
+            if is_terminated():
+                return
+
             Ants.merge(ant)
         else:
             Game.toggle_song()
