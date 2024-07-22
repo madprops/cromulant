@@ -2,15 +2,18 @@ from __future__ import annotations
 
 import random
 
-from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
-from PySide6.QtGui import QMouseEvent  # type: ignore
+from PySide6.QtWidgets import QMenu
+from PySide6.QtGui import QCursor  # type: ignore
+from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
-from PySide6.QtCore import QTimer
+from PySide6.QtGui import QAction
+from PySide6.QtCore import QTimer  # type: ignore
+from PySide6.QtCore import Qt
 
 from .config import Config
 from .utils import Utils
@@ -458,3 +461,19 @@ class Game:
     def intro() -> None:
         version = Config.manifest["version"]
         Game.message(f"Welcome to Cromulant v{version}")
+
+    @staticmethod
+    def menu() -> None:
+        menu = QMenu(Window.root.widget())
+        update = QAction("Update")
+        restart = QAction("Restart")
+        update.triggered.connect(Game.force_update)
+        restart.triggered.connect(Game.restart)
+        menu.addAction(update)
+        menu.addAction(restart)
+        menu.exec_(QCursor.pos())
+
+    @staticmethod
+    def force_update() -> None:
+        Game.get_status()
+        Game.start_loop()

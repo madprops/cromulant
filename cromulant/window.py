@@ -223,9 +223,9 @@ class Window:
         root = QWidget()
         container = QHBoxLayout()
 
-        btn_restart = QPushButton("Restart")
-        btn_restart.setToolTip("Restart with a new set of ants")
-        btn_restart.clicked.connect(Game.restart)
+        btn_menu = QPushButton("Menu")
+        btn_menu.setToolTip("Restart with a new set of ants")
+        btn_menu.clicked.connect(Game.menu)
 
         Window.speed = QComboBox()
         tooltip = "The speed of the updates\n"
@@ -254,7 +254,7 @@ class Window:
         Window.filter.mousePressEvent = lambda e: Window.to_top()
         Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
 
-        container.addWidget(btn_restart, 1)
+        container.addWidget(btn_menu, 1)
         container.addWidget(Window.speed, 1)
         container.addWidget(Window.mode, 1)
         container.addWidget(Window.filter, 1)
