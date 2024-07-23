@@ -452,10 +452,10 @@ class Game:
 
         def make(text: str, enabled: bool) -> QAction:
             if enabled:
-                icon = "✅"
+                icon = Config.icon_on
                 word = "On"
             else:
-                icon = "❌"
+                icon = Config.icon_off
                 word = "Off"
 
             return QAction(f"{icon} {text} {word}")
