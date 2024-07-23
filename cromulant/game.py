@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from dataclasses import dataclass
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -23,10 +24,10 @@ from .window import Window
 from .settings import Settings
 
 
+@dataclass
 class Opt:
-    def __init__(self, value: int, weight: int) -> None:
-        self.value = value
-        self.weight = weight
+    value: int
+    weight: int
 
 
 class Method:
