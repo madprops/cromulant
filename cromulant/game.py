@@ -104,6 +104,7 @@ class Game:
         Window.expand_2(left_line)
 
         label = QLabel(text)
+        label.setTextInteractionFlags(Qt.TextSelectableByMouse)
 
         right_line = QFrame()
         right_line.setFrameShape(QFrame.HLine)
