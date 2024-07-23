@@ -520,7 +520,7 @@ class Game:
     @staticmethod
     def about() -> None:
         lines = [
-            f"Cromulant v{Config.manifest["version"]}    🐜",
+            f"Cromulant v{Config.manifest["version"]}    {Config.ant}",
             "Listen to the ants and watch them go.",
             "Just run it and leave it open on your screen.",
             "5% of revenue goes to the local ant shelter.",

@@ -59,6 +59,7 @@ class Config:
     separator_color: str = "rgb(111, 111, 111)"
     icon_on: str = "✅"
     icon_off: str = "❌"
+    ant: str = "🐜"
 
     @staticmethod
     def prepare() -> None:
