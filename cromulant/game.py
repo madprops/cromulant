@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QMenu
+from PySide6.QtWidgets import QWidgetAction
 from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
@@ -236,7 +237,7 @@ class Game:
         if Settings.travel_enabled:
             opts.extend(Method.opts_travel())
 
-        if Settings.thoughts_enabled:
+        if Settings.think_enabled:
             opts.extend(Method.opts_thought())
 
         if Settings.words_enabled:
@@ -441,37 +442,49 @@ class Game:
         enable_all = QAction("Enable All")
         disable_all = QAction("Disable All")
 
+        tag_on = f"<font color='{Config.color_on}'>On</font>"
+        tag_off = f"<font color='{Config.color_off}'>Off</font>"
+
+        def make(text: str) -> QWidgetAction:
+            label = QLabel(text)
+            label.setTextFormat(Qt.RichText)
+            label.setContentsMargins(10, 5, 10, 5)
+            label.setObjectName("menu_label")
+            widget_action = QWidgetAction(None)
+            widget_action.setDefaultWidget(label)
+            return widget_action
+
         if Settings.merge:
-            merge = QAction("Merge: On")
+            merge = make(f"Merge: {tag_on}")
         else:
-            merge = QAction("Merge: Off")
+            merge = make(f"Merge: {tag_off}")
 
         if Settings.score_enabled:
-            score = QAction("Score: On")
+            score = make(f"Score: {tag_on}")
         else:
-            score = QAction("Score: Off")
+            score = make(f"Score: {tag_off}")
 
         if Settings.travel_enabled:
-            travel = QAction("Travel: On")
+            travel = make(f"Travel: {tag_on}")
         else:
-            travel = QAction("Travel: Off")
+            travel = make(f"Travel: {tag_off}")
 
-        if Settings.thoughts_enabled:
-            thoughts = QAction("Thoughts: On")
+        if Settings.think_enabled:
+            think = make(f"Think: {tag_on}")
         else:
-            thoughts = QAction("Thoughts: Off")
+            think = make(f"Think: {tag_off}")
 
         if Settings.words_enabled:
-            words = QAction("Words: On")
+            words = make(f"Words: {tag_on}")
         else:
-            words = QAction("Words: Off")
+            words = make(f"Words: {tag_off}")
 
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)
         merge.triggered.connect(Settings.toggle_merge)
         score.triggered.connect(Settings.toggle_score_enabled)
         travel.triggered.connect(Settings.toggle_travel_enabled)
-        thoughts.triggered.connect(Settings.toggle_thoughts_enabled)
+        think.triggered.connect(Settings.toggle_think_enabled)
         words.triggered.connect(Settings.toggle_words_enabled)
         enable_all.triggered.connect(Settings.enable_all)
         disable_all.triggered.connect(Settings.disable_all)
@@ -482,7 +495,7 @@ class Game:
         menu.addAction(merge)
         menu.addAction(score)
         menu.addAction(travel)
-        menu.addAction(thoughts)
+        menu.addAction(think)
         menu.addAction(words)
         menu.addSeparator()
         menu.addAction(enable_all)

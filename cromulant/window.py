@@ -213,6 +213,10 @@ class Window:
             background-color: {Config.separator_color};
         }}
 
+        QLabel#menu_label:hover {{
+            background-color: {Config.alt_hover_background_color};
+        }}
+
         """.strip()
 
         Window.app.setStyleSheet(style)

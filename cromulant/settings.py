@@ -11,7 +11,7 @@ class Settings:
 
     score_enabled: bool
     travel_enabled: bool
-    thoughts_enabled: bool
+    think_enabled: bool
     words_enabled: bool
 
     @staticmethod
@@ -24,7 +24,7 @@ class Settings:
 
         Settings.score_enabled = settings.get("score_enabled", True)
         Settings.travel_enabled = settings.get("travel_enabled", True)
-        Settings.thoughts_enabled = settings.get("thoughts_enabled", True)
+        Settings.think_enabled = settings.get("think_enabled", True)
         Settings.words_enabled = settings.get("words_enabled", True)
 
         Settings.merge = settings.get("merge", True)
@@ -36,7 +36,7 @@ class Settings:
             "merge": Settings.merge,
             "score_enabled": Settings.score_enabled,
             "travel_enabled": Settings.travel_enabled,
-            "thoughts_enabled": Settings.thoughts_enabled,
+            "think_enabled": Settings.think_enabled,
             "words_enabled": Settings.words_enabled,
         }
 
@@ -63,8 +63,8 @@ class Settings:
         Settings.save()
 
     @staticmethod
-    def toggle_thoughts_enabled() -> None:
-        Settings.thoughts_enabled = not Settings.thoughts_enabled
+    def toggle_think_enabled() -> None:
+        Settings.think_enabled = not Settings.think_enabled
         Settings.save()
 
     @staticmethod
@@ -74,16 +74,18 @@ class Settings:
 
     @staticmethod
     def enable_all() -> None:
+        Settings.merge = True
         Settings.score_enabled = True
         Settings.travel_enabled = True
-        Settings.thoughts_enabled = True
+        Settings.think_enabled = True
         Settings.words_enabled = True
         Settings.save()
 
     @staticmethod
     def disable_all() -> None:
+        Settings.merge = False
         Settings.score_enabled = False
         Settings.travel_enabled = False
-        Settings.thoughts_enabled = False
+        Settings.think_enabled = False
         Settings.words_enabled = False
         Settings.save()

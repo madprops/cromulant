@@ -57,6 +57,8 @@ class Config:
     manifest_path: Path
     manifest: dict[str, str]
     separator_color: str = "rgb(120, 120, 120)"
+    color_on: str = "#00ff11"
+    color_off: str = "#ff0004"
 
     @staticmethod
     def prepare() -> None:
