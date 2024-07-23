@@ -56,6 +56,7 @@ class Config:
     merge_goal: int = 10
     manifest_path: Path
     manifest: dict[str, str]
+    separator_color: str = "rgb(120, 120, 120)"
 
     @staticmethod
     def prepare() -> None:

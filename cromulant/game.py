@@ -368,16 +368,6 @@ class Game:
         Game.start_loop()
 
     @staticmethod
-    def update_mode() -> None:
-        mode = Window.mode.currentText().lower()
-
-        if mode == Settings.mode:
-            return
-
-        Settings.set_mode(mode)
-        Game.start_loop()
-
-    @staticmethod
     def info() -> None:
         text = []
 
@@ -469,19 +459,55 @@ class Game:
         menu = QMenu(Window.root.widget())
         update = QAction("Update")
         restart = QAction("Restart")
+        enable_all = QAction("Enable All")
+        disable_all = QAction("Disable All")
 
         if Settings.merge:
             merge = QAction("Merge: On")
         else:
             merge = QAction("Merge: Off")
 
+        if Settings.score_enabled:
+            score = QAction("Score: On")
+        else:
+            score = QAction("Score: Off")
+
+        if Settings.travel_enabled:
+            travel = QAction("Travel: On")
+        else:
+            travel = QAction("Travel: Off")
+
+        if Settings.thoughts_enabled:
+            thoughts = QAction("Thoughts: On")
+        else:
+            thoughts = QAction("Thoughts: Off")
+
+        if Settings.words_enabled:
+            words = QAction("Words: On")
+        else:
+            words = QAction("Words: Off")
+
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)
         merge.triggered.connect(Settings.toggle_merge)
+        score.triggered.connect(Settings.toggle_score_enabled)
+        travel.triggered.connect(Settings.toggle_travel_enabled)
+        thoughts.triggered.connect(Settings.toggle_thoughts_enabled)
+        words.triggered.connect(Settings.toggle_words_enabled)
+        enable_all.triggered.connect(Settings.enable_all)
+        disable_all.triggered.connect(Settings.disable_all)
 
         menu.addAction(update)
         menu.addAction(restart)
+        menu.addSeparator()
         menu.addAction(merge)
+        menu.addAction(score)
+        menu.addAction(travel)
+        menu.addAction(thoughts)
+        menu.addAction(words)
+        menu.addSeparator()
+        menu.addAction(enable_all)
+        menu.addAction(disable_all)
         menu.exec_(QCursor.pos())
 
     @staticmethod

@@ -87,7 +87,6 @@ class Window:
     player: QMediaPlayer
     audio: QAudioOutput
     filter: QLineEdit
-    mode: QComboBox
 
     @staticmethod
     def prepare() -> None:
@@ -210,6 +209,10 @@ class Window:
             color: white;
         }}
 
+        QMenu::separator {{
+            background-color: {Config.separator_color};
+        }}
+
         """.strip()
 
         Window.app.setStyleSheet(style)
@@ -237,18 +240,6 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
 
-        Window.mode = QComboBox()
-        tooltip = "The type of updates\n"
-        tooltip += "All: All kind of updates\n"
-        tooltip += "Score: Only triumph and hit updates\n"
-        tooltip += "Travel: Only travel updates\n"
-        tooltip += "Thought: Only thought updates\n"
-        tooltip += "Words: Only sentences"
-        Window.mode.setToolTip(tooltip)
-        Window.mode.addItems(["All", "Score", "Travel", "Thought", "Words"])
-        Window.mode.setCurrentIndex(1)
-        Window.mode.currentIndexChanged.connect(Game.update_mode)
-
         Window.filter = FilterLineEdit()
         Window.filter.setPlaceholderText("Filter")
         Window.filter.mousePressEvent = lambda e: Window.to_top()
@@ -256,7 +247,6 @@ class Window:
 
         container.addWidget(btn_menu, 1)
         container.addWidget(Window.speed, 1)
-        container.addWidget(Window.mode, 1)
         container.addWidget(Window.filter, 1)
 
         root.setLayout(container)
