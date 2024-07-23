@@ -9,7 +9,6 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QMenu
-from PySide6.QtWidgets import QWidgetAction
 from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
@@ -437,47 +436,54 @@ class Game:
     @staticmethod
     def menu() -> None:
         menu = QMenu(Window.root.widget())
+
+        style = f"""
+        QMenu::separator {{
+            background-color: {Config.separator_color};
+        }}
+        """
+
+        menu.setStyleSheet(style)
+        menu.setObjectName("main_menu")
         update = QAction("Update")
         restart = QAction("Restart")
         enable_all = QAction("Enable All")
         disable_all = QAction("Disable All")
 
-        tag_on = f"<font color='{Config.color_on}'>On</font>"
-        tag_off = f"<font color='{Config.color_off}'>Off</font>"
+        def make(text: str, enabled: bool) -> QAction:
+            if enabled:
+                icon = "✅"
+                word = "On"
+            else:
+                icon = "❌"
+                word = "Off"
 
-        def make(text: str) -> QWidgetAction:
-            label = QLabel(text)
-            label.setTextFormat(Qt.RichText)
-            label.setContentsMargins(10, 5, 10, 5)
-            label.setObjectName("menu_label")
-            widget_action = QWidgetAction(None)
-            widget_action.setDefaultWidget(label)
-            return widget_action
+            return QAction(f"{icon} {text} {word}")
 
         if Settings.merge:
-            merge = make(f"Merge: {tag_on}")
+            merge = make("Merge", True)
         else:
-            merge = make(f"Merge: {tag_off}")
+            merge = make("Merge", False)
 
         if Settings.score_enabled:
-            score = make(f"Score: {tag_on}")
+            score = make("Score", True)
         else:
-            score = make(f"Score: {tag_off}")
+            score = make("Score", False)
 
         if Settings.travel_enabled:
-            travel = make(f"Travel: {tag_on}")
+            travel = make("Travel", True)
         else:
-            travel = make(f"Travel: {tag_off}")
+            travel = make("Travel", False)
 
         if Settings.think_enabled:
-            think = make(f"Think: {tag_on}")
+            think = make("Think", True)
         else:
-            think = make(f"Think: {tag_off}")
+            think = make("Think", False)
 
         if Settings.words_enabled:
-            words = make(f"Words: {tag_on}")
+            words = make("Words", True)
         else:
-            words = make(f"Words: {tag_off}")
+            words = make("Words", False)
 
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)

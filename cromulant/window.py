@@ -135,7 +135,7 @@ class Window:
         QMenu {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
-            border: 1px solid {Config.alt_border_color};
+            border: 2px solid {Config.alt_border_color};
         }}
 
         QMenu::item:selected {{
@@ -146,7 +146,7 @@ class Window:
         QDialog {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
-            border: 1px solid {Config.alt_border_color};
+            border: 2px solid {Config.alt_border_color};
         }}
 
         QDialog QLabel {{
@@ -207,10 +207,6 @@ class Window:
         QFrame#horizontal_line {{
             background-color: white;
             color: white;
-        }}
-
-        QMenu::separator {{
-            background-color: {Config.separator_color};
         }}
 
         QLabel#menu_label:hover {{
