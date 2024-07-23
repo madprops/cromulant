@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from typing import ClassVar
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -24,69 +25,43 @@ from .settings import Settings
 
 
 class Method:
-    merge = 0
+    merge: ClassVar[dict[str, int]] = {"value": 0, "weight": 1}
 
-    triumph = 1
-    hit = 2
+    triumph: ClassVar[dict[str, int]] = {"value": 1, "weight": 2}
+    hit: ClassVar[dict[str, int]] = {"value": 2, "weight": 2}
 
-    travel = 3
+    travel: ClassVar[dict[str, int]] = {"value": 3, "weight": 2}
 
-    thinking_1 = 4
-    thinking_2 = 5
+    thinking_1: ClassVar[dict[str, int]] = {"value": 4, "weight": 2}
+    thinking_2: ClassVar[dict[str, int]] = {"value": 5, "weight": 2}
 
-    sentence_1 = 6
-    sentence_2 = 7
-    sentence_3 = 8
-    sentence_4 = 9
+    sentence_1: ClassVar[dict[str, int]] = {"value": 6, "weight": 3}
+    sentence_2: ClassVar[dict[str, int]] = {"value": 7, "weight": 3}
+    sentence_3: ClassVar[dict[str, int]] = {"value": 8, "weight": 3}
+    sentence_4: ClassVar[dict[str, int]] = {"value": 9, "weight": 3}
 
-    Opts = tuple[list[int], list[int]]
-
-    @staticmethod
-    def opts_all() -> Opts:
-        opts = [
-            Method.triumph,
-            Method.hit,
-            Method.travel,
-            Method.thinking_1,
-            Method.thinking_2,
-            Method.sentence_1,
-            Method.sentence_2,
-            Method.sentence_3,
-            Method.sentence_4,
-        ]
-
-        weights = [2, 2, 2, 2, 2, 3, 3, 3, 3]
-        return opts, weights
+    Opts = list[dict[str, int]]
 
     @staticmethod
     def opts_score() -> Opts:
-        opts = [Method.triumph, Method.hit]
-        weights = [2, 2]
-        return opts, weights
+        return [Method.triumph, Method.hit]
 
     @staticmethod
     def opts_travel() -> Opts:
-        opts = [Method.travel]
-        weights = [2]
-        return opts, weights
+        return [Method.travel]
 
     @staticmethod
     def opts_thought() -> Opts:
-        opts = [Method.thinking_1, Method.thinking_2]
-        weights = [2, 2]
-        return opts, weights
+        return [Method.thinking_1, Method.thinking_2]
 
     @staticmethod
     def opts_words() -> Opts:
-        opts = [
+        return [
             Method.sentence_1,
             Method.sentence_2,
             Method.sentence_3,
             Method.sentence_4,
         ]
-
-        weights = [2, 2, 2, 2]
-        return opts, weights
 
 
 class Game:
@@ -253,73 +228,77 @@ class Game:
         if not ant:
             return
 
-        mode = Settings.mode
-        nums: list[int]
-        weights: list[int]
+        opts: list[dict[str, int]] = []
 
-        if mode == "all":
-            nums, weights = Method.opts_all()
-        elif mode == "score":
-            nums, weights = Method.opts_score()
-        elif mode == "travel":
-            nums, weights = Method.opts_travel()
-        elif mode == "thought":
-            nums, weights = Method.opts_thought()
-        elif mode == "words":
-            nums, weights = Method.opts_words()
-        else:
+        if Settings.score_enabled:
+            opts.extend(Method.opts_score())
+
+        if Settings.travel_enabled:
+            opts.extend(Method.opts_travel())
+
+        if Settings.thoughts_enabled:
+            opts.extend(Method.opts_thought())
+
+        if Settings.words_enabled:
+            opts.extend(Method.opts_words())
+
+        if not opts:
             return
+
+        nums = [opt["value"] for opt in opts]
+        weights = [opt["weight"] for opt in opts]
 
         if Game.merge_charge < Config.merge_goal:
             Game.merge_charge += 1
 
         if Settings.merge:
             if Game.merge_charge >= Config.merge_goal:
-                nums.insert(0, Method.merge)
-                weights.insert(0, 1)
+                opt = Method.merge
+                nums.insert(0, opt["value"])
+                weights.insert(0, opt["weight"])
 
         num = random.choices(nums, weights=weights, k=1)[0]
 
-        if num == Method.merge:
+        if num == Method.merge["value"]:
             if Ants.merge():
                 Game.merge_charge = 0
                 return
 
-            num = Method.sentence_4
+            num = Method.sentence_4["value"]
 
         status = ""
         method = "normal"
 
-        if num == Method.triumph:
+        if num == Method.triumph["value"]:
             ant.triumph += 1
             method = "triumph"
 
-        elif num == Method.hit:
+        elif num == Method.hit["value"]:
             ant.hits += 1
             method = "hit"
 
-        elif num == Method.travel:
+        elif num == Method.travel["value"]:
             status = Utils.random_country([])
             method = "travel"
 
-        elif num == Method.thinking_1:
+        elif num == Method.thinking_1["value"]:
             status = Utils.random_name([], Ants.get_names())
             method = "thinking"
 
-        elif num == Method.thinking_2:
+        elif num == Method.thinking_2["value"]:
             status = Utils.random_emoji(3)
             method = "thinking"
 
-        elif num == Method.sentence_1:
+        elif num == Method.sentence_1["value"]:
             status = Utils.rand_sentence.simple_sentence()
 
-        elif num == Method.sentence_2:
+        elif num == Method.sentence_2["value"]:
             status = Utils.rand_sentence.bare_bone_sentence()
 
-        elif num == Method.sentence_3:
+        elif num == Method.sentence_3["value"]:
             status = Utils.rand_sentence.bare_bone_with_adjective()
 
-        elif num >= Method.sentence_4:
+        elif num >= Method.sentence_4["value"]:
             status = Utils.rand_sentence.sentence()
 
         else:
