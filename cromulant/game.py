@@ -439,7 +439,7 @@ class Game:
 
         style = f"""
         QMenu::separator {{
-            background-color: {Config.separator_color};
+            background-color: {Config.alt_border_color};
         }}
         """
 
