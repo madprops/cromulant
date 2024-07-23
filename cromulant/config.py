@@ -67,14 +67,19 @@ class Config:
 
         Config.here = Path(__file__).parent
         Config.manifest_path = Config.here / "manifest.json"
-        Config.ants_json = Path(appdirs.user_data_dir()) / "cromulant" / "ants.json"
+        Config.manifest = Storage.get_manifest()
+        Config.title = Config.manifest["title"]
+        Config.program = Config.manifest["program"]
+        Config.version = Config.manifest["version"]
+
+        Config.ants_json = Path(appdirs.user_data_dir()) / Config.program / "ants.json"
 
         if not Config.ants_json.exists():
             Config.ants_json.parent.mkdir(parents=True, exist_ok=True)
             Config.ants_json.write_text("[]")
 
         Config.settings_json = (
-            Path(appdirs.user_config_dir()) / "cromulant" / "settings.json"
+            Path(appdirs.user_config_dir()) / Config.program / "settings.json"
         )
 
         if not Config.settings_json.exists():
@@ -91,8 +96,3 @@ class Config:
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
         Config.logo_path = Config.here / "img" / "logo_3.jpg"
-
-        Config.manifest = Storage.get_manifest()
-        Config.title = Config.manifest["title"]
-        Config.program = Config.manifest["program"]
-        Config.version = Config.manifest["version"]
