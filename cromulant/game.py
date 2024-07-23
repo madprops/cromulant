@@ -430,8 +430,9 @@ class Game:
 
     @staticmethod
     def intro() -> None:
-        version = Config.manifest["version"]
-        Game.message(f"Welcome to Cromulant v{version}")
+        title = Config.title
+        version = Config.version
+        Game.message(f"Welcome to {title} v{version}")
 
     @staticmethod
     def menu() -> None:
@@ -520,7 +521,7 @@ class Game:
     @staticmethod
     def about() -> None:
         lines = [
-            f"Cromulant v{Config.manifest["version"]}    {Config.ant}",
+            f"{Config.title} v{Config.version}    {Config.ant}",
             "Listen to the ants and watch them go.",
             "Just run it and leave it open on your screen.",
             "5% of revenue goes to the local ant shelter.",

@@ -18,8 +18,8 @@ from .filter import Filter
 def main() -> None:
     Config.prepare()
 
-    program = Config.manifest["program"]
-    title = Config.manifest["title"]
+    program = Config.program
+    title = Config.title
 
     pid = f"{program}.pid"
     pid_file = Path(tempfile.gettempdir(), pid)

@@ -6,8 +6,9 @@ import appdirs  # type: ignore
 
 
 class Config:
-    title: str = "Cromulant"
-    program: str = "cromulant"
+    program: str
+    title: str
+    version: str
     width: int = 820
     height: int = 900
     here: Path
@@ -93,3 +94,6 @@ class Config:
         Config.logo_path = Config.here / "img" / "logo_3.jpg"
 
         Config.manifest = Storage.get_manifest()
+        Config.title = Config.manifest["title"]
+        Config.program = Config.manifest["program"]
+        Config.version = Config.manifest["version"]
