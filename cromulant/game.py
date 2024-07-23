@@ -270,11 +270,13 @@ class Game:
         else:
             return
 
-        Game.merge_charge += 1
+        if Game.merge_charge < Config.merge_goal:
+            Game.merge_charge += 1
 
-        if Game.merge_charge >= Config.merge_goal:
-            nums.insert(0, Method.merge)
-            weights.insert(0, 1)
+        if Settings.merge:
+            if Game.merge_charge >= Config.merge_goal:
+                nums.insert(0, Method.merge)
+                weights.insert(0, 1)
 
         num = random.choices(nums, weights=weights, k=1)[0]
 
@@ -467,10 +469,19 @@ class Game:
         menu = QMenu(Window.root.widget())
         update = QAction("Update")
         restart = QAction("Restart")
+
+        if Settings.merge:
+            merge = QAction("Merge: On")
+        else:
+            merge = QAction("Merge: Off")
+
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)
+        merge.triggered.connect(Settings.toggle_merge)
+
         menu.addAction(update)
         menu.addAction(restart)
+        menu.addAction(merge)
         menu.exec_(QCursor.pos())
 
     @staticmethod

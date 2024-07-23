@@ -224,7 +224,7 @@ class Window:
         container = QHBoxLayout()
 
         btn_menu = QPushButton("Menu")
-        btn_menu.setToolTip("Restart with a new set of ants")
+        btn_menu.setToolTip("The main menu")
         btn_menu.clicked.connect(Game.menu)
 
         Window.speed = QComboBox()

@@ -7,6 +7,7 @@ from .storage import Storage
 class Settings:
     speed: str
     mode: str
+    merge: bool
 
     @staticmethod
     def prepare() -> None:
@@ -20,11 +21,14 @@ class Settings:
         mode = Settings.mode.capitalize()
         Window.mode.setCurrentText(mode)
 
+        Settings.merge = settings.get("merge", True)
+
     @staticmethod
     def save() -> None:
         settings = {
             "speed": Settings.speed,
             "mode": Settings.mode,
+            "merge": Settings.merge,
         }
 
         Storage.save_settings(settings)
@@ -37,4 +41,9 @@ class Settings:
     @staticmethod
     def set_mode(mode: str) -> None:
         Settings.mode = mode
+        Settings.save()
+
+    @staticmethod
+    def toggle_merge() -> None:
+        Settings.merge = not Settings.merge
         Settings.save()
