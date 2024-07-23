@@ -449,6 +449,7 @@ class Game:
         restart = QAction("Restart")
         enable_all = QAction("Enable All")
         disable_all = QAction("Disable All")
+        about = QAction("About")
 
         def make(text: str, enabled: bool) -> QAction:
             if enabled:
@@ -494,6 +495,7 @@ class Game:
         words.triggered.connect(Settings.toggle_words_enabled)
         enable_all.triggered.connect(Settings.enable_all)
         disable_all.triggered.connect(Settings.disable_all)
+        about.triggered.connect(Game.about)
 
         menu.addAction(update)
         menu.addAction(restart)
@@ -506,9 +508,22 @@ class Game:
         menu.addSeparator()
         menu.addAction(enable_all)
         menu.addAction(disable_all)
+        menu.addSeparator()
+        menu.addAction(about)
         menu.exec_(QCursor.pos())
 
     @staticmethod
     def force_update() -> None:
         Game.get_status()
         Game.start_loop()
+
+    @staticmethod
+    def about() -> None:
+        lines = [
+            f"Cromulant v{Config.manifest["version"]}",
+            "Listen to the ants and watch them go.",
+            "Just run it and leave it open on your screen.",
+            "5% of revenue goes to the local ant shelter.",
+        ]
+
+        Window.alert("\n\n".join(lines))
