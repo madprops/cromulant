@@ -50,7 +50,7 @@ class Method:
         return [Method.travel]
 
     @staticmethod
-    def opts_thought() -> list[Opt]:
+    def opts_think() -> list[Opt]:
         return [Method.thinking_1, Method.thinking_2]
 
     @staticmethod
@@ -236,7 +236,7 @@ class Game:
             opts.extend(Method.opts_travel())
 
         if Settings.think_enabled:
-            opts.extend(Method.opts_thought())
+            opts.extend(Method.opts_think())
 
         if Settings.words_enabled:
             opts.extend(Method.opts_words())
