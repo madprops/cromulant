@@ -227,7 +227,7 @@ class Ants:
             return [word for word in words if word.lower() not in ignore]
 
         def fill(words: list[str]) -> list[str]:
-            words = remove(words, ["of", "de"])
+            words = remove(words, ["of", "de", "da"])
 
             if len(words) < 2:
                 words.extend(Utils.random_word(2 - len(words)))
