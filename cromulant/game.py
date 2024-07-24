@@ -24,43 +24,53 @@ from .window import Window
 from .settings import Settings
 
 
+class Method:
+    merge = "merge"
+    triumph = "triumph"
+    hit = "hit"
+    travel = "travel"
+    think = "think"
+    words = "words"
+
+
 @dataclass
 class Opt:
     value: int
     weight: int
+    method: str
 
 
-class Method:
-    merge = Opt(0, 1)
-    triumph = Opt(1, 2)
-    hit = Opt(2, 2)
-    travel = Opt(3, 2)
-    thinking_1 = Opt(4, 2)
-    thinking_2 = Opt(5, 2)
-    sentence_1 = Opt(6, 3)
-    sentence_2 = Opt(7, 3)
-    sentence_3 = Opt(8, 3)
-    sentence_4 = Opt(9, 3)
+class Opts:
+    merge = Opt(0, 1, Method.merge)
+    triumph = Opt(1, 2, Method.triumph)
+    hit = Opt(2, 2, Method.hit)
+    travel = Opt(3, 2, Method.travel)
+    think_1 = Opt(4, 2, Method.think)
+    think_2 = Opt(5, 2, Method.think)
+    words_1 = Opt(6, 3, Method.words)
+    words_2 = Opt(7, 3, Method.words)
+    words_3 = Opt(8, 3, Method.words)
+    words_4 = Opt(9, 3, Method.words)
 
     @staticmethod
     def opts_score() -> list[Opt]:
-        return [Method.triumph, Method.hit]
+        return [Opts.triumph, Opts.hit]
 
     @staticmethod
     def opts_travel() -> list[Opt]:
-        return [Method.travel]
+        return [Opts.travel]
 
     @staticmethod
     def opts_think() -> list[Opt]:
-        return [Method.thinking_1, Method.thinking_2]
+        return [Opts.think_1, Opts.think_2]
 
     @staticmethod
     def opts_words() -> list[Opt]:
         return [
-            Method.sentence_1,
-            Method.sentence_2,
-            Method.sentence_3,
-            Method.sentence_4,
+            Opts.words_1,
+            Opts.words_2,
+            Opts.words_3,
+            Opts.words_4,
         ]
 
 
@@ -232,16 +242,16 @@ class Game:
         opts: list[Opt] = []
 
         if Settings.score_enabled:
-            opts.extend(Method.opts_score())
+            opts.extend(Opts.opts_score())
 
         if Settings.travel_enabled:
-            opts.extend(Method.opts_travel())
+            opts.extend(Opts.opts_travel())
 
         if Settings.think_enabled:
-            opts.extend(Method.opts_think())
+            opts.extend(Opts.opts_think())
 
         if Settings.words_enabled:
-            opts.extend(Method.opts_words())
+            opts.extend(Opts.opts_words())
 
         if not opts:
             return
@@ -254,56 +264,61 @@ class Game:
 
         if Settings.merge:
             if Game.merge_charge >= Config.merge_goal:
-                opt = Method.merge
+                opt = Opts.merge
                 values.insert(0, opt.value)
                 weights.insert(0, opt.weight)
 
         value = random.choices(values, weights=weights, k=1)[0]
 
-        if value == Method.merge.value:
+        if value == Opts.merge.value:
             if Ants.merge():
                 Game.merge_charge = 0
                 return
 
-            value = Method.sentence_4.value
+            value = Opts.words_4.value
 
         status = ""
-        method = "normal"
+        method = ""
 
-        if value == Method.triumph.value:
+        if value == Opts.triumph.value:
             ant.triumph += 1
-            method = "triumph"
+            method = Opts.triumph.method
 
-        elif value == Method.hit.value:
+        elif value == Opts.hit.value:
             ant.hits += 1
-            method = "hit"
+            method = Opts.hit.method
 
-        elif value == Method.travel.value:
+        elif value == Opts.travel.value:
             status = Utils.random_country([])
-            method = "travel"
+            method = Opts.travel.method
 
-        elif value == Method.thinking_1.value:
+        elif value == Opts.think_1.value:
             status = Utils.random_name([], Ants.get_names())
-            method = "thinking"
+            method = Opts.think_1.method
 
-        elif value == Method.thinking_2.value:
+        elif value == Opts.think_2.value:
             status = Utils.random_emoji(3)
-            method = "thinking"
+            method = Opts.think_2.method
 
-        elif value == Method.sentence_1.value:
+        elif value == Opts.words_1.value:
             status = Utils.rand_sentence.simple_sentence()
+            method = Opts.words_1.method
 
-        elif value == Method.sentence_2.value:
+        elif value == Opts.words_2.value:
             status = Utils.rand_sentence.bare_bone_sentence()
+            method = Opts.words_2.method
 
-        elif value == Method.sentence_3.value:
+        elif value == Opts.words_3.value:
             status = Utils.rand_sentence.bare_bone_with_adjective()
+            method = Opts.words_3.method
 
-        elif value >= Method.sentence_4.value:
+        elif value >= Opts.words_4.value:
             status = Utils.rand_sentence.sentence()
+            method = Opts.words_4.method
 
         else:
             status = "???"
+            method = "unknown"
 
         Ants.set_status(ant, status, method)
 

@@ -65,20 +65,25 @@ class Ant:
         return tooltip
 
     def get_status(self) -> str:
+        from .game import Method
+
         if (not self.status) and (not self.method):
             return "No update yet"
 
         status = self.status
 
-        if self.method == "triumph":
+        if self.method == Method.triumph:
             total = f"({self.triumph} total)"
             status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
-        elif self.method == "hit":
+
+        elif self.method == Method.hit:
             total = f"({self.hits} total)"
             status = f"{Config.hit_icon} {Config.hit_message} {total}"
-        elif self.method == "thinking":
+
+        elif self.method == Method.think:
             status = f"Thinking about {status}"
-        elif self.method == "travel":
+
+        elif self.method == Method.travel:
             status = f"Traveling to {status}"
 
         return status
