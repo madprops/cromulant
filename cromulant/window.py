@@ -172,7 +172,7 @@ class Window:
         QComboBox QAbstractItemView {{
             background-color: {Config.alt_background_color};
             color: {Config.alt_text_color};
-            border: 1px solid {Config.alt_border_color};
+            border: 2px solid {Config.alt_border_color};
             padding: 6px;
         }}
 
