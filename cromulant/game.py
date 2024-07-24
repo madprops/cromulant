@@ -301,19 +301,19 @@ class Game:
             method = Opts.think_2.method
 
         elif value == Opts.words_1.value:
-            status = Utils.rand_sentence.simple_sentence()
+            status = Utils.words_1()
             method = Opts.words_1.method
 
         elif value == Opts.words_2.value:
-            status = Utils.rand_sentence.bare_bone_sentence()
+            status = Utils.words_2()
             method = Opts.words_2.method
 
         elif value == Opts.words_3.value:
-            status = Utils.rand_sentence.bare_bone_with_adjective()
+            status = Utils.words_3()
             method = Opts.words_3.method
 
         elif value >= Opts.words_4.value:
-            status = Utils.rand_sentence.sentence()
+            status = Utils.words_4()
             method = Opts.words_4.method
 
         else:

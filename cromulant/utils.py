@@ -168,3 +168,19 @@ class Utils:
     @staticmethod
     def capitalize(word: str) -> str:
         return word[0].upper() + word[1:]
+
+    @staticmethod
+    def words_1() -> str:
+        return str(Utils.rand_sentence.simple_sentence())
+
+    @staticmethod
+    def words_2() -> str:
+        return str(Utils.rand_sentence.bare_bone_sentence())
+
+    @staticmethod
+    def words_3() -> str:
+        return str(Utils.rand_sentence.bare_bone_with_adjective())
+
+    @staticmethod
+    def words_4() -> str:
+        return str(Utils.rand_sentence.sentence())
