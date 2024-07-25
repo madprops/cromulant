@@ -561,3 +561,11 @@ class Game:
         ]
 
         Window.alert("\n\n".join(lines))
+
+    @staticmethod
+    def slowdown() -> None:
+        Game.change_speed("slow")
+
+    @staticmethod
+    def change_speed(speed: str) -> None:
+        Window.speed.setCurrentText(speed.capitalize())

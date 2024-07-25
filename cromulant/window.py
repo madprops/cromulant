@@ -46,6 +46,19 @@ class SpecialButton(QPushButton):  # type: ignore
             super().mousePressEvent(e)
 
 
+class SpecialComboBox(QComboBox):  # type: ignore
+    middleClicked = Signal()
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+    def mousePressEvent(self, e: QMouseEvent) -> None:
+        if e.button() == Qt.MiddleButton:
+            self.middleClicked.emit()
+        else:
+            super().mousePressEvent(e)
+
+
 class FilterLineEdit(QLineEdit):  # type: ignore
     def keyPressEvent(self, e: QKeyEvent) -> None:
         if e.key() == Qt.Key_Escape:
@@ -249,7 +262,7 @@ class Window:
         btn_menu.clicked.connect(Game.menu)
         btn_menu.middleClicked.connect(Game.force_update)
 
-        Window.speed = QComboBox()
+        Window.speed = SpecialComboBox()
         tooltip = "The speed of the updates\n"
         tooltip += f"Fast: {Utils.get_seconds(Config.loop_delay_fast)}\n"
         tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
@@ -258,6 +271,7 @@ class Window:
         Window.speed.addItems(["Fast", "Normal", "Slow", "Paused"])
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
+        Window.speed.middleClicked.connect(Game.slowdown)
 
         Window.filter = FilterLineEdit()
         Window.filter.setPlaceholderText("Filter")
