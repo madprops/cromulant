@@ -22,13 +22,28 @@ from PySide6.QtWidgets import QLineEdit
 from PySide6.QtGui import QFontDatabase  # type: ignore
 from PySide6.QtGui import QIcon
 from PySide6.QtGui import QKeyEvent
+from PySide6.QtGui import QMouseEvent
 from PySide6.QtCore import Qt  # type: ignore
 from PySide6.QtCore import QUrl
+from PySide6.QtCore import Signal
 from PySide6.QtMultimedia import QMediaPlayer  # type: ignore
 from PySide6.QtMultimedia import QAudioOutput
 
 from .config import Config
 from .utils import Utils
+
+
+class SpecialButton(QPushButton):  # type: ignore
+    middleClicked = Signal()
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+    def mousePressEvent(self, e: QMouseEvent) -> None:
+        if e.button() == Qt.MiddleButton:
+            self.middleClicked.emit()
+        else:
+            super().mousePressEvent(e)
 
 
 class FilterLineEdit(QLineEdit):  # type: ignore
@@ -229,9 +244,10 @@ class Window:
         root = QWidget()
         container = QHBoxLayout()
 
-        btn_menu = QPushButton("Menu")
+        btn_menu = SpecialButton("Menu")
         btn_menu.setToolTip("The main menu")
         btn_menu.clicked.connect(Game.menu)
+        btn_menu.middleClicked.connect(Game.force_update)
 
         Window.speed = QComboBox()
         tooltip = "The speed of the updates\n"
