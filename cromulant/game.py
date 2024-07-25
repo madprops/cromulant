@@ -191,7 +191,9 @@ class Game:
 
     @staticmethod
     def get_image(ant: Ant) -> QLabel:
-        if ant.method == "hatched":
+        if ant == Ants.top:
+            path = Config.top_image_path
+        elif ant.method == "hatched":
             path = Config.hatched_image_path
         elif ant.method == "terminated":
             path = Config.terminated_image_path
@@ -378,12 +380,11 @@ class Game:
             text.append("Hatch some ants")
         else:
             text.append(f"Ants:{nb}{len(Ants.ants)}")
-            top = Ants.get_top()
+            top = Ants.top
 
             if top:
-                ant = top[0]
-                score = top[1]
-                text.append(f"Top:{nb}{ant.name} ({score})")
+                score = top.get_score()
+                text.append(f"Top:{nb}{top.name} ({score})")
 
         Window.info.setText(Config.info_separator.join(text))
 

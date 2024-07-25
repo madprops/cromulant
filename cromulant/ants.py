@@ -91,11 +91,13 @@ class Ant:
 
 class Ants:
     ants: ClassVar[list[Ant]] = []
+    top: ClassVar[Ant | None] = None
 
     @staticmethod
     def prepare() -> None:
         Ants.get()
         Ants.check()
+        Ants.find_top()
 
     @staticmethod
     def check() -> None:
@@ -121,8 +123,8 @@ class Ants:
     def on_change() -> None:
         from .game import Game
 
-        Ants.save()
         Game.info()
+        Ants.save()
 
     @staticmethod
     def random_ant(ignore: list[Ant] | None = None) -> Ant | None:
@@ -172,9 +174,9 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
+        Ants.find_top()
         Game.update(ant)
-        Game.info()
-        Ants.save()
+        Ants.on_change()
 
     @staticmethod
     def get() -> None:
@@ -202,8 +204,8 @@ class Ants:
         return Utils.random_name(names)
 
     @staticmethod
-    def get_top() -> tuple[Ant, int] | None:
-        top = None
+    def find_top() -> None:
+        top: Ant | None = None
         top_score = 0
 
         for ant in Ants.ants:
@@ -217,9 +219,9 @@ class Ants:
                     top = ant
 
         if not top:
-            return None
+            return
 
-        return top, top_score
+        Ants.top = top
 
     @staticmethod
     def merge(ant_1: Ant | None = None) -> bool:

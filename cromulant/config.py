@@ -16,6 +16,7 @@ class Config:
     icon_path: Path
     status_image_path: Path
     hatched_image_path: Path
+    top_image_path: Path
     terminated_image_path: Path
     names_json: Path
     background_color: str = "rgb(44, 44, 44)"
@@ -91,6 +92,7 @@ class Config:
         Config.icon_path = Config.here / "img" / "icon_1.jpg"
         Config.status_image_path = Config.here / "img" / "icon_2.jpg"
         Config.hatched_image_path = Config.here / "img" / "hatched.jpg"
+        Config.top_image_path = Config.here / "img" / "top.jpg"
         Config.terminated_image_path = Config.here / "img" / "terminated.jpg"
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
