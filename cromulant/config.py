@@ -89,8 +89,8 @@ class Config:
 
         Config.names_json = Config.here / "data" / "names.json"
         Config.countries_json = Config.here / "data" / "countries.json"
-        Config.icon_path = Config.here / "img" / "icon_1.jpg"
-        Config.status_image_path = Config.here / "img" / "icon_2.jpg"
+        Config.icon_path = Config.here / "img" / "icon.jpg"
+        Config.status_image_path = Config.here / "img" / "status.jpg"
         Config.hatched_image_path = Config.here / "img" / "hatched.jpg"
         Config.top_image_path = Config.here / "img" / "top.jpg"
         Config.terminated_image_path = Config.here / "img" / "terminated.jpg"

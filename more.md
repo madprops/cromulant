@@ -10,13 +10,13 @@
 
 ## Assets
 
-![](cromulant/img/icon_1.jpg)
+![](cromulant/img/status.jpg)
 
-![](cromulant/img/icon_2.jpg)
+![](cromulant/img/hatched.jpg)
 
-![](cromulant/img/icon_3.jpg)
+![](cromulant/img/terminated.jpg)
 
-![](cromulant/img/icon_4.jpg)
+![](cromulant/img/top.jpg)
 
 ## Soundtrack
 
