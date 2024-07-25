@@ -13,8 +13,8 @@ from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QAction
-from PySide6.QtCore import QSize
-from PySide6.QtCore import QTimer  # type: ignore
+from PySide6.QtCore import QSize  # type: ignore
+from PySide6.QtCore import QTimer
 from PySide6.QtCore import Qt
 
 from .config import Config
