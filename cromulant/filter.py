@@ -23,17 +23,28 @@ class Filter:
         return str(Window.filter.text()).lower().strip()
 
     @staticmethod
+    def set_value(value: str) -> None:
+        Window.filter.setText(value)
+        Filter.do_filter()
+
+    @staticmethod
+    def clear() -> None:
+        Window.filter.clear()
+        Filter.do_filter()
+
+    @staticmethod
     def filter(event: QKeyEvent | None = None) -> None:
         Filter.debouncer.stop()
         Filter.debouncer.start()
 
     @staticmethod
     def do_filter() -> None:
+        Filter.debouncer.stop()
         value = Filter.get_value()
 
         for i in range(Window.view.count()):
             item = Window.view.itemAt(i)
-            text = Filter.get_filter_text(item)
+            text = Filter.get_text(item)
             hide = True
 
             for txt in text:
@@ -47,7 +58,7 @@ class Filter:
                 item.widget().show()
 
     @staticmethod
-    def get_filter_text(item: QWidget) -> list[str]:
+    def get_text(item: QWidget) -> list[str]:
         text = []
         layout = item.widget().layout()
 

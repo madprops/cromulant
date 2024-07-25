@@ -569,3 +569,18 @@ class Game:
     @staticmethod
     def change_speed(speed: str) -> None:
         Window.speed.setCurrentText(speed.capitalize())
+
+    @staticmethod
+    def filter_top() -> None:
+        from .filter import Filter
+
+        value = Filter.get_value()
+        ant = Ants.top
+
+        if not ant:
+            return
+
+        if value == ant.name.lower():
+            Filter.clear()
+        else:
+            Filter.set_value(ant.name)

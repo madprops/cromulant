@@ -258,7 +258,7 @@ class Window:
         container = QHBoxLayout()
 
         btn_menu = SpecialButton("Menu")
-        btn_menu.setToolTip("The main menu\nMiddle Click to force an update")
+        btn_menu.setToolTip("The main menu\nMiddle Click: Force an update")
         btn_menu.clicked.connect(Game.menu)
         btn_menu.middleClicked.connect(Game.force_update)
 
@@ -359,12 +359,17 @@ class Window:
 
     @staticmethod
     def add_footer() -> None:
+        from .game import Game
+
         root = QWidget()
         root.setContentsMargins(0, 0, 0, 0)
         container = QHBoxLayout()
-        Window.info = QPushButton("---")
-        Window.info.setToolTip("Click to scroll to the bottom or top")
+        Window.info = SpecialButton("---")
+        Window.info.setToolTip(
+            "Click to scroll to the bottom or top\nMiddle Click: Filter Top"
+        )
         Window.info.clicked.connect(Window.toggle_scroll)
+        Window.info.middleClicked.connect(Game.filter_top)
         Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)
         root.setLayout(container)
