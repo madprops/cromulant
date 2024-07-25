@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-from dataclasses import dataclass
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -35,24 +34,28 @@ class Method:
     words = "words"
 
 
-@dataclass
 class Opt:
-    value: int
-    weight: int
-    method: str
+    value = 0
+
+    def __init__(self, weight: int, method: str) -> None:
+        self.value = Opt.value
+        self.weight = weight
+        self.method = method
+
+        Opt.value += 1
 
 
 class Opts:
-    merge = Opt(0, 1, Method.merge)
-    triumph = Opt(1, 2, Method.triumph)
-    hit = Opt(2, 2, Method.hit)
-    travel = Opt(3, 2, Method.travel)
-    think_1 = Opt(4, 2, Method.think)
-    think_2 = Opt(5, 2, Method.think)
-    words_1 = Opt(6, 3, Method.words)
-    words_2 = Opt(7, 3, Method.words)
-    words_3 = Opt(8, 3, Method.words)
-    words_4 = Opt(9, 3, Method.words)
+    merge = Opt(1, Method.merge)
+    triumph = Opt(2, Method.triumph)
+    hit = Opt(2, Method.hit)
+    travel = Opt(2, Method.travel)
+    think_1 = Opt(2, Method.think)
+    think_2 = Opt(2, Method.think)
+    words_1 = Opt(3, Method.words)
+    words_2 = Opt(3, Method.words)
+    words_3 = Opt(3, Method.words)
+    words_4 = Opt(3, Method.words)
 
     @staticmethod
     def opts_score() -> list[Opt]:
