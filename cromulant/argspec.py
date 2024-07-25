@@ -73,7 +73,7 @@ class ArgSpec:
         ArgSpec.add_argument(
             "names",
             type=str,
-            info="Path to a JSON files with a list of names. The game will use these names instead of the default ones",
+            info="Path to a JSON file with a list of names. The game will use these names instead of the default ones",
         )
 
         ArgSpec.add_argument(
