@@ -266,7 +266,8 @@ class Window:
         tooltip = "The speed of the updates\n"
         tooltip += f"Fast: {Utils.get_seconds(Config.loop_delay_fast)}\n"
         tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
-        tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}"
+        tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}\n"
+        tooltip += f"Middle Click: Slow"
         Window.speed.setToolTip(tooltip)
         Window.speed.addItems(["Fast", "Normal", "Slow", "Paused"])
         Window.speed.setCurrentIndex(1)
