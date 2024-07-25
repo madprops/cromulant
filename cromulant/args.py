@@ -9,7 +9,7 @@ from .argspec import ArgSpec
 
 
 class Args:
-    names: Path
+    names: Path | None = None
     images: bool = True
 
     @staticmethod
