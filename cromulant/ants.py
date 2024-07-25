@@ -235,7 +235,14 @@ class Ants:
             words = remove(words, ["of", "de", "da", "the"])
 
             if len(words) < 2:
-                words.extend(Utils.random_word(2 - len(words)))
+                n = random.randint(1, 2)
+
+                if n == 1:
+                    words = Utils.random_words(2 - len(words))
+                else:
+                    words = Utils.make_words(2 - len(words))
+
+                words.extend(words)
 
             return [Utils.capitalize(word) for word in words]
 

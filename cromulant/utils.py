@@ -160,17 +160,16 @@ class Utils:
         return random.choice(filtered)
 
     @staticmethod
-    def random_word(num: int = 1) -> list[str]:
-        words = []
+    def random_word() -> str:
+        word = Utils.rand_word.word(
+            include_parts_of_speech=["nouns", "adjectives"], word_max_length=8
+        )
 
-        for _ in range(num):
-            word = Utils.rand_word.word(
-                include_parts_of_speech=["nouns", "adjectives"], word_max_length=8
-            )
+        return str(word)
 
-            words.append(word)
-
-        return words
+    @staticmethod
+    def random_words(num: int = 1) -> list[str]:
+        return [Utils.random_word() for _ in range(num)]
 
     @staticmethod
     def capitalize(word: str) -> str:
@@ -202,8 +201,11 @@ class Utils:
         return name
 
     @staticmethod
-    def make_name() -> str:
-        word_1 = Utils.make_word()
-        word_2 = Utils.make_word()
+    def make_words(num: int = 1) -> list[str]:
+        return [Utils.make_word() for _ in range(num)]
 
-        return f"{Utils.capitalize(word_1)} {Utils.capitalize(word_2)}"
+    @staticmethod
+    def make_name() -> str:
+        words = Utils.make_words(2)
+        words = [word.capitalize() for word in words]
+        return " ".join(words)
