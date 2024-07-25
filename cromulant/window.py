@@ -39,21 +39,21 @@ class FilterLineEdit(QLineEdit):  # type: ignore
             super().keyPressEvent(e)
 
 
-class ComboBoxDialog(QDialog):  # type: ignore
-    def __init__(self, message: str, options: list[str], defindex: int) -> None:
+class RestartDialog(QDialog):  # type: ignore
+    def __init__(self, sizes: list[str], defindex: int) -> None:
         super().__init__()
         self.setWindowTitle("Select Option")
         self.setFixedSize(300, 150)  # Set a fixed size for the dialog
 
         self.layout = QVBoxLayout()
 
-        self.label = QLabel(message)
+        self.label = QLabel("Size of the population")
         self.layout.addWidget(self.label)
 
-        self.combo_box = QComboBox()
-        self.combo_box.addItems(options)
-        self.combo_box.setCurrentIndex(defindex)
-        self.layout.addWidget(self.combo_box)
+        self.size_combo = QComboBox()
+        self.size_combo.addItems(sizes)
+        self.size_combo.setCurrentIndex(defindex)
+        self.layout.addWidget(self.size_combo)
 
         self.button_layout = QHBoxLayout()
 
@@ -68,9 +68,12 @@ class ComboBoxDialog(QDialog):  # type: ignore
 
         self.layout.addLayout(self.button_layout)
         self.setLayout(self.layout)
+        self.setWindowFlags(Qt.Popup)
 
-    def get_selection(self) -> str:
-        return str(self.combo_box.currentText())
+    def get_data(self) -> dict[str, Any]:
+        return {
+            "size": str(self.size_combo.currentText()),
+        }
 
 
 class Window:
@@ -365,13 +368,3 @@ class Window:
         msg_box.setWindowTitle("Information")
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec()
-
-    @staticmethod
-    def prompt_combobox(message: str, options: list[str], defindex: int = 0) -> str:
-        dialog = ComboBoxDialog(message, options, defindex)
-        dialog.setWindowFlags(Qt.Popup)
-
-        if dialog.exec() == QDialog.Accepted:
-            return dialog.get_selection()
-
-        return ""

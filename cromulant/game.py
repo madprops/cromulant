@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import random
+from typing import Any
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -8,6 +9,7 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QMenu
+from PySide6.QtWidgets import QDialog
 from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
@@ -22,6 +24,7 @@ from .utils import Utils
 from .ants import Ant
 from .ants import Ants
 from .window import Window
+from .window import RestartDialog
 from .settings import Settings
 
 
@@ -409,24 +412,28 @@ class Game:
 
     @staticmethod
     def restart() -> None:
-        opts = ["25", "50", "100", "250"]
+        sizes = ["25", "50", "100", "250"]
         defindex = 0
 
-        for i, opt in enumerate(opts):
+        for i, opt in enumerate(sizes):
             if int(opt) == Config.default_population:
                 defindex = i
                 break
 
-        opts = [f"{opt} ants" for opt in opts]
-        size = Window.prompt_combobox("Size of the population", opts, defindex)
+        size_opts = [f"{opt} ants" for opt in sizes]
+        dialog = RestartDialog(size_opts, defindex)
+        data: dict[str, Any] | None = None
 
-        if not size:
+        if dialog.exec() == QDialog.Accepted:
+            data = dialog.get_data()
+
+        if not data:
             return
 
-        num = int(size.split(" ")[0])
+        size = int(data["size"].split(" ")[0])
 
         Window.clear_view()
-        Ants.populate(num)
+        Ants.populate(size)
         Window.to_top()
         Game.intro()
         Game.start_loop()
