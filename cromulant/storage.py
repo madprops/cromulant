@@ -8,6 +8,7 @@ from .config import Config
 if TYPE_CHECKING:
     from .ants import Ant
 
+from .args import Args
 from .utils import Utils
 
 
@@ -30,7 +31,13 @@ class Storage:
 
     @staticmethod
     def get_names() -> Any:
-        with Config.names_json.open() as file:
+        path = Config.names_json
+
+        if Args.names:
+            if Args.names.exists():
+                path = Args.names
+
+        with path.open() as file:
             return json.load(file)
 
     @staticmethod

@@ -17,6 +17,8 @@ class Utils:
     countries: ClassVar[list[str]] = []
     rand_word: RandomWord
     rand_sentence: RandomSentence
+    vowels = "aeiou"
+    consonants = "bcdfghjklmnpqrstvwxyz"
 
     @staticmethod
     def prepare() -> None:
@@ -103,6 +105,10 @@ class Utils:
                     names.append(name)
 
         filtered = [name for name in Utils.names if name not in ignore]
+
+        if not filtered:
+            return Utils.make_name()
+
         return random.choice(filtered)
 
     @staticmethod
@@ -185,3 +191,19 @@ class Utils:
     @staticmethod
     def words_4() -> str:
         return str(Utils.rand_sentence.sentence())
+
+    @staticmethod
+    def make_word() -> str:
+        name = ""
+        name += random.choice(Utils.consonants)
+        name += random.choice(Utils.vowels)
+        name += random.choice(Utils.consonants)
+        name += random.choice(Utils.vowels)
+        return name
+
+    @staticmethod
+    def make_name() -> str:
+        word_1 = Utils.make_word()
+        word_2 = Utils.make_word()
+
+        return f"{Utils.capitalize(word_1)} {Utils.capitalize(word_2)}"

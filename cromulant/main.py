@@ -13,10 +13,12 @@ from .window import Window
 from .game import Game
 from .settings import Settings
 from .filter import Filter
+from .args import Args
 
 
 def main() -> None:
     Config.prepare()
+    Args.prepare()
 
     program = Config.program
     title = Config.title

@@ -17,6 +17,7 @@ from PySide6.QtCore import QTimer  # type: ignore
 from PySide6.QtCore import Qt
 
 from .config import Config
+from .args import Args
 from .utils import Utils
 from .ants import Ant
 from .ants import Ants
@@ -91,11 +92,15 @@ class Game:
         container = QHBoxLayout()
         root.setContentsMargins(0, 0, 0, 0)
         container.setContentsMargins(0, 0, 0, 0)
-        image_label = Game.get_image(ant)
+
+        if Args.images:
+            image_label = Game.get_image(ant)
+            container.addWidget(image_label)
+
         right_container = Game.make_right_container(ant)
-        container.addWidget(image_label)
-        container.addSpacing(Config.space_1)
         container.addWidget(right_container)
+
+        container.addSpacing(Config.space_1)
         root.setLayout(container)
         Game.add_item(root)
 
