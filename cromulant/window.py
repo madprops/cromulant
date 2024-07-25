@@ -71,7 +71,7 @@ class RestartDialog(QDialog):  # type: ignore
     def __init__(self, sizes: list[str], defindex: int) -> None:
         super().__init__()
         self.setWindowTitle("Select Option")
-        self.setFixedSize(300, 150)  # Set a fixed size for the dialog
+        self.setFixedSize(300, 150)
 
         self.layout = QVBoxLayout()
 
