@@ -13,6 +13,7 @@ from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QAction
+from PySide6.QtCore import QSize
 from PySide6.QtCore import QTimer  # type: ignore
 from PySide6.QtCore import Qt
 
@@ -220,7 +221,8 @@ class Game:
         )
 
         image_label.setPixmap(scaled_pixmap)
-        image_label.setFixedSize(scaled_pixmap.size())
+        adjusted_size = scaled_pixmap.size() + QSize(4, 4)
+        image_label.setFixedSize(adjusted_size)
 
         if color:
             rgb = Utils.get_rgb(color)
