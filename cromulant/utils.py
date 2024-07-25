@@ -10,7 +10,6 @@ from wonderwords import RandomWord, RandomSentence  # type: ignore
 from fontTools.ttLib import TTFont  # type: ignore
 
 from .config import Config
-from .storage import Storage
 
 
 class Utils:
@@ -21,6 +20,8 @@ class Utils:
 
     @staticmethod
     def prepare() -> None:
+        from .storage import Storage
+
         Utils.names = Storage.get_names()
         Utils.countries = Storage.get_countries()
         Utils.rand_word = RandomWord()

@@ -8,12 +8,18 @@ from .config import Config
 if TYPE_CHECKING:
     from .ants import Ant
 
+from .utils import Utils
+
 
 class Storage:
     @staticmethod
     def get_ants() -> Any:
-        with Config.ants_json.open() as file:
-            return json.load(file)
+        try:
+            with Config.ants_json.open() as file:
+                return json.load(file)
+        except Exception as e:
+            Utils.print(str(e))
+            return []
 
     @staticmethod
     def save_ants(ants: list[Ant]) -> None:
@@ -29,8 +35,12 @@ class Storage:
 
     @staticmethod
     def get_settings() -> Any:
-        with Config.settings_json.open() as file:
-            return json.load(file)
+        try:
+            with Config.settings_json.open() as file:
+                return json.load(file)
+        except Exception as e:
+            Utils.print(str(e))
+            return {}
 
     @staticmethod
     def save_settings(settings: dict[str, Any]) -> None:
