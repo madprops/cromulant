@@ -173,12 +173,16 @@ class Utils:
             return ""
 
         word = Utils.rand_word.word(include_parts_of_speech=opts, word_max_length=8)
-
         return str(word)
 
     @staticmethod
-    def random_words(num: int = 1) -> list[str]:
-        return [Utils.random_word() for _ in range(num)]
+    def random_words(num: int = 1, noun: bool = True, adj: bool = True) -> list[str]:
+        return [
+            Utils.random_word(
+                noun=noun,
+            )
+            for _ in range(num)
+        ]
 
     @staticmethod
     def capitalize(word: str) -> str:

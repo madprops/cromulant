@@ -309,7 +309,7 @@ class Game:
             elif n == 2:
                 status = Utils.random_emoji(3)
             elif n == 3:
-                status = Utils.random_words(1)[0].capitalize()
+                status = Utils.random_word(noun=True, adj=False)
 
         elif value == Opts.words.value:
             n = random.randint(1, 4)
