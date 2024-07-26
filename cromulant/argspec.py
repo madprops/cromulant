@@ -105,3 +105,21 @@ class ArgSpec:
             type=str,
             info="Custom title for the window",
         )
+
+        ArgSpec.add_argument(
+            "width",
+            type=int,
+            info="The width of the window in pixels",
+        )
+
+        ArgSpec.add_argument(
+            "height",
+            type=int,
+            info="The height of the window in pixels",
+        )
+
+        ArgSpec.add_argument(
+            "program",
+            type=str,
+            info="The internal name of the program",
+        )

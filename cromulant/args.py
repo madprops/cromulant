@@ -15,6 +15,9 @@ class Args:
     footer: bool = True
     intro: bool = True
     title: str = ""
+    width: int = 0
+    height: int = 0
+    program: str = ""
 
     @staticmethod
     def prepare() -> None:
@@ -36,6 +39,9 @@ class Args:
 
         normals = [
             "title",
+            "width",
+            "height",
+            "program",
         ]
 
         for n_item in normals:
