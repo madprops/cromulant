@@ -13,6 +13,7 @@ class Args:
     images: bool = True
     header: bool = True
     footer: bool = True
+    intro: bool = True
 
     @staticmethod
     def prepare() -> None:
@@ -26,6 +27,7 @@ class Args:
             ("no_images", "images"),
             ("no_header", "header"),
             ("no_footer", "footer"),
+            ("no_intro", "intro"),
         ]
 
         for r_item in other_name:

@@ -91,7 +91,9 @@ class Game:
     def prepare() -> None:
         Game.fill()
         Game.info()
-        Game.intro()
+
+        if Args.intro:
+            Game.intro()
 
     @staticmethod
     def update(ant: Ant) -> None:

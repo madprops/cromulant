@@ -93,3 +93,9 @@ class ArgSpec:
             action="store_false",
             info="Don't show the footer controls",
         )
+
+        ArgSpec.add_argument(
+            "no_intro",
+            action="store_false",
+            info="Don't show the intro message",
+        )
