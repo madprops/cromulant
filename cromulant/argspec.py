@@ -136,3 +136,9 @@ class ArgSpec:
             choices=["fast", "normal", "slow"],
             info="Use this update speed",
         )
+
+        ArgSpec.add_argument(
+            "clean",
+            action="store_true",
+            info="Start with clean ants data",
+        )

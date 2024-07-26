@@ -6,6 +6,7 @@ import itertools
 from typing import ClassVar, Any
 
 from .config import Config
+from .args import Args
 from .utils import Utils
 from .storage import Storage
 
@@ -180,7 +181,10 @@ class Ants:
 
     @staticmethod
     def get() -> None:
-        objs = Storage.get_ants()
+        if Args.clean:
+            objs = []
+        else:
+            objs = Storage.get_ants()
 
         for obj in objs:
             ant = Ant()

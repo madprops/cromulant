@@ -20,6 +20,7 @@ class Args:
     height: int = 0
     program: str = ""
     speed: str = ""
+    clean: bool = False
 
     @staticmethod
     def prepare() -> None:
@@ -45,6 +46,7 @@ class Args:
             "height",
             "program",
             "speed",
+            "clean",
         ]
 
         for n_item in normals:
