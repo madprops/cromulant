@@ -11,6 +11,8 @@ from .argspec import ArgSpec
 class Args:
     names: Path | None = None
     images: bool = True
+    header: bool = True
+    footer: bool = True
 
     @staticmethod
     def prepare() -> None:
@@ -22,6 +24,8 @@ class Args:
 
         other_name = [
             ("no_images", "images"),
+            ("no_header", "header"),
+            ("no_footer", "footer"),
         ]
 
         for r_item in other_name:

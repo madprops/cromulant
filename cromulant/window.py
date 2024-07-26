@@ -30,6 +30,7 @@ from PySide6.QtMultimedia import QMediaPlayer  # type: ignore
 from PySide6.QtMultimedia import QAudioOutput
 
 from .config import Config
+from .args import Args
 from .utils import Utils
 
 
@@ -284,6 +285,10 @@ class Window:
         container.addWidget(Window.filter, 1)
 
         root.setLayout(container)
+
+        if not Args.header:
+            root.setVisible(False)
+
         Window.root.addWidget(root)
 
     @staticmethod
@@ -375,6 +380,10 @@ class Window:
         Window.info.setMinimumSize(35, 35)
         container.addWidget(Window.info)
         root.setLayout(container)
+
+        if not Args.footer:
+            root.setVisible(False)
+
         Window.root.addWidget(root)
 
     @staticmethod

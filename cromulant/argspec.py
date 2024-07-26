@@ -81,3 +81,15 @@ class ArgSpec:
             action="store_false",
             info="Don't show the images on the left",
         )
+
+        ArgSpec.add_argument(
+            "no_header",
+            action="store_false",
+            info="Don't show the header controls",
+        )
+
+        ArgSpec.add_argument(
+            "no_footer",
+            action="store_false",
+            info="Don't show the footer controls",
+        )
