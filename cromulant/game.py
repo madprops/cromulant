@@ -54,10 +54,7 @@ class Opts:
     hit = Opt(2, Method.hit)
     travel = Opt(2, Method.travel)
     think = Opt(2, Method.think)
-    words_1 = Opt(3, Method.words)
-    words_2 = Opt(3, Method.words)
-    words_3 = Opt(3, Method.words)
-    words_4 = Opt(3, Method.words)
+    words = Opt(3, Method.words)
 
     @staticmethod
     def opts_score() -> list[Opt]:
@@ -73,12 +70,7 @@ class Opts:
 
     @staticmethod
     def opts_words() -> list[Opt]:
-        return [
-            Opts.words_1,
-            Opts.words_2,
-            Opts.words_3,
-            Opts.words_4,
-        ]
+        return [Opts.words]
 
 
 class Game:
@@ -291,7 +283,7 @@ class Game:
                 Game.merge_charge = 0
                 return
 
-            value = Opts.words_4.value
+            value = Opts.words.value
 
         status = ""
         method = ""
@@ -319,21 +311,18 @@ class Game:
             elif n == 3:
                 status = Utils.random_words(1)[0].capitalize()
 
-        elif value == Opts.words_1.value:
-            status = Utils.words_1()
-            method = Opts.words_1.method
+        elif value == Opts.words.value:
+            n = random.randint(1, 4)
+            method = Opts.words.method
 
-        elif value == Opts.words_2.value:
-            status = Utils.words_2()
-            method = Opts.words_2.method
-
-        elif value == Opts.words_3.value:
-            status = Utils.words_3()
-            method = Opts.words_3.method
-
-        elif value >= Opts.words_4.value:
-            status = Utils.words_4()
-            method = Opts.words_4.method
+            if n == 1:
+                status = Utils.words_1()
+            elif n == 2:
+                status = Utils.words_2()
+            elif n == 3:
+                status = Utils.words_3()
+            elif n == 4:
+                status = Utils.words_4()
 
         else:
             status = "???"
