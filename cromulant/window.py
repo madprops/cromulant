@@ -19,7 +19,9 @@ from PySide6.QtWidgets import QLayout
 from PySide6.QtWidgets import QSizePolicy
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtWidgets import QLineEdit
-from PySide6.QtGui import QFontDatabase  # type: ignore
+from PySide6.QtGui import QShortcut  # type: ignore
+from PySide6.QtGui import QKeySequence
+from PySide6.QtGui import QFontDatabase
 from PySide6.QtGui import QIcon
 from PySide6.QtGui import QKeyEvent
 from PySide6.QtGui import QMouseEvent
@@ -126,6 +128,7 @@ class Window:
         Window.add_buttons()
         Window.add_view()
         Window.add_footer()
+        Window.setup_keyboard()
 
     @staticmethod
     def make() -> None:
@@ -415,3 +418,8 @@ class Window:
         msg_box.setWindowTitle("Information")
         msg_box.setStandardButtons(QMessageBox.Ok)
         msg_box.exec()
+
+    @staticmethod
+    def setup_keyboard() -> None:
+        on_enter = QShortcut(QKeySequence(Qt.Key_Return), Window.window)
+        on_enter.activated.connect(Window.toggle_scroll)
