@@ -200,12 +200,12 @@ class Game:
 
     @staticmethod
     def get_image(ant: Ant) -> QLabel:
-        if ant == Ants.top:
-            path = Config.top_image_path
-        elif ant.method == "hatched":
+        if ant.method == "hatched":
             path = Config.hatched_image_path
         elif ant.method == "terminated":
             path = Config.terminated_image_path
+        elif ant == Ants.top:
+            path = Config.top_image_path
         else:
             path = Config.status_image_path
 
