@@ -136,7 +136,8 @@ class Window:
         Window.app.setApplicationName(Config.program)
 
         Window.window = QMainWindow()
-        Window.window.setWindowTitle(Config.title)
+        title = Args.title or Config.title
+        Window.window.setWindowTitle(title)
         Window.window.resize(Config.width, Config.height)
 
         central_widget = QWidget()

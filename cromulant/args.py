@@ -14,6 +14,7 @@ class Args:
     header: bool = True
     footer: bool = True
     intro: bool = True
+    title: str = ""
 
     @staticmethod
     def prepare() -> None:
@@ -33,12 +34,19 @@ class Args:
         for r_item in other_name:
             ArgParser.get_value(*r_item)
 
+        normals = [
+            "title",
+        ]
+
+        for n_item in normals:
+            ArgParser.get_value(n_item)
+
         paths = [
             "names",
         ]
 
-        for n_item in paths:
-            ArgParser.get_value(n_item, path=True)
+        for p_item in paths:
+            ArgParser.get_value(p_item, path=True)
 
 
 class ArgParser:

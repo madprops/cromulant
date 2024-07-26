@@ -99,3 +99,9 @@ class ArgSpec:
             action="store_false",
             info="Don't show the intro message",
         )
+
+        ArgSpec.add_argument(
+            "title",
+            type=str,
+            info="Custom title for the window",
+        )
