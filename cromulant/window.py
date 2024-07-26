@@ -258,7 +258,7 @@ class Window:
         container = QHBoxLayout()
 
         btn_menu = SpecialButton("Menu")
-        btn_menu.setToolTip("The main menu\nMiddle Click: Force an update")
+        btn_menu.setToolTip("The main menu\nMiddle Click: Update")
         btn_menu.clicked.connect(Game.menu)
         btn_menu.middleClicked.connect(Game.force_update)
 
