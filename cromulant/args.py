@@ -10,6 +10,7 @@ from .argspec import ArgSpec
 
 class Args:
     names: Path | None = None
+    ants: Path | None = None
     images: bool = True
     header: bool = True
     footer: bool = True
@@ -51,6 +52,7 @@ class Args:
 
         paths = [
             "names",
+            "ants",
         ]
 
         for p_item in paths:
