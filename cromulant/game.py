@@ -53,8 +53,7 @@ class Opts:
     triumph = Opt(2, Method.triumph)
     hit = Opt(2, Method.hit)
     travel = Opt(2, Method.travel)
-    think_1 = Opt(2, Method.think)
-    think_2 = Opt(2, Method.think)
+    think = Opt(2, Method.think)
     words_1 = Opt(3, Method.words)
     words_2 = Opt(3, Method.words)
     words_3 = Opt(3, Method.words)
@@ -70,7 +69,7 @@ class Opts:
 
     @staticmethod
     def opts_think() -> list[Opt]:
-        return [Opts.think_1, Opts.think_2]
+        return [Opts.think]
 
     @staticmethod
     def opts_words() -> list[Opt]:
@@ -309,13 +308,16 @@ class Game:
             status = Utils.random_country([])
             method = Opts.travel.method
 
-        elif value == Opts.think_1.value:
-            status = Utils.random_name([], Ants.get_names())
-            method = Opts.think_1.method
+        elif value == Opts.think.value:
+            n = random.randint(1, 3)
+            method = Opts.think.method
 
-        elif value == Opts.think_2.value:
-            status = Utils.random_emoji(3)
-            method = Opts.think_2.method
+            if n == 1:
+                status = Utils.random_name([], Ants.get_names())
+            elif n == 2:
+                status = Utils.random_emoji(3)
+            elif n == 3:
+                status = Utils.random_words(1)[0].capitalize()
 
         elif value == Opts.words_1.value:
             status = Utils.words_1()

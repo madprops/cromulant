@@ -160,10 +160,19 @@ class Utils:
         return random.choice(filtered)
 
     @staticmethod
-    def random_word() -> str:
-        word = Utils.rand_word.word(
-            include_parts_of_speech=["nouns", "adjectives"], word_max_length=8
-        )
+    def random_word(noun: bool = True, adj: bool = True) -> str:
+        opts = []
+
+        if noun:
+            opts.append("noun")
+
+        if adj:
+            opts.append("adjective")
+
+        if not len(opts):
+            return ""
+
+        word = Utils.rand_word.word(include_parts_of_speech=opts, word_max_length=8)
 
         return str(word)
 
