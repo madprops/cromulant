@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from .args import Args
 from .window import Window
 from .storage import Storage
 
@@ -17,8 +18,14 @@ class Settings:
     @staticmethod
     def prepare() -> None:
         settings = Storage.get_settings()
+        changed = False
 
-        Settings.speed = settings.get("speed", "normal")
+        if Args.speed:
+            Settings.speed = Args.speed
+            changed = True
+        else:
+            Settings.speed = settings.get("speed", "normal")
+
         speed = Settings.speed.capitalize()
         Window.speed.setCurrentText(speed)
 
@@ -28,6 +35,9 @@ class Settings:
         Settings.words_enabled = settings.get("words_enabled", True)
 
         Settings.merge = settings.get("merge", True)
+
+        if changed:
+            Settings.save()
 
     @staticmethod
     def save() -> None:

@@ -123,3 +123,10 @@ class ArgSpec:
             type=str,
             info="The internal name of the program",
         )
+
+        ArgSpec.add_argument(
+            "speed",
+            type=str,
+            choices=["fast", "normal", "slow"],
+            info="Use this update speed",
+        )
