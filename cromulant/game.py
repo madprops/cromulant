@@ -77,6 +77,7 @@ class Game:
     timer: QTimer | None = None
     playing_song: bool = False
     merge_charge: int = 0
+    speed: str = "paused"
 
     @staticmethod
     def prepare() -> None:
@@ -354,8 +355,10 @@ class Game:
         elif speed == "slow":
             minutes = Args.slow_minutes or Config.slow_minutes
         else:
+            Game.speed = "paused"
             return
 
+        Game.speed = speed
         Game.timer = QTimer()
         Game.timer.timeout.connect(Game.get_status)
 
@@ -559,7 +562,10 @@ class Game:
 
     @staticmethod
     def slowdown() -> None:
-        Game.change_speed("slow")
+        if Game.speed == "slow":
+            Game.change_speed("paused")
+        else:
+            Game.change_speed("slow")
 
     @staticmethod
     def change_speed(speed: str) -> None:
