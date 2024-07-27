@@ -106,7 +106,7 @@ class Ants:
     def prepare() -> None:
         Ants.get()
         Ants.check()
-        Ants.find_top()
+        Ants.get_top()
 
     @staticmethod
     def check() -> None:
@@ -183,7 +183,7 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
-        Ants.find_top()
+        Ants.get_top()
         Game.update(ant)
         Ants.on_change()
 
@@ -216,7 +216,7 @@ class Ants:
         return Utils.random_name(names)
 
     @staticmethod
-    def find_top() -> None:
+    def get_top() -> None:
         top: Ant | None = None
         top_score = 0
 
@@ -307,7 +307,7 @@ class Ants:
         Ants.ants.append(ant)
         Game.update(ant)
         Ants.hatch(on_change=False, ignore=[ant_1.name, ant_2.name])
-        Ants.find_top()
+        Ants.get_top()
         Ants.on_change()
         return True
 
