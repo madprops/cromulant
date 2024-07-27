@@ -367,6 +367,7 @@ class Game:
 
     @staticmethod
     def start_loop() -> None:
+        Game.started = True
         Game.timer.stop()
         speed = Settings.speed
 
@@ -454,6 +455,7 @@ class Game:
 
         size = int(data["size"].split(" ")[0])
 
+        Game.started = False
         Window.clear_view()
         Ants.populate(size)
         Window.to_top()
