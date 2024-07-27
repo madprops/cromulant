@@ -159,3 +159,13 @@ Make the arguments document and exit
 Default: False
 
 Action: store_true
+
+---
+
+### score
+
+Show the score on triumph or hits instead of the total of each
+
+Default: False
+
+Action: store_true

@@ -26,6 +26,7 @@ class Args:
     normal_minutes: float = 0.0
     slow_minutes: float = 0.0
     argdoc: bool = False
+    score: bool = False
 
     @staticmethod
     def prepare() -> None:
@@ -56,6 +57,7 @@ class Args:
             "normal_minutes",
             "slow_minutes",
             "argdoc",
+            "score",
         ]
 
         for n_item in normals:

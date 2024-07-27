@@ -74,11 +74,19 @@ class Ant:
         status = self.status
 
         if self.method == Method.triumph:
-            total = f"({self.triumph} total)"
+            if Args.score:
+                total = f"(Score: {self.get_score()})"
+            else:
+                total = f"({self.triumph} total)"
+
             status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
 
         elif self.method == Method.hit:
-            total = f"({self.hits} total)"
+            if Args.score:
+                total = f"(Score: {self.get_score()})"
+            else:
+                total = f"({self.hits} total)"
+
             status = f"{Config.hit_icon} {Config.hit_message} {total}"
 
         elif self.method == Method.think:

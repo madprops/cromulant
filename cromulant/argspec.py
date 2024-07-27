@@ -166,3 +166,9 @@ class ArgSpec:
             action="store_true",
             info="Make the arguments document and exit",
         )
+
+        ArgSpec.add_argument(
+            "score",
+            action="store_true",
+            info="Show the score on triumph or hits instead of the total of each",
+        )
