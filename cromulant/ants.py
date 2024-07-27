@@ -306,7 +306,9 @@ class Ants:
 
         Ants.ants.append(ant)
         Game.update(ant)
-        Ants.hatch(ignore=[ant_1.name, ant_2.name])
+        Ants.hatch(on_change=False, ignore=[ant_1.name, ant_2.name])
+        Ants.find_top()
+        Ants.on_change()
         return True
 
     @staticmethod
