@@ -144,9 +144,9 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
-            "fast_minutes",
-            type=float,
-            info="The number of minutes between fast updates",
+            "fast_seconds",
+            type=int,
+            info="The number of seconds between fast updates",
         )
 
         ArgSpec.add_argument(

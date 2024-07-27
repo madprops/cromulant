@@ -122,13 +122,13 @@ Action: store_true
 
 ---
 
-### fast-minutes
+### fast-seconds
 
-The number of minutes between fast updates
+The number of seconds between fast updates
 
-Default: 0.0
+Default: 0
 
-Type: float
+Type: int
 
 ---
 

@@ -22,7 +22,7 @@ class Args:
     program: str = ""
     speed: str = ""
     clean: bool = False
-    fast_minutes: float = 0.0
+    fast_seconds: int = 0
     normal_minutes: float = 0.0
     slow_minutes: float = 0.0
     argdoc: bool = False
@@ -54,7 +54,7 @@ class Args:
             "program",
             "speed",
             "clean",
-            "fast_minutes",
+            "fast_seconds",
             "normal_minutes",
             "slow_minutes",
             "argdoc",

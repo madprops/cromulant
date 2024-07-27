@@ -282,7 +282,7 @@ class Window:
         Window.speed = SpecialComboBox()
         tooltip = "The speed of the updates\n"
 
-        fast = Args.fast_minutes or Config.fast_minutes
+        fast = (Args.fast_seconds or Config.fast_seconds) / 60
         tooltip += f"Fast: {Utils.get_timeword(fast)}\n"
 
         normal = Args.normal_minutes or Config.normal_minutes

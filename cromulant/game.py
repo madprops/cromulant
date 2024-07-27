@@ -349,7 +349,7 @@ class Game:
         speed = Settings.speed
 
         if speed == "fast":
-            minutes = Args.fast_minutes or Config.fast_minutes
+            minutes = (Args.fast_seconds or Config.fast_seconds) / 60
         elif speed == "normal":
             minutes = Args.normal_minutes or Config.normal_minutes
         elif speed == "slow":
