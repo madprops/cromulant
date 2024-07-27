@@ -348,17 +348,19 @@ class Game:
         speed = Settings.speed
 
         if speed == "fast":
-            delay = Config.loop_delay_fast
+            minutes = Args.fast_minutes or Config.fast_minutes
         elif speed == "normal":
-            delay = Config.loop_delay_normal
+            minutes = Args.normal_minutes or Config.normal_minutes
         elif speed == "slow":
-            delay = Config.loop_delay_slow
+            minutes = Args.slow_minutes or Config.slow_minutes
         else:
             return
 
         Game.timer = QTimer()
         Game.timer.timeout.connect(Game.get_status)
-        Game.timer.start(delay)
+
+        msecs = minutes * 60 * 1000
+        Game.timer.start(msecs)
 
     @staticmethod
     def update_speed() -> None:

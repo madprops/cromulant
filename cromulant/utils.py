@@ -141,18 +141,20 @@ class Utils:
         return dt_object.strftime(f"%b %d %Y - {hour}:%M %p")
 
     @staticmethod
-    def get_seconds(msecs: int) -> str:
-        seconds = msecs // 1000
+    def get_timeword(minutes: float) -> str:
+        if minutes < 1:
+            seconds = round(minutes * 60)
 
-        if seconds < 60:
-            return f"{seconds} seconds"
+            if seconds == 1:
+                return "1 second"
 
-        minutes = seconds // 60
+            if seconds < 60:
+                return f"{seconds} seconds"
 
         if minutes == 1:
             return "1 minute"
 
-        return f"{minutes} minutes"
+        return f"{round(minutes)} minutes"
 
     @staticmethod
     def random_country(ignore: list[str]) -> str:

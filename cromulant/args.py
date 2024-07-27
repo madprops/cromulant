@@ -21,6 +21,9 @@ class Args:
     program: str = ""
     speed: str = ""
     clean: bool = False
+    fast_minutes: float = 0.0
+    normal_minutes: float = 0.0
+    slow_minutes: float = 0.0
 
     @staticmethod
     def prepare() -> None:
@@ -47,6 +50,9 @@ class Args:
             "program",
             "speed",
             "clean",
+            "fast_minutes",
+            "normal_minutes",
+            "slow_minutes",
         ]
 
         for n_item in normals:

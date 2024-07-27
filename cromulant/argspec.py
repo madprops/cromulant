@@ -142,3 +142,21 @@ class ArgSpec:
             action="store_true",
             info="Start with clean ants data",
         )
+
+        ArgSpec.add_argument(
+            "fast_minutes",
+            type=float,
+            info="The number of minutes between fast updates",
+        )
+
+        ArgSpec.add_argument(
+            "normal_minutes",
+            type=float,
+            info="The number of minutes between normal updates",
+        )
+
+        ArgSpec.add_argument(
+            "slow_minutes",
+            type=float,
+            info="The number of minutes between slow updates",
+        )

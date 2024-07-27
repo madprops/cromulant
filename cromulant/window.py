@@ -272,9 +272,16 @@ class Window:
 
         Window.speed = SpecialComboBox()
         tooltip = "The speed of the updates\n"
-        tooltip += f"Fast: {Utils.get_seconds(Config.loop_delay_fast)}\n"
-        tooltip += f"Normal: {Utils.get_seconds(Config.loop_delay_normal)}\n"
-        tooltip += f"Slow: {Utils.get_seconds(Config.loop_delay_slow)}\n"
+
+        fast = Args.fast_minutes or Config.fast_minutes
+        tooltip += f"Fast: {Utils.get_timeword(fast)}\n"
+
+        normal = Args.normal_minutes or Config.normal_minutes
+        tooltip += f"Normal: {Utils.get_timeword(normal)}\n"
+
+        slow = Args.slow_minutes or Config.slow_minutes
+        tooltip += f"Slow: {Utils.get_timeword(slow)}\n"
+
         tooltip += "Middle Click: Slow"
         Window.speed.setToolTip(tooltip)
         Window.speed.addItems(["Fast", "Normal", "Slow", "Paused"])
