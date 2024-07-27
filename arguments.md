@@ -106,7 +106,7 @@ Use this update speed
 
 Default: [Empty string]
 
-Choices: "fast", "normal", "slow"
+Choices: "fast", "normal", "slow", "paused"
 
 Type: str
 
