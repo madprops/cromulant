@@ -24,7 +24,7 @@ class Config:
     image_size: int = 80
     space_1: int = 18
     max_updates: int = 300
-    fast_minutes: float = (1 / 60) * 5  # 5 seconds
+    fast_minutes: float = 5 / 60
     normal_minutes: float = 1
     slow_minutes: float = 5
     font_size: int = 20
