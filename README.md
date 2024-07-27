@@ -65,9 +65,8 @@ This is made with python + qt (pyside6)
 
 ## The name
 
-I read the word `cromulent` being used somewhere which turned out to be invented by The Simpsons.
+I read the word [cromulent](https://www.merriam-webster.com/wordplay/what-does-cromulent-mean) being used somewhere which turned out to be invented by The Simpsons.
 
-[It's in the dictionary now](https://www.merriam-webster.com/wordplay/what-does-cromulent-mean)
 
 I created a new programming project to practice/study and tried to use that word for the name but made a typo.
 
