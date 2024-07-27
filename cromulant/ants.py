@@ -114,9 +114,7 @@ class Ants:
             Ants.populate(Config.default_population)
 
     @staticmethod
-    def hatch(
-        num: int = 1, on_change: bool = True, ignore: list[str] | None = None
-    ) -> None:
+    def hatch(num: int = 1, ignore: list[str] | None = None) -> None:
         from .game import Game
 
         for _ in range(num):
@@ -125,13 +123,13 @@ class Ants:
             Ants.ants.append(ant)
             Game.update(ant)
 
-        if on_change:
-            Ants.on_change()
+        Ants.on_change()
 
     @staticmethod
     def on_change() -> None:
         from .game import Game
 
+        Ants.get_top()
         Game.info()
         Ants.save()
 
@@ -183,7 +181,6 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
-        Ants.get_top()
         Game.update(ant)
         Ants.on_change()
 
@@ -306,9 +303,7 @@ class Ants:
 
         Ants.ants.append(ant)
         Game.update(ant)
-        Ants.hatch(on_change=False, ignore=[ant_1.name, ant_2.name])
-        Ants.get_top()
-        Ants.on_change()
+        Ants.hatch(ignore=[ant_1.name, ant_2.name])
         return True
 
     @staticmethod
