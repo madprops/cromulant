@@ -169,3 +169,13 @@ Show the score on triumph or hits instead of the total of each
 Default: False
 
 Action: store_true
+
+---
+
+### mono
+
+Use a monospace font
+
+Default: False
+
+Action: store_true

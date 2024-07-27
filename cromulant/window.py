@@ -118,6 +118,7 @@ class Window:
     info: QPushButton
     font: str
     emoji_font: str
+    mono_font: str
     player: QMediaPlayer
     audio: QAudioOutput
     filter: QLineEdit
@@ -156,12 +157,16 @@ class Window:
     def set_style() -> None:
         font_id = QFontDatabase.addApplicationFont(str(Config.font_path))
         emoji_font_id = QFontDatabase.addApplicationFont(str(Config.emoji_font_path))
+        mono_font_id = QFontDatabase.addApplicationFont(str(Config.mono_font_path))
 
         if font_id != -1:
             Window.font = QFontDatabase.applicationFontFamilies(font_id)[0]
 
         if emoji_font_id != -1:
             Window.emoji_font = QFontDatabase.applicationFontFamilies(emoji_font_id)[0]
+
+        if mono_font_id != -1:
+            Window.mono_font = QFontDatabase.applicationFontFamilies(mono_font_id)[0]
 
         style = f"""
 
@@ -255,7 +260,11 @@ class Window:
         """.strip()
 
         Window.app.setStyleSheet(style)
-        Window.app.setFont(Window.font)
+
+        if Args.mono:
+            Window.app.setFont(Window.mono_font)
+        else:
+            Window.app.setFont(Window.font)
 
     @staticmethod
     def add_buttons() -> None:

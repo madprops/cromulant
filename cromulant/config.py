@@ -31,6 +31,7 @@ class Config:
     info_separator: str = "  -  "
     font_path: Path
     emoji_font_path: Path
+    mono_font_path: Path
     triumph_color: tuple[int, int, int] = (255, 255, 0)
     hit_color: tuple[int, int, int] = (255, 0, 77)
     triumph_icon: str = "😀"
@@ -97,6 +98,7 @@ class Config:
         Config.terminated_image_path = Config.here / "img" / "terminated.jpg"
         Config.font_path = Config.here / "fonts" / "NotoSans-Regular.ttf"
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
+        Config.mono_font_path = Config.here / "fonts" / "NotoSansMono-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
         Config.logo_path = Config.here / "img" / "logo_3.jpg"
         Config.arguments_path = Config.here / ".." / "arguments.md"
