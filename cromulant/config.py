@@ -63,6 +63,7 @@ class Config:
     icon_off: str = "❌"
     ant: str = "🐜"
     arguments_path: Path
+    fade_duration: int = 500
 
     @staticmethod
     def prepare() -> None:

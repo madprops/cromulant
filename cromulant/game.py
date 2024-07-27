@@ -155,18 +155,18 @@ class Game:
         if fade:
             opacity_effect = QGraphicsOpacityEffect(item)
             item.setGraphicsEffect(opacity_effect)
-            fade_in = QPropertyAnimation(opacity_effect, b"opacity")
-            fade_in.setDuration(500)
-            fade_in.setStartValue(0)
-            fade_in.setEndValue(1)
-            fade_in.setEasingCurve(QEasingCurve.InOutQuad)
-            fade_in.finished.connect(lambda: Game.animations.remove(fade_in))
-            Game.animations.append(fade_in)
+            animation = QPropertyAnimation(opacity_effect, b"opacity")
+            animation.setDuration(Config.fade_duration)
+            animation.setStartValue(0)
+            animation.setEndValue(1)
+            animation.setEasingCurve(QEasingCurve.InOutQuad)
+            animation.finished.connect(lambda: Game.animations.remove(animation))
+            Game.animations.append(animation)
 
         Window.view.insertWidget(0, item)
 
         if fade:
-            fade_in.start()
+            animation.start()
 
         while Window.view.count() > Config.max_updates:
             item = Window.view.takeAt(Window.view.count() - 1)
