@@ -133,7 +133,7 @@ class ArgSpec:
         ArgSpec.add_argument(
             "speed",
             type=str,
-            choices=["fast", "normal", "slow"],
+            choices=["fast", "normal", "slow", "paused"],
             info="Use this update speed",
         )
 
