@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from .config import Config
+from .utils import Utils
 from .argspec import ArgSpec
 
 
@@ -24,6 +25,7 @@ class Args:
     fast_minutes: float = 0.0
     normal_minutes: float = 0.0
     slow_minutes: float = 0.0
+    argdoc: bool = False
 
     @staticmethod
     def prepare() -> None:
@@ -53,6 +55,7 @@ class Args:
             "fast_minutes",
             "normal_minutes",
             "slow_minutes",
+            "argdoc",
         ]
 
         for n_item in normals:
@@ -65,6 +68,91 @@ class Args:
 
         for p_item in paths:
             ArgParser.get_value(p_item, path=True)
+
+    @staticmethod
+    def make_argdoc() -> None:
+        from .utils import Utils
+        from .storage import Storage
+
+        text = Args.argtext()
+        Storage.save_arguments(text)
+        Utils.print("Saved arguments document")
+
+    @staticmethod
+    def argtext(filter_text: str | None = None) -> str:
+        sep = "\n\n---\n\n"
+        text = ""
+        filter_lower = ""
+
+        if not filter_text:
+            text = "# Arguments\n\n"
+            text += "Here are all the available command line arguments:"
+        else:
+            filter_lower = filter_text.lower()
+
+        for key in ArgSpec.arguments:
+            if key == "string_arg":
+                continue
+
+            arg = ArgSpec.arguments[key]
+            info = arg.get("help", "")
+
+            if filter_text:
+                if filter_lower not in key.lower():
+                    if filter_lower not in info.lower():
+                        continue
+
+            text += sep
+            name = key.replace("_", "-")
+            text += f"### {name}"
+
+            if info:
+                text += "\n\n"
+                text += info
+
+            defvalue = ArgSpec.defaults.get(key)
+
+            if defvalue is not None:
+                if isinstance(defvalue, str):
+                    if defvalue == "":
+                        defvalue = "[Empty string]"
+                    elif defvalue.strip() == "":
+                        spaces = defvalue.count(" ")
+                        ds = Utils.singular_or_plural(spaces, "space", "spaces")
+                        defvalue = f"[{spaces} {ds}]"
+                    else:
+                        defvalue = f'"{defvalue}"'
+
+                text += "\n\n"
+                text += f"Default: {defvalue}"
+
+            choices = arg.get("choices", [])
+
+            if choices:
+                text += "\n\n"
+                text += "Choices: "
+
+                choicestr = [
+                    f'"{choice}"' if isinstance(choice, str) else choice
+                    for choice in choices
+                ]
+
+                text += ", ".join(choicestr)
+
+            action = arg.get("action", "")
+
+            if action:
+                text += "\n\n"
+                text += f"Action: {action}"
+
+            argtype = arg.get("type", "")
+
+            if argtype:
+                text += "\n\n"
+                text += f"Type: {argtype.__name__}"
+
+        text += "\n"
+        return text.lstrip()
 
 
 class ArgParser:

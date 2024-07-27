@@ -20,6 +20,10 @@ def main() -> None:
     Config.prepare()
     Args.prepare()
 
+    if Args.argdoc:
+        Args.make_argdoc()
+        sys.exit(0)
+
     program = Config.program
     title = Config.title
 

@@ -160,3 +160,9 @@ class ArgSpec:
             type=float,
             info="The number of minutes between slow updates",
         )
+
+        ArgSpec.add_argument(
+            "argdoc",
+            action="store_true",
+            info="Make the arguments document and exit",
+        )

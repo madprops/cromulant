@@ -61,6 +61,7 @@ class Config:
     icon_on: str = "✅"
     icon_off: str = "❌"
     ant: str = "🐜"
+    arguments_path: Path
 
     @staticmethod
     def prepare() -> None:
@@ -98,3 +99,4 @@ class Config:
         Config.emoji_font_path = Config.here / "fonts" / "NotoEmoji-Regular.ttf"
         Config.song_path = Config.here / "audio" / "March of the Cyber Ants.mp3"
         Config.logo_path = Config.here / "img" / "logo_3.jpg"
+        Config.arguments_path = Config.here / ".." / "arguments.md"

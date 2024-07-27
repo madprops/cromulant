@@ -83,3 +83,8 @@ class Storage:
     def get_manifest() -> Any:
         with Config.manifest_path.open() as file:
             return json.load(file)
+
+    @staticmethod
+    def save_arguments(text: str) -> None:
+        with Config.arguments_path.open("w") as file:
+            file.write(text)
