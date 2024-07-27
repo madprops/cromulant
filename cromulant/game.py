@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any
+from typing import Any, ClassVar
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -10,11 +10,14 @@ from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QMenu
 from PySide6.QtWidgets import QDialog
+from PySide6.QtWidgets import QGraphicsOpacityEffect
 from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QAction
-from PySide6.QtCore import QSize  # type: ignore
+from PySide6.QtCore import QPropertyAnimation  # type: ignore
+from PySide6.QtCore import QEasingCurve
+from PySide6.QtCore import QSize
 from PySide6.QtCore import QTimer
 from PySide6.QtCore import Qt
 
@@ -74,13 +77,18 @@ class Opts:
 
 
 class Game:
-    timer: QTimer | None = None
+    timer: QTimer
     playing_song: bool = False
     merge_charge: int = 0
     speed: str = "paused"
+    animations: ClassVar[list[QPropertyAnimation]] = []
+    started: bool = False
 
     @staticmethod
     def prepare() -> None:
+        Game.timer = QTimer()
+        Game.timer.timeout.connect(Game.get_status)
+
         Game.fill()
         Game.info()
 
@@ -142,7 +150,23 @@ class Game:
     def add_item(item: QWidget) -> None:
         from .filter import Filter
 
+        fade = Game.started and Args.fade
+
+        if fade:
+            opacity_effect = QGraphicsOpacityEffect(item)
+            item.setGraphicsEffect(opacity_effect)
+            fade_in = QPropertyAnimation(opacity_effect, b"opacity")
+            fade_in.setDuration(500)
+            fade_in.setStartValue(0)
+            fade_in.setEndValue(1)
+            fade_in.setEasingCurve(QEasingCurve.InOutQuad)
+            fade_in.finished.connect(lambda: Game.animations.remove(fade_in))
+            Game.animations.append(fade_in)
+
         Window.view.insertWidget(0, item)
+
+        if fade:
+            fade_in.start()
 
         while Window.view.count() > Config.max_updates:
             item = Window.view.takeAt(Window.view.count() - 1)
@@ -343,9 +367,7 @@ class Game:
 
     @staticmethod
     def start_loop() -> None:
-        if Game.timer:
-            Game.timer.stop()
-
+        Game.timer.stop()
         speed = Settings.speed
 
         if speed == "fast":
@@ -359,11 +381,13 @@ class Game:
             return
 
         Game.speed = speed
-        Game.timer = QTimer()
-        Game.timer.timeout.connect(Game.get_status)
-
         msecs = minutes * 60 * 1000
-        Game.timer.start(msecs)
+
+        if msecs < 1000:
+            msecs = 1000
+
+        Game.timer.setInterval(msecs)
+        Game.timer.start()
 
     @staticmethod
     def update_speed() -> None:

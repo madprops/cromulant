@@ -178,3 +178,9 @@ class ArgSpec:
             action="store_true",
             info="Use a monospace font",
         )
+
+        ArgSpec.add_argument(
+            "no_fade",
+            action="store_false",
+            info="Don't apply a fade-in effect on new updates",
+        )

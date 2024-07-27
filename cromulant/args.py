@@ -28,6 +28,7 @@ class Args:
     argdoc: bool = False
     score: bool = False
     mono: bool = False
+    fade: bool = True
 
     @staticmethod
     def prepare() -> None:
@@ -42,6 +43,7 @@ class Args:
             ("no_header", "header"),
             ("no_footer", "footer"),
             ("no_intro", "intro"),
+            ("no_fade", "fade"),
         ]
 
         for r_item in other_name:

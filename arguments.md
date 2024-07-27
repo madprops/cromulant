@@ -179,3 +179,11 @@ Use a monospace font
 Default: False
 
 Action: store_true
+
+---
+
+### no-fade
+
+Don't apply a fade-in effect on new updates
+
+Action: store_false
