@@ -75,4 +75,6 @@ I liked the typo and made a game about ants.
 
 ---
 
+[Command line arguments](arguments.md)
+
 [Click here for more](more.md)
