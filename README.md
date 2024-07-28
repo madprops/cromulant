@@ -93,6 +93,13 @@ The settings file is stored in `~/.config/cromulant/settings.json`
 
 Or the equivalents in non-linux systems.
 
+There is a command line argument to define a custom location for the ants state file.
+This means you can have multiple states to save/load.
+
+There is a command line argument to define a custom location for the names list.
+This means you can use this with another set of names.
+If not enough names are provided the remaining ants are created with random words.
+
 ## Technology
 
 This is made with python + qt (pyside6)
