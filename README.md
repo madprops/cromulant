@@ -1,5 +1,7 @@
 # Cromulant
 
+<img src="cromulant/img/status.jpg" width="180">
+
 [Click here for screenshots](screenshots.md)
 
 ## What is this?
