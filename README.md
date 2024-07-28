@@ -68,8 +68,15 @@ More weight means something is more likely to get picked.
 Then a random number between 0 and length-of-methods-1 is picked.
 For each number an action happens to produce an update.
 
-The top score is calculated as (Triumph - Hits).
+Words (sentences) have more weight compared to the rest of the update methods.
+Some methods roll another number to pick the outcome like in the case of `think`
+where there are 3 `think` types, these can also have custom weights.
+
+The top score is calculated on every new update.
+The score is calculated as (`Triumph` - `Hits`).
 If multiple ants have the same score, the oldest one wins.
+The ant with the top score is shown in the footer.
+The top ant uses a special portrait on updates.
 
 For merge, the words of each name are used.
 They get filled with random words if less than 2 words.
