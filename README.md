@@ -35,6 +35,12 @@ Read [Algorithm](#algorithm) for more information about the mechanics.
 
 ## Installation
 
+First make sure you have `qt` installed in your system.
+
+In arch you can do this with: `sudo pacman -S qt6-base`
+
+In ubuntu/debian you can do this with: `sudo apt install qt6-base-dev`
+
 ### Quick Installation
 
 If you have `pipx` and `linux` installed you can use the following command:
