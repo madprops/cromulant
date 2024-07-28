@@ -1,6 +1,6 @@
 # Cromulant
 
-<img src="cromulant/img/status.jpg" width="180">
+<img src="cromulant/img/status.jpg" width="200">
 
 [Click here for screenshots](screenshots.md)
 
