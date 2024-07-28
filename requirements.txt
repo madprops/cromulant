@@ -2,3 +2,4 @@ PySide6 == 6.7.2
 appdirs == 1.4.4
 wonderwords == 2.2.0
 fonttools == 4.53.1
+pre-commit == 3.7.1
