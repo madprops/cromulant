@@ -97,7 +97,7 @@ Or the equivalents in non-linux systems.
 
 This is made with python + qt (pyside6)
 
-## The name
+## The Name
 
 I read the word [cromulent](https://www.merriam-webster.com/wordplay/what-does-cromulent-mean) being used somewhere which turned out to be invented by The Simpsons.
 
