@@ -106,10 +106,6 @@ There is a command line argument to define a custom location for the names list.
 This means you can use this with another set of names.
 If not enough names are provided the remaining ants are created with random words.
 
-## Technology
-
-This is made with python + qt (pyside6) + wonderwords
-
 ## The Name
 
 I read the word [cromulent](https://www.merriam-webster.com/wordplay/what-does-cromulent-mean) being used somewhere which turned out to be invented by The Simpsons.
