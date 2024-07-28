@@ -39,9 +39,25 @@ Just open it and place it somewhere in your monitor.
 
 ## Installation
 
+### Quick Installation
+
+If you have `pipx` and `linux` installed you can use the following command:
+
 ```sh
 pipx install git+https://github.com/madprops/cromulant --force
 ```
+
+### Advanced Installation
+
+1) Clone this repo.
+
+2) python -m venv venv
+
+3) venv/bin/pip install -r requirements.txt
+
+4) Use `run.sh` or `venv/bin/python -m cromulant.main`
+
+5) (Optional) Manually create desktop entries and icons for the application.
 
 ## Algorithm
 
