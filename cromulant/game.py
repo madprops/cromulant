@@ -57,7 +57,7 @@ class Opts:
     hit = Opt(2, Method.hit)
     travel = Opt(2, Method.travel)
     think = Opt(2, Method.think)
-    words = Opt(3, Method.words)
+    words = Opt(4, Method.words)
 
     @staticmethod
     def opts_score() -> list[Opt]:
@@ -513,30 +513,11 @@ class Game:
 
             return QAction(f"{icon} {text} {word}")
 
-        if Settings.merge:
-            merge = make("Merge", True)
-        else:
-            merge = make("Merge", False)
-
-        if Settings.score_enabled:
-            score = make("Score", True)
-        else:
-            score = make("Score", False)
-
-        if Settings.travel_enabled:
-            travel = make("Travel", True)
-        else:
-            travel = make("Travel", False)
-
-        if Settings.think_enabled:
-            think = make("Think", True)
-        else:
-            think = make("Think", False)
-
-        if Settings.words_enabled:
-            words = make("Words", True)
-        else:
-            words = make("Words", False)
+        merge = make("Merge", Settings.merge)
+        score = make("Score", Settings.score_enabled)
+        travel = make("Travel", Settings.travel_enabled)
+        think = make("Think", Settings.think_enabled)
+        words = make("Words", Settings.words_enabled)
 
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)
