@@ -64,7 +64,6 @@ pipx install git+https://github.com/madprops/cromulant --force
 ### Limitations
 
 Since it's python you will need to remake the virtual env if you rename/move the directory.
-
 And the environment might simply not work after python upgrades, requiring you to remake the virtual env or re-install through pipx.
 
 ## Algorithm <a name="algorithm"></a>
