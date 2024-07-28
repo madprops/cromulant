@@ -6,15 +6,9 @@
 
 This is a kind of toy you can use for your amusement.
 
-You start with random ants from a list of 1000 names.
+It requires minimal interaction, most things happen automatically.
 
-The ants will produce random updates.
-
-The updates can be random non-sensical sentences.
-
-The ants can score triumphs or take hits.
-
-You can adjust the speed of the updates.
+You might want to keep it running in some tiled screen.
 
 ## Usage
 
