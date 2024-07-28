@@ -63,11 +63,6 @@ pipx install git+https://github.com/madprops/cromulant --force
 
 5) (Optional) Manually create desktop entries and icons for the application.
 
-### Limitations
-
-Since it's python you will need to remake the virtual env if you rename/move the directory.
-And the environment might simply not work after python upgrades, requiring you to remake the virtual env or re-install through pipx.
-
 ## Algorithm <a name="algorithm"></a>
 
 A random ant is picked based on weights (oldest update date weighs more).
