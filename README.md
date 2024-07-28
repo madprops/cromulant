@@ -58,7 +58,7 @@ pipx install git+https://github.com/madprops/cromulant --force
 ## Algorithm <a name="algorithm"></a>
 
 A random ant is picked based on weights (oldest update date weighs more).
-Then a random number between 0 and 12 is picked.
+Then a random number between 0 and length-of-methods-1 is picked.
 For each number an action happens to produce an update.
 
 The top score is calculated as (Triumph - Hits).
