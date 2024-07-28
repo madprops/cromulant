@@ -8,7 +8,7 @@ This is a kind of toy you can use for your amusement.
 
 It requires minimal interaction, most things happen automatically.
 
-You might want to keep it running in some tiled screen.
+You might want to keep it running in some tiled layout.
 
 ## Usage
 
