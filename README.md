@@ -102,7 +102,7 @@ If not enough names are provided the remaining ants are created with random word
 
 ## Technology
 
-This is made with python + qt (pyside6)
+This is made with python + qt (pyside6) + wonderwords
 
 ## The Name
 
