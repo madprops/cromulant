@@ -16,22 +16,28 @@ The ants can score triumphs or take hits.
 
 You can adjust the speed of the updates.
 
-## Game Loop
+## Usage
 
-You start a new game with 25 to 250 ants.
+You start with a set of `25` to `250` random ants (`100` by default).
 
-You get to read funny updates from the ants.
+You can specify this anytime through `Restart`. When you restart everything resets to zero like triumphs and hits.
 
-You watch who gets the most triumphs or the most hits.
+There are `1000` names available. This is used as the pool of names to select randomly.
+
+Every x minutes or seconds a new update from a random ant appears.
+
+The content of the update depends on a random number.
+
+It can be a triumph, a hit, travel, thought, sentence.
 
 The ant with the highest score is shown in the footer.
 
 Ants get merged and replaced over time.
 
-All of this happens automatically.
+All of this happens automatically, though you can manually force actions
+by using the mouse on the portraits or main menu. Try click and middle click.
 
-You can manually trigger terminations or merges by
-clicking or middle clicking the images on the left.
+Read [Algorithm](#algorithm) for more information about the mechanics.
 
 ## Installation
 
@@ -55,7 +61,7 @@ pipx install git+https://github.com/madprops/cromulant --force
 
 5) (Optional) Manually create desktop entries and icons for the application.
 
-## Algorithm
+## Algorithm <a name="algorithm"></a>
 
 A random ant is picked based on weights (oldest update date weighs more).
 Then a random number between 0 and 12 is picked.
