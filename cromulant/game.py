@@ -318,8 +318,8 @@ class Game:
             method = Opts.travel.method
 
         elif value == Opts.think.value:
-            n = random.randint(1, 3)
             method = Opts.think.method
+            n = random.choices([1, 2, 3], weights=[1, 2, 2])[0]
 
             if n == 1:
                 status = Utils.random_name([], Ants.get_names())
@@ -329,8 +329,8 @@ class Game:
                 status = Utils.random_word(noun=True, adj=False)
 
         elif value == Opts.words.value:
-            n = random.randint(1, 4)
             method = Opts.words.method
+            n = random.randint(1, 4)
 
             if n == 1:
                 status = Utils.words_1()
