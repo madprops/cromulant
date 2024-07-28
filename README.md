@@ -64,6 +64,7 @@ And the environment might simply not work after python upgrades, requiring you t
 ## Algorithm <a name="algorithm"></a>
 
 A random ant is picked based on weights (oldest update date weighs more).
+More weight means something is more likely to get picked.
 Then a random number between 0 and length-of-methods-1 is picked.
 For each number an action happens to produce an update.
 
