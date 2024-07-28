@@ -104,7 +104,7 @@ I read the word [cromulent](https://www.merriam-webster.com/wordplay/what-does-c
 
 I created a new programming project to practice/study and tried to use that word for the name but made a typo.
 
-I liked the typo and made a game about ants.
+I liked the typo and made a game around it.
 
 ---
 
