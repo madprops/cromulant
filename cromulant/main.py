@@ -48,6 +48,7 @@ def main() -> None:
     Filter.prepare()
     Game.prepare()
     Game.start_loop()
+    Game.started = True
     Window.start()
 
 

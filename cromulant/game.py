@@ -150,22 +150,14 @@ class Game:
     def add_item(item: QWidget) -> None:
         from .filter import Filter
 
-        fade = Game.started and Args.fade
+        animation: QPropertyAnimation | None = None
 
-        if fade:
-            opacity_effect = QGraphicsOpacityEffect(item)
-            item.setGraphicsEffect(opacity_effect)
-            animation = QPropertyAnimation(opacity_effect, b"opacity")
-            animation.setDuration(Config.fade_duration)
-            animation.setStartValue(0)
-            animation.setEndValue(1)
-            animation.setEasingCurve(QEasingCurve.InOutQuad)
-            animation.finished.connect(lambda: Game.animations.remove(animation))
-            Game.animations.append(animation)
+        if Game.started and Args.fade:
+            animation = Game.add_fade(item)
 
         Window.view.insertWidget(0, item)
 
-        if fade:
+        if animation:
             animation.start()
 
         while Window.view.count() > Config.max_updates:
@@ -367,7 +359,6 @@ class Game:
 
     @staticmethod
     def start_loop() -> None:
-        Game.started = True
         Game.timer.stop()
         speed = Settings.speed
 
@@ -456,11 +447,13 @@ class Game:
         size = int(data["size"].split(" ")[0])
 
         Game.started = False
+        Game.timer.stop()
         Window.clear_view()
         Ants.populate(size)
         Window.to_top()
         Game.intro()
         Game.start_loop()
+        Game.started = True
 
     @staticmethod
     def update_size() -> None:
@@ -611,3 +604,16 @@ class Game:
             Filter.clear()
         else:
             Filter.set_value(ant.name)
+
+    @staticmethod
+    def add_fade(item: QWidget) -> QPropertyAnimation:
+        opacity = QGraphicsOpacityEffect(item)
+        item.setGraphicsEffect(opacity)
+        animation = QPropertyAnimation(opacity, b"opacity")
+        animation.setDuration(Config.fade_duration)
+        animation.setStartValue(0)
+        animation.setEndValue(1)
+        animation.setEasingCurve(QEasingCurve.InOutQuad)
+        animation.finished.connect(lambda: Game.animations.remove(animation))
+        Game.animations.append(animation)
+        return animation
