@@ -71,6 +71,14 @@ The triumph and hits get combined.
 The original ants get terminated and the merged one hatches.
 An extra random ant is hatched to fill the gap.
 
+## Storage
+
+The state of ants is stored in `~/.local/share/cromulant/ants.json`
+
+The settings file is stored in `~/.config/cromulant/settings.json`
+
+Or the equivalents in non-linux systems.
+
 ## Technology
 
 This is made with python + qt (pyside6)
