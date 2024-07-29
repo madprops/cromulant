@@ -179,12 +179,7 @@ class Utils:
 
     @staticmethod
     def random_words(num: int = 1, noun: bool = True, adj: bool = True) -> list[str]:
-        return [
-            Utils.random_word(
-                noun=noun,
-            )
-            for _ in range(num)
-        ]
+        return [Utils.random_word(noun=noun) for _ in range(num)]
 
     @staticmethod
     def capitalize(word: str) -> str:
