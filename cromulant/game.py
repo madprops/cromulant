@@ -596,10 +596,10 @@ class Game:
         animation.setEndValue(1)
         animation.setEasingCurve(QEasingCurve.InOutQuad)
 
-        def on_animation_finished() -> None:
+        def on_finish() -> None:
             item.setGraphicsEffect(None)
             Game.animations.remove(animation)
 
-        animation.finished.connect(on_animation_finished)
+        animation.finished.connect(on_finish)
         Game.animations.append(animation)
         return animation
