@@ -83,7 +83,7 @@ The top ant uses a special portrait on updates.
 For merge, the words of each name are used.
 They get filled with random words if less than 2 words.
 One word from each set is picked randomly.
-The triumph and hits get combined.
+The triumph and hits from each ant get combined for the new ant.
 The original ants get terminated and the merged one hatches.
 An extra random ant is hatched to fill the gap.
 
