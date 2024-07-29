@@ -75,7 +75,7 @@ Some methods roll another number to pick the outcome like in the case of `think`
 where there are 3 `think` types, these can also have custom weights.
 
 The top score is calculated on every new update.
-The score is calculated as (`Triumph` - `Hits`).
+The score is calculated as (Triumph - Hits).
 If multiple ants have the same score, the oldest one wins.
 The ant with the top score is shown in the footer.
 The top ant uses a special portrait on updates.
