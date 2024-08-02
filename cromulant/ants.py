@@ -181,8 +181,8 @@ class Ants:
         ant.method = method
         ant.updated = Utils.now()
 
-        Game.update(ant)
         Ants.on_change()
+        Game.update(ant)
 
     @staticmethod
     def get() -> None:
