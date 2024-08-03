@@ -448,6 +448,7 @@ class Game:
 
         Game.started = False
         Game.timer.stop()
+        Game.merge_charge = 0
         Window.clear_view()
         Ants.populate(size)
         Window.to_top()
