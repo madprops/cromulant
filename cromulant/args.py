@@ -29,6 +29,12 @@ class Args:
     score: bool = False
     mono: bool = False
     fade: bool = True
+    weight_merge: int = 1
+    weight_triumph: int = 2
+    weight_hit: int = 2
+    weight_travel: int = 2
+    weight_think: int = 2
+    weight_words: int = 4
 
     @staticmethod
     def prepare() -> None:
@@ -62,6 +68,12 @@ class Args:
             "argdoc",
             "score",
             "mono",
+            "weight_merge",
+            "weight_triumph",
+            "weight_hit",
+            "weight_travel",
+            "weight_think",
+            "weight_words",
         ]
 
         for n_item in normals:

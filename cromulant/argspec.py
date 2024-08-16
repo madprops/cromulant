@@ -34,6 +34,7 @@ class ArgSpec:
     defaults: dict[str, Any]
     arguments: dict[str, Any]
     infos: list[str]
+    weight_info = ", proportional to the other methods. The higher this is, the more likely it is to be picked"
 
     @staticmethod
     def prepare() -> None:
@@ -183,4 +184,40 @@ class ArgSpec:
             "no_fade",
             action="store_false",
             info="Don't apply a fade-in effect on new updates",
+        )
+
+        ArgSpec.add_argument(
+            "weight_merge",
+            type=int,
+            info=f"The weight of the merge method{ArgSpec.weight_info}",
+        )
+
+        ArgSpec.add_argument(
+            "weight_triumph",
+            type=int,
+            info=f"The weight of the triumph method{ArgSpec.weight_info}",
+        )
+
+        ArgSpec.add_argument(
+            "weight_hit",
+            type=int,
+            info=f"The weight of the hit method{ArgSpec.weight_info}",
+        )
+
+        ArgSpec.add_argument(
+            "weight_travel",
+            type=int,
+            info=f"The weight of the travel method{ArgSpec.weight_info}",
+        )
+
+        ArgSpec.add_argument(
+            "weight_think",
+            type=int,
+            info=f"The weight of the think method{ArgSpec.weight_info}",
+        )
+
+        ArgSpec.add_argument(
+            "weight_words",
+            type=int,
+            info=f"The weight of the words method{ArgSpec.weight_info}",
         )

@@ -52,12 +52,23 @@ class Opt:
 
 
 class Opts:
-    merge = Opt(1, Method.merge)
-    triumph = Opt(2, Method.triumph)
-    hit = Opt(2, Method.hit)
-    travel = Opt(2, Method.travel)
-    think = Opt(2, Method.think)
-    words = Opt(4, Method.words)
+    merge: Opt
+    triumph: Opt
+    hit: Opt
+    travel: Opt
+    think: Opt
+    words: Opt
+
+    @staticmethod
+    def prepare() -> None:
+        from .args import Args
+
+        Opts.merge = Opt(Args.weight_merge, Method.merge)
+        Opts.triumph = Opt(Args.weight_triumph, Method.triumph)
+        Opts.hit = Opt(Args.weight_hit, Method.hit)
+        Opts.travel = Opt(Args.weight_travel, Method.travel)
+        Opts.think = Opt(Args.weight_think, Method.think)
+        Opts.words = Opt(Args.weight_words, Method.words)
 
     @staticmethod
     def opts_score() -> list[Opt]:
@@ -86,6 +97,7 @@ class Game:
 
     @staticmethod
     def prepare() -> None:
+        Opts.prepare()
         Game.timer = QTimer()
         Game.timer.timeout.connect(Game.get_status)
 
