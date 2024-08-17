@@ -34,7 +34,6 @@ class ArgSpec:
     defaults: dict[str, Any]
     arguments: dict[str, Any]
     infos: list[str]
-    weight_info = ", proportional to the other methods. The higher this is, the more likely it is to be picked"
 
     @staticmethod
     def prepare() -> None:
@@ -43,6 +42,10 @@ class ArgSpec:
         ArgSpec.arguments = {}
         ArgSpec.infos = []
         ArgSpec.add_arguments()
+
+    @staticmethod
+    def weight_info(what: str) -> str:
+        return f"The weight of the '{what}' method. The greater this value, the higher its chances of being selected"
 
     @staticmethod
     def add_argument(key: str, info: str, **kwargs: Any) -> None:
@@ -189,35 +192,35 @@ class ArgSpec:
         ArgSpec.add_argument(
             "weight_merge",
             type=int,
-            info=f"The weight of the merge method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("merge"),
         )
 
         ArgSpec.add_argument(
             "weight_triumph",
             type=int,
-            info=f"The weight of the triumph method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("triumph"),
         )
 
         ArgSpec.add_argument(
             "weight_hit",
             type=int,
-            info=f"The weight of the hit method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("hit"),
         )
 
         ArgSpec.add_argument(
             "weight_travel",
             type=int,
-            info=f"The weight of the travel method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("travel"),
         )
 
         ArgSpec.add_argument(
             "weight_think",
             type=int,
-            info=f"The weight of the think method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("think"),
         )
 
         ArgSpec.add_argument(
             "weight_words",
             type=int,
-            info=f"The weight of the words method{ArgSpec.weight_info}",
+            info=ArgSpec.weight_info("words"),
         )
