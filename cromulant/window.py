@@ -144,6 +144,9 @@ class Window:
         height = Args.height or Config.height
         Window.window.resize(width, height)
 
+        if Args.maximize:
+            Window.window.showMaximized()
+
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)

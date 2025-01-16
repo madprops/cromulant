@@ -18,6 +18,7 @@ class Args:
     intro: bool = True
     title: str = ""
     width: int = 0
+    maximize: bool = False
     height: int = 0
     program: str = ""
     speed: str = ""
@@ -74,6 +75,7 @@ class Args:
             "weight_travel",
             "weight_think",
             "weight_words",
+            "maximize",
         ]
 
         for n_item in normals:

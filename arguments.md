@@ -187,3 +187,73 @@ Action: store_true
 Don't apply a fade-in effect on new updates
 
 Action: store_false
+
+---
+
+### weight-merge
+
+The weight of the 'merge' method. The greater this value, the higher its chances of being selected
+
+Default: 1
+
+Type: int
+
+---
+
+### weight-triumph
+
+The weight of the 'triumph' method. The greater this value, the higher its chances of being selected
+
+Default: 2
+
+Type: int
+
+---
+
+### weight-hit
+
+The weight of the 'hit' method. The greater this value, the higher its chances of being selected
+
+Default: 2
+
+Type: int
+
+---
+
+### weight-travel
+
+The weight of the 'travel' method. The greater this value, the higher its chances of being selected
+
+Default: 2
+
+Type: int
+
+---
+
+### weight-think
+
+The weight of the 'think' method. The greater this value, the higher its chances of being selected
+
+Default: 2
+
+Type: int
+
+---
+
+### weight-words
+
+The weight of the 'words' method. The greater this value, the higher its chances of being selected
+
+Default: 4
+
+Type: int
+
+---
+
+### maximize
+
+Maximize the window
+
+Default: False
+
+Action: store_true

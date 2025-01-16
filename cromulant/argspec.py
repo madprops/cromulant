@@ -224,3 +224,9 @@ class ArgSpec:
             type=int,
             info=ArgSpec.weight_info("words"),
         )
+
+        ArgSpec.add_argument(
+            "maximize",
+            action="store_true",
+            info="Maximize the window",
+        )
