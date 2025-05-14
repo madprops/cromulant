@@ -87,10 +87,6 @@ class Opts:
     def opts_words() -> list[Opt]:
         return [Opts.words]
 
-    @staticmethod
-    def opts_merge() -> list[Opt]:
-        return [Opts.merge]
-
 
 class Game:
     timer: QTimer
@@ -304,9 +300,6 @@ class Game:
         if Settings.words_enabled:
             opts.extend(Opts.opts_words())
 
-        if Settings.merge:
-            opts.extend(Opts.opts_merge())
-
         if not opts:
             return
 
@@ -335,14 +328,17 @@ class Game:
 
         status = ""
         method = ""
+        is_score = False
 
         if value == Opts.triumph.value:
             ant.triumph += 1
             method = Opts.triumph.method
+            is_score = True
 
         elif value == Opts.hit.value:
             ant.hits += 1
             method = Opts.hit.method
+            is_score = True
 
         elif value == Opts.travel.value:
             status = Utils.random_country([])

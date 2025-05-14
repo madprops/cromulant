@@ -43,8 +43,8 @@ def main() -> None:
 
     Utils.prepare()
     Window.prepare()
-    Ants.prepare()
     Settings.prepare()
+    Ants.prepare()
     Filter.prepare()
     Game.prepare()
     Game.start_loop()
