@@ -9,13 +9,14 @@ from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
 from PySide6.QtWidgets import QFrame
 from PySide6.QtWidgets import QMenu
-from PySide6.QtWidgets import QDialog
 from PySide6.QtWidgets import QGraphicsOpacityEffect
 from PySide6.QtGui import QCursor  # type: ignore
 from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QAction
 from PySide6.QtCore import QPropertyAnimation  # type: ignore
+from PySide6.QtWidgets import QDialogButtonBox
+from PySide6.QtCore import QByteArray
 from PySide6.QtCore import QEasingCurve
 from PySide6.QtCore import QSize
 from PySide6.QtCore import QTimer
@@ -131,21 +132,21 @@ class Game:
         root.setContentsMargins(0, 10, 0, 10)
 
         container = QHBoxLayout()
-        container.setAlignment(Qt.AlignCenter)
+        container.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         left_line = QFrame()
-        left_line.setFrameShape(QFrame.HLine)
-        left_line.setFrameShadow(QFrame.Sunken)
+        left_line.setFrameShape(QFrame.Shape.HLine)
+        left_line.setFrameShadow(QFrame.Shadow.Sunken)
         left_line.setObjectName("horizontal_line")
         left_line.setFixedHeight(2)
         Window.expand_2(left_line)
 
         label = QLabel(text)
-        label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        label.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
 
         right_line = QFrame()
-        right_line.setFrameShape(QFrame.HLine)
-        right_line.setFrameShadow(QFrame.Sunken)
+        right_line.setFrameShape(QFrame.Shape.HLine)
+        right_line.setFrameShadow(QFrame.Shadow.Sunken)
         right_line.setObjectName("horizontal_line")
         right_line.setFixedHeight(2)
         Window.expand_2(right_line)
@@ -173,12 +174,13 @@ class Game:
             animation.start()
 
         while Window.view.count() > Config.max_updates:
-            item = Window.view.takeAt(Window.view.count() - 1)
+            layout_item = Window.view.takeAt(Window.view.count() - 1)
 
-            if item.widget():
-                item.widget().deleteLater()
-            elif item.layout():
-                Window.delete_layout(item.layout())
+            if layout_item:
+                if layout_item.widget():
+                    layout_item.widget().deleteLater()
+                elif layout_item.layout():
+                    Window.delete_layout(layout_item.layout())
 
         Filter.check()
 
@@ -197,17 +199,25 @@ class Game:
         root = QWidget()
         root.setObjectName("view_right")
         container = QVBoxLayout()
-        container.setAlignment(Qt.AlignTop)
+        container.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         title_label = QLabel(title)
-        title_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        title_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+
         title_label.setStyleSheet("font-weight: bold;")
         title_label.setWordWrap(True)
         title_label.setObjectName("view_title")
         Window.expand(title_label)
 
         message_label = QLabel(message)
-        message_label.setTextInteractionFlags(Qt.TextSelectableByMouse)
+
+        message_label.setTextInteractionFlags(
+            Qt.TextInteractionFlag.TextSelectableByMouse
+        )
+
         message_label.setWordWrap(True)
         message_label.setObjectName("view_message")
         Window.expand(message_label)
@@ -244,8 +254,8 @@ class Game:
         scaled_pixmap = pixmap.scaled(
             Config.image_size,
             pixmap.height(),
-            Qt.KeepAspectRatio,
-            Qt.SmoothTransformation,
+            Qt.AspectRatioMode.KeepAspectRatio,
+            Qt.TransformationMode.SmoothTransformation,
         )
 
         image_label.setPixmap(scaled_pixmap)
@@ -385,7 +395,7 @@ class Game:
             return
 
         Game.speed = speed
-        msecs = minutes * 60 * 1000
+        msecs = int(minutes * 60 * 1000)
 
         if msecs < 1000:
             msecs = 1000
@@ -450,7 +460,7 @@ class Game:
         dialog = RestartDialog(size_opts, defindex)
         data: dict[str, Any] | None = None
 
-        if dialog.exec() == QDialog.Accepted:
+        if dialog.exec() == QDialogButtonBox.StandardButton.Ok:
             data = dialog.get_data()
 
         if not data:
@@ -477,13 +487,13 @@ class Game:
         def is_terminated() -> bool:
             return ant.method == "terminated"
 
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             if is_terminated():
                 return
 
             Ants.terminate(ant)
             Game.start_loop()
-        elif event.button() == Qt.MiddleButton:
+        elif event.button() == Qt.MouseButton.MiddleButton:
             if is_terminated():
                 return
 
@@ -531,6 +541,7 @@ class Game:
         travel = make("Travel", Settings.travel_enabled)
         think = make("Think", Settings.think_enabled)
         words = make("Words", Settings.words_enabled)
+        verbose = make("Verbose", Settings.verbose)
 
         update.triggered.connect(Game.force_update)
         restart.triggered.connect(Game.restart)
@@ -539,6 +550,7 @@ class Game:
         travel.triggered.connect(Settings.toggle_travel_enabled)
         think.triggered.connect(Settings.toggle_think_enabled)
         words.triggered.connect(Settings.toggle_words_enabled)
+        verbose.triggered.connect(Settings.toggle_verbose)
         enable_all.triggered.connect(Settings.enable_all)
         disable_all.triggered.connect(Settings.disable_all)
         about.triggered.connect(Game.about)
@@ -551,6 +563,7 @@ class Game:
         menu.addAction(travel)
         menu.addAction(think)
         menu.addAction(words)
+        menu.addAction(verbose)
         menu.addSeparator()
         menu.addAction(enable_all)
         menu.addAction(disable_all)
@@ -603,14 +616,14 @@ class Game:
     def add_fade(item: QWidget) -> QPropertyAnimation:
         opacity = QGraphicsOpacityEffect(item)
         item.setGraphicsEffect(opacity)
-        animation = QPropertyAnimation(opacity, b"opacity")
+        animation = QPropertyAnimation(opacity, QByteArray(b"opacity"))
         animation.setDuration(Config.fade_duration)
         animation.setStartValue(0)
         animation.setEndValue(1)
-        animation.setEasingCurve(QEasingCurve.InOutQuad)
+        animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
 
         def on_finish() -> None:
-            item.setGraphicsEffect(None)
+            item.setGraphicsEffect(None)  # pyright: ignore
             Game.animations.remove(animation)
 
         animation.finished.connect(on_finish)

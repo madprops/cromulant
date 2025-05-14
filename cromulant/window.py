@@ -43,7 +43,7 @@ class SpecialButton(QPushButton):  # type: ignore
         super().__init__(*args, **kwargs)
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        if e.button() == Qt.MiddleButton:
+        if e.button() == Qt.MouseButton.MiddleButton:
             self.middleClicked.emit()
         else:
             super().mousePressEvent(e)
@@ -56,7 +56,7 @@ class SpecialComboBox(QComboBox):  # type: ignore
         super().__init__(*args, **kwargs)
 
     def mousePressEvent(self, e: QMouseEvent) -> None:
-        if e.button() == Qt.MiddleButton:
+        if e.button() == Qt.MouseButton.MiddleButton:
             self.middleClicked.emit()
         else:
             super().mousePressEvent(e)
@@ -64,7 +64,7 @@ class SpecialComboBox(QComboBox):  # type: ignore
 
 class FilterLineEdit(QLineEdit):  # type: ignore
     def keyPressEvent(self, e: QKeyEvent) -> None:
-        if e.key() == Qt.Key_Escape:
+        if e.key() == Qt.Key.Key_Escape:
             self.clear()
         else:
             super().keyPressEvent(e)
@@ -76,15 +76,15 @@ class RestartDialog(QDialog):  # type: ignore
         self.setWindowTitle("Select Option")
         self.setFixedSize(300, 150)
 
-        self.layout = QVBoxLayout()
+        self.main_layout = QVBoxLayout()
 
         self.label = QLabel("Size of the population")
-        self.layout.addWidget(self.label)
+        self.main_layout.addWidget(self.label)
 
         self.size_combo = QComboBox()
         self.size_combo.addItems(sizes)
         self.size_combo.setCurrentIndex(defindex)
-        self.layout.addWidget(self.size_combo)
+        self.main_layout.addWidget(self.size_combo)
 
         self.button_layout = QHBoxLayout()
 
@@ -97,9 +97,9 @@ class RestartDialog(QDialog):  # type: ignore
         self.ok_button.setDefault(True)
         self.button_layout.addWidget(self.ok_button)
 
-        self.layout.addLayout(self.button_layout)
-        self.setLayout(self.layout)
-        self.setWindowFlags(Qt.Popup)
+        self.main_layout.addLayout(self.button_layout)
+        self.setLayout(self.main_layout)
+        self.setWindowFlags(Qt.WindowType.Popup)
 
     def get_data(self) -> dict[str, Any]:
         return {
@@ -150,7 +150,7 @@ class Window:
         central_widget = QWidget()
         Window.root = QVBoxLayout()
         central_widget.setLayout(Window.root)
-        Window.root.setAlignment(Qt.AlignTop)
+        Window.root.setAlignment(Qt.AlignmentFlag.AlignTop)
         Window.window.setCentralWidget(central_widget)
         Window.window.setWindowIcon(QIcon(str(Config.icon_path)))
         Window.root.setContentsMargins(0, 0, 0, 0)
@@ -327,7 +327,7 @@ class Window:
         Window.view = QVBoxLayout()
         parent.addLayout(Window.view)
 
-        Window.view.setAlignment(Qt.AlignTop)
+        Window.view.setAlignment(Qt.AlignmentFlag.AlignTop)
         Window.scroll_area.setWidget(container)
         Window.root.addWidget(Window.scroll_area)
 
@@ -420,8 +420,8 @@ class Window:
         Window.player.setSource(QUrl.fromLocalFile(path))
         Window.audio.setVolume(100)
 
-        def handle_state_change(state: QMediaPlayer.State) -> None:
-            if state == QMediaPlayer.StoppedState:
+        def handle_state_change(state: int) -> None:
+            if state == QMediaPlayer.PlaybackState.StoppedState:
                 if on_stop:
                     on_stop()
 
@@ -435,14 +435,14 @@ class Window:
     @staticmethod
     def alert(message: str) -> None:
         msg_box = QMessageBox()
-        msg_box.setWindowFlags(Qt.Popup)
-        msg_box.setIcon(QMessageBox.Information)
+        msg_box.setWindowFlags(Qt.WindowType.Popup)
+        msg_box.setIcon(QMessageBox.Icon.Information)
         msg_box.setText(message)
         msg_box.setWindowTitle("Information")
-        msg_box.setStandardButtons(QMessageBox.Ok)
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
         msg_box.exec()
 
     @staticmethod
     def setup_keyboard() -> None:
-        on_enter = QShortcut(QKeySequence(Qt.Key_Return), Window.window)
+        on_enter = QShortcut(QKeySequence(Qt.Key.Key_Return), Window.window)
         on_enter.activated.connect(Window.toggle_scroll)

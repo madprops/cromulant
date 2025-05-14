@@ -9,6 +9,7 @@ from .config import Config
 from .args import Args
 from .utils import Utils
 from .storage import Storage
+from .settings import Settings
 
 
 class Ant:
@@ -174,7 +175,7 @@ class Ants:
 
     @staticmethod
     def set_status(ant: Ant, status: str, method: str) -> None:
-        from .game import Game
+        from .game import Game, Opts
 
         status = status.strip()
         ant.status = status
@@ -182,6 +183,11 @@ class Ants:
         ant.updated = Utils.now()
 
         Ants.on_change()
+
+        if method in (Opts.triumph.method, Opts.hit.method, Opts.merge):
+            if not Settings.verbose:
+                return
+
         Game.update(ant)
 
     @staticmethod

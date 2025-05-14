@@ -118,8 +118,7 @@ class Utils:
     @staticmethod
     def random_character(font_path: str, num: int) -> str:
         font = TTFont(font_path)
-        cmap = font["cmap"]
-        unicode_map = cmap.getBestCmap()
+        unicode_map = font.getBestCmap()
         characters = [chr(code_point) for code_point in unicode_map]
 
         for _ in range(10):  # Try up to 10 times

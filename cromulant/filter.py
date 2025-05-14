@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from PySide6.QtWidgets import QWidget  # type: ignore
+from PySide6.QtWidgets import QLayoutItem, QLayout  # type: ignore
 from PySide6.QtGui import QKeyEvent  # type: ignore
 from PySide6.QtCore import QTimer  # type: ignore
+from PySide6.QtWidgets import QLabel, QLineEdit, QPushButton
 
 from .config import Config
 from .window import Window
@@ -58,12 +59,20 @@ class Filter:
                 item.widget().show()
 
     @staticmethod
-    def get_text(item: QWidget) -> list[str]:
-        text = []
-        layout = item.widget().layout()
+    def get_text(item: QLayoutItem) -> list[str]:
+        text: list[str] = []
+        layout: QLayout | None = item.widget().layout()
+
+        if not layout:
+            return text
 
         for i in range(layout.count()):
-            widget = layout.itemAt(i).widget()
+            an_item = layout.itemAt(i)
+
+            if not an_item:
+                continue
+
+            widget = an_item.widget()
 
             if not widget:
                 continue
@@ -75,8 +84,16 @@ class Filter:
 
             layout2 = widget.layout()
 
+            if not layout2:
+                continue
+
             for j in range(layout2.count()):
-                wid = layout2.itemAt(j).widget()
+                an_item_2 = layout2.itemAt(j)
+
+                if not an_item_2:
+                    continue
+
+                wid = an_item_2.widget()
 
                 if not wid:
                     continue
@@ -87,7 +104,8 @@ class Filter:
                     continue
 
                 if (name == "view_title") or (name == "view_message"):
-                    text.append(wid.text().lower())
+                    if isinstance(wid, (QLabel, QLineEdit, QPushButton)):
+                        text.append(wid.text().lower())
 
         return text
 

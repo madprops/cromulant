@@ -14,6 +14,7 @@ class Settings:
     travel_enabled: bool
     think_enabled: bool
     words_enabled: bool
+    verbose: bool
 
     @staticmethod
     def prepare() -> None:
@@ -33,6 +34,7 @@ class Settings:
         Settings.travel_enabled = settings.get("travel_enabled", True)
         Settings.think_enabled = settings.get("think_enabled", True)
         Settings.words_enabled = settings.get("words_enabled", True)
+        Settings.verbose = settings.get("verbose", True)
 
         Settings.merge = settings.get("merge", True)
 
@@ -48,6 +50,7 @@ class Settings:
             "travel_enabled": Settings.travel_enabled,
             "think_enabled": Settings.think_enabled,
             "words_enabled": Settings.words_enabled,
+            "verbose": Settings.verbose,
         }
 
         Storage.save_settings(settings)
@@ -83,12 +86,18 @@ class Settings:
         Settings.save()
 
     @staticmethod
+    def toggle_verbose() -> None:
+        Settings.verbose = not Settings.verbose
+        Settings.save()
+
+    @staticmethod
     def enable_all() -> None:
         Settings.merge = True
         Settings.score_enabled = True
         Settings.travel_enabled = True
         Settings.think_enabled = True
         Settings.words_enabled = True
+        Settings.verbose = True
         Settings.save()
 
     @staticmethod
@@ -98,4 +107,5 @@ class Settings:
         Settings.travel_enabled = False
         Settings.think_enabled = False
         Settings.words_enabled = False
+        Settings.verbose = False
         Settings.save()
