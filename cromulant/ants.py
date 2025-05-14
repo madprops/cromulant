@@ -122,7 +122,9 @@ class Ants:
             ant = Ant()
             ant.name = Ants.random_name(ignore)
             Ants.ants.append(ant)
-            Game.update(ant)
+
+            if Settings.verbose:
+                Game.update(ant)
 
         Ants.on_change()
 
@@ -184,7 +186,7 @@ class Ants:
 
         Ants.on_change()
 
-        if method in (Opts.triumph.method, Opts.hit.method, Opts.merge):
+        if method in (Opts.triumph.method, Opts.hit.method):
             if not Settings.verbose:
                 return
 
@@ -308,7 +310,10 @@ class Ants:
         ant.hits = ant_1.hits + ant_2.hits
 
         Ants.ants.append(ant)
-        Game.update(ant)
+
+        if Settings.verbose:
+            Game.update(ant)
+
         Ants.hatch(ignore=[ant_1.name, ant_2.name])
         return True
 
@@ -326,5 +331,8 @@ class Ants:
         from .game import Game
 
         ant.method = "terminated"
-        Game.update(ant)
+
+        if Settings.verbose:
+            Game.update(ant)
+
         Ants.ants.remove(ant)

@@ -87,6 +87,10 @@ class Opts:
     def opts_words() -> list[Opt]:
         return [Opts.words]
 
+    @staticmethod
+    def opts_merge() -> list[Opt]:
+        return [Opts.merge]
+
 
 class Game:
     timer: QTimer
@@ -300,6 +304,9 @@ class Game:
         if Settings.words_enabled:
             opts.extend(Opts.opts_words())
 
+        if Settings.merge:
+            opts.extend(Opts.opts_merge())
+
         if not opts:
             return
 
@@ -310,7 +317,9 @@ class Game:
             Game.merge_charge += 1
 
         if Settings.merge:
-            if Game.merge_charge >= Config.merge_goal:
+            only_merge = (len(values) == 1) and (values[0] == Opts.merge.value)
+
+            if (Game.merge_charge >= Config.merge_goal) or only_merge:
                 opt = Opts.merge
                 values.insert(0, opt.value)
                 weights.insert(0, opt.weight)
@@ -525,6 +534,7 @@ class Game:
         enable_all = QAction("Enable All")
         disable_all = QAction("Disable All")
         about = QAction("About")
+        close = QAction("Close")
 
         def make(text: str, enabled: bool) -> QAction:
             if enabled:
@@ -554,6 +564,7 @@ class Game:
         enable_all.triggered.connect(Settings.enable_all)
         disable_all.triggered.connect(Settings.disable_all)
         about.triggered.connect(Game.about)
+        close.triggered.connect(Window.close)
 
         menu.addAction(update)
         menu.addAction(restart)
@@ -569,6 +580,7 @@ class Game:
         menu.addAction(disable_all)
         menu.addSeparator()
         menu.addAction(about)
+        menu.addAction(close)
         menu.exec_(QCursor.pos())
 
     @staticmethod
