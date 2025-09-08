@@ -115,6 +115,7 @@ class Window:
     view_scene: QGraphicsScene
     speed: QComboBox
     scroll_area: QScrollArea
+    top: QPushButton
     info: QPushButton
     font: str
     emoji_font: str
@@ -300,14 +301,18 @@ class Window:
         Window.speed.setCurrentIndex(1)
         Window.speed.currentIndexChanged.connect(Game.update_speed)
         Window.speed.middleClicked.connect(Game.slowdown)
+        Window.top = SpecialButton("Top")
 
+        Window.top.setToolTip("Scroll To Top")
+
+        Window.top.clicked.connect(Window.to_top)
         Window.filter = FilterLineEdit()
         Window.filter.setPlaceholderText("Filter")
-        Window.filter.mousePressEvent = lambda e: Window.to_top()
         Window.filter.keyReleaseEvent = lambda e: Filter.filter(e)
 
         container.addWidget(btn_menu, 1)
         container.addWidget(Window.speed, 1)
+        container.addWidget(Window.top, 1)
         container.addWidget(Window.filter, 1)
 
         root.setLayout(container)

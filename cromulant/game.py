@@ -288,8 +288,7 @@ class Game:
 
         opts: list[Opt] = []
 
-        if Settings.score_enabled:
-            opts.extend(Opts.opts_score())
+        opts.extend(Opts.opts_score())
 
         if Settings.travel_enabled:
             opts.extend(Opts.opts_travel())
@@ -328,17 +327,20 @@ class Game:
 
         status = ""
         method = ""
-        is_score = False
 
-        if value == Opts.triumph.value:
-            ant.triumph += 1
-            method = Opts.triumph.method
-            is_score = True
+        is_score_event = (value == Opts.triumph.value) or (value == Opts.hit.value)
 
-        elif value == Opts.hit.value:
-            ant.hits += 1
-            method = Opts.hit.method
-            is_score = True
+        if is_score_event:
+            if value == Opts.triumph.value:
+                ant.triumph += 1
+                method = Opts.triumph.method
+            else:
+                ant.hits += 1
+                method = Opts.hit.method
+
+            if not Settings.score_enabled:
+                Game.get_status()
+                return
 
         elif value == Opts.travel.value:
             status = Utils.random_country([])
