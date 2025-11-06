@@ -53,15 +53,23 @@ class Filter:
                     hide = False
                     break
 
-            if hide:
-                item.widget().hide()
-            else:
-                item.widget().show()
+            widget = item.widget()
+
+            if widget:
+                if hide:
+                    widget.hide()
+                else:
+                    widget.show()
 
     @staticmethod
     def get_text(item: QLayoutItem) -> list[str]:
         text: list[str] = []
-        layout: QLayout | None = item.widget().layout()
+        wid = item.widget()
+
+        if not wid:
+            return text
+
+        layout: QLayout | None = wid.layout()
 
         if not layout:
             return text

@@ -350,8 +350,10 @@ class Window:
     def delete_layout(layout: QLayout) -> None:
         while layout.count():
             item = layout.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
             elif item.layout():
                 Window.delete_layout(item.layout())
 
@@ -369,8 +371,10 @@ class Window:
     def clear_view() -> None:
         while Window.view.count():
             item = Window.view.takeAt(0)
-            if item.widget():
-                item.widget().deleteLater()
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
             elif item.layout():
                 Window.delete_layout(item.layout())
 

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import random
-from typing import Any, ClassVar
+from typing import ClassVar
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
 from PySide6.QtWidgets import QVBoxLayout
@@ -15,7 +15,6 @@ from PySide6.QtGui import QMouseEvent
 from PySide6.QtGui import QPixmap
 from PySide6.QtGui import QAction
 from PySide6.QtCore import QPropertyAnimation  # type: ignore
-from PySide6.QtWidgets import QDialogButtonBox
 from PySide6.QtCore import QByteArray
 from PySide6.QtCore import QEasingCurve
 from PySide6.QtCore import QSize
@@ -95,6 +94,7 @@ class Game:
     speed: str = "paused"
     animations: ClassVar[list[QPropertyAnimation]] = []
     started: bool = False
+    restart_dialog: ClassVar[RestartDialog | None] = None
 
     @staticmethod
     def prepare() -> None:
@@ -175,10 +175,11 @@ class Game:
 
         while Window.view.count() > Config.max_updates:
             layout_item = Window.view.takeAt(Window.view.count() - 1)
+            widget = layout_item.widget()
 
             if layout_item:
-                if layout_item.widget():
-                    layout_item.widget().deleteLater()
+                if widget:
+                    widget.deleteLater()
                 elif layout_item.layout():
                     Window.delete_layout(layout_item.layout())
 
@@ -465,16 +466,28 @@ class Game:
 
         size_opts = [f"{opt} ants" for opt in sizes]
         dialog = RestartDialog(size_opts, defindex)
-        data: dict[str, Any] | None = None
+        Game.restart_dialog = dialog
 
-        if dialog.exec() == QDialogButtonBox.StandardButton.Ok:
+        def on_accept() -> None:
             data = dialog.get_data()
 
-        if not data:
-            return
+            if data:
+                size = int(data["size"].split(" ")[0])
+                Game.perform_restart(size)
 
-        size = int(data["size"].split(" ")[0])
+            Game.restart_dialog = None
+            dialog.deleteLater()
 
+        def on_reject() -> None:
+            Game.restart_dialog = None
+            dialog.deleteLater()
+
+        dialog.accepted.connect(on_accept)
+        dialog.rejected.connect(on_reject)
+        dialog.open()
+
+    @staticmethod
+    def perform_restart(size: int) -> None:
         Game.started = False
         Game.timer.stop()
         Game.merge_charge = 0
