@@ -332,16 +332,16 @@ class Game:
         is_score_event = (value == Opts.triumph.value) or (value == Opts.hit.value)
 
         if is_score_event:
+            if not Settings.score_enabled:
+                Game.get_status()
+                return
+
             if value == Opts.triumph.value:
                 ant.triumph += 1
                 method = Opts.triumph.method
             else:
                 ant.hits += 1
                 method = Opts.hit.method
-
-            if not Settings.score_enabled:
-                Game.get_status()
-                return
 
         elif value == Opts.travel.value:
             status = Utils.random_country([])

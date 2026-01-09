@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+import math
 import random
 import itertools
 from typing import ClassVar, Any
@@ -96,7 +97,8 @@ class Ant:
         elif self.method == Method.travel:
             status = f"Traveling to {status}"
 
-        return status
+        counts = f" (Triumphs: {self.triumph} | Hits: {self.hits})"
+        return f"{status}{counts}"
 
 
 class Ants:
@@ -223,16 +225,23 @@ class Ants:
     @staticmethod
     def get_top() -> None:
         top: Ant | None = None
-        top_score = 0
+        top_weighted = float("-inf")
+        top_score = float("-inf")
 
         for ant in Ants.ants:
             score = ant.get_score()
+            log_factor = 1 + math.log(ant.triumph + 1)
+            weighted_score = score * log_factor
 
-            if (not top) or (score > top_score):
+            if (not top) or (weighted_score > top_weighted):
                 top = ant
+                top_weighted = weighted_score
                 top_score = score
-            elif score == top_score:
-                if ant.created < top.created:
+            elif weighted_score == top_weighted:
+                if score > top_score:
+                    top = ant
+                    top_score = score
+                elif (score == top_score) and (ant.created < top.created):
                     top = ant
 
         if not top:
