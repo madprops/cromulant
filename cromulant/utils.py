@@ -119,6 +119,10 @@ class Utils:
     def random_character(font_path: str, num: int) -> str:
         font = TTFont(font_path)
         unicode_map = font.getBestCmap()
+
+        if not unicode_map:
+            return ""
+
         characters = [chr(code_point) for code_point in unicode_map]
 
         for _ in range(10):  # Try up to 10 times

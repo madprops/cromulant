@@ -67,6 +67,9 @@ class Ant:
         tooltip += "\nMiddle Click to Merge"
         return tooltip
 
+    def get_counts(self) -> str:
+        return f" ({self.triumph} - {self.hits} = {self.triumph - self.hits})"
+
     def get_status(self) -> str:
         from .game import Method
 
@@ -76,20 +79,12 @@ class Ant:
         status = self.status
 
         if self.method == Method.triumph:
-            if Args.score:
-                total = f"(Score: {self.get_score()})"
-            else:
-                total = f"({self.triumph} total)"
-
-            status = f"{Config.triumph_icon} {Config.triumph_message} {total}"
+            counts = self.get_counts()
+            status = f"{Config.triumph_icon} {Config.triumph_message} {counts}"
 
         elif self.method == Method.hit:
-            if Args.score:
-                total = f"(Score: {self.get_score()})"
-            else:
-                total = f"({self.hits} total)"
-
-            status = f"{Config.hit_icon} {Config.hit_message} {total}"
+            counts = self.get_counts()
+            status = f"{Config.hit_icon} {Config.hit_message} {counts}"
 
         elif self.method == Method.think:
             status = f"Thinking about {status}"
@@ -97,8 +92,7 @@ class Ant:
         elif self.method == Method.travel:
             status = f"Traveling to {status}"
 
-        counts = f" (Triumphs: {self.triumph} | Hits: {self.hits})"
-        return f"{status}{counts}"
+        return status
 
 
 class Ants:
