@@ -87,6 +87,8 @@ The triumph and hits from each ant get combined for the new ant.
 The original ants get terminated and the merged one hatches.
 An extra random ant is hatched to fill the gap.
 
+There's a logarithmic formula to make ants with more triumphs have more weight when picking who the top ant is, instead of just basing it on the balance.
+
 ## Storage
 
 The state of ants is stored in `~/.local/share/cromulant/ants.json`
