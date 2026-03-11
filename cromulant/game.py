@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-import os
 import shutil
 import subprocess
 import tempfile
 import random
-from PySide6.QtWidgets import QApplication
+from pathlib import Path
+from PySide6.QtWidgets import QApplication  # type: ignore
 from typing import ClassVar
 
-from PySide6.QtWidgets import QHBoxLayout  # type: ignore
+from PySide6.QtWidgets import QHBoxLayout
 from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QLabel
 from PySide6.QtWidgets import QWidget
@@ -102,7 +102,7 @@ class Game:
     restart_dialog: ClassVar[RestartDialog | None] = None
     simulate_timer: ClassVar[QTimer | None] = None
     simulate_tick: int = 0
-    simulate_dir: str = ""
+    simulate_dir: Path = Path()
 
     @staticmethod
     def prepare() -> None:
@@ -425,38 +425,15 @@ class Game:
         Game.timer.start()
 
     @staticmethod
-    def start_simulation() -> None:
-        Game.simulate_dir = tempfile.mkdtemp(prefix="ants_sim_")
-        Game.simulate_tick = 0
-        Game.simulate_timer = QTimer()
-        Game.simulate_timer.timeout.connect(Game.simulation_step)
-        Game.simulate_timer.start(0)
-
-    @staticmethod
-    def simulation_step() -> None:
-        if Game.simulate_tick >= Args.simulate:
-            Game.simulate_timer.stop()
-            Game.finish_simulation()
-            return
-
-        Game.get_status()
-        QApplication.processEvents()
-        top_widget = Window.view.parentWidget().window()
-        pixmap = top_widget.grab()
-        frame_path = os.path.join(Game.simulate_dir, f"frame_{Game.simulate_tick:04d}.png")
-        pixmap.save(frame_path)
-        Game.simulate_tick += 1
-
-    @staticmethod
     def get_output_filename() -> str:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        nouns_path = os.path.join(current_dir, "data", "nouns.txt")
+        current_dir = Path(__file__).parent.resolve()
+        nouns_path = current_dir / "data" / "nouns.txt"
 
-        if not os.path.exists(nouns_path):
+        if not nouns_path.exists():
             Utils.print(f"Warning: Could not find {nouns_path}")
             base_name = "simulation"
         else:
-            with open(nouns_path, "r", encoding="utf-8") as file:
+            with nouns_path.open("r", encoding="utf-8") as file:
                 nouns = [line.strip() for line in file if line.strip()]
 
             if not nouns:
@@ -466,42 +443,74 @@ class Game:
                 word2 = random.choice(nouns)
                 base_name = f"{word1}_{word2}"
 
-        working_dir = os.getcwd()
-        videos_dir = os.path.join(working_dir, "videos")
+        videos_dir = Path.cwd() / "videos"
 
-        if not os.path.exists(videos_dir):
-            os.makedirs(videos_dir)
+        if not videos_dir.exists():
+            videos_dir.mkdir(parents=True, exist_ok=True)
 
-        output_file = os.path.join(videos_dir, f"{base_name}.mp4")
+        output_file = videos_dir / f"{base_name}.mp4"
+
         counter = 2
 
-        while os.path.exists(output_file):
-            output_file = os.path.join(videos_dir, f"{base_name}_{counter}.mp4")
+        while output_file.exists():
+            output_file = videos_dir / f"{base_name}_{counter}.mp4"
             counter += 1
 
-        return output_file
+        return str(output_file)
+
+    @staticmethod
+    def start_simulation() -> None:
+        Game.simulate_dir = Path(tempfile.mkdtemp(prefix="ants_sim_"))
+        Game.simulate_tick = 0
+        Game.simulate_timer = QTimer()
+        Game.simulate_timer.timeout.connect(Game.simulation_step)
+        Game.simulate_timer.start(0)
+
+    @staticmethod
+    def simulation_step() -> None:
+        if Game.simulate_timer and (Game.simulate_tick >= Args.simulate):
+            Game.simulate_timer.stop()
+            Game.finish_simulation()
+            return
+
+        Game.get_status()
+
+        QApplication.processEvents()
+
+        top_widget = Window.view.parentWidget().window()
+        pixmap = top_widget.grab()
+
+        frame_path = Game.simulate_dir / f"frame_{Game.simulate_tick:04d}.png"
+
+        # PySide6 expects a string for the save path
+        pixmap.save(str(frame_path))
+
+        Game.simulate_tick += 1
 
     @staticmethod
     def finish_simulation() -> None:
         Utils.print(f"Encoding {Game.simulate_tick} frames...")
 
         output_file = Game.get_output_filename()
-        input_pattern = os.path.join(Game.simulate_dir, "frame_%04d.png")
+        input_pattern = str(Game.simulate_dir / "frame_%04d.png")
 
         try:
             subprocess.run(
                 [
                     "ffmpeg",
                     "-y",
-                    "-framerate", "1",  # 1 frame per second = 1 second delay per frame
-                    "-i", input_pattern,
-                    "-c:v", "libx264",
-                    "-pix_fmt", "yuv420p",
-                    output_file
+                    "-framerate",
+                    "1",
+                    "-i",
+                    input_pattern,
+                    "-c:v",
+                    "libx264",
+                    "-pix_fmt",
+                    "yuv420p",
+                    output_file,
                 ],
                 check=True,
             )
-
             Utils.print(f"Video saved to {output_file}")
         except subprocess.CalledProcessError as e:
             Utils.print(f"FFmpeg failed: {e}")
