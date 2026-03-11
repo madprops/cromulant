@@ -238,7 +238,7 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
-            "sim_rate",
+            "sim_delay",
             type=float,
             info="Speed of the simulation",
         )

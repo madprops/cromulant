@@ -37,7 +37,7 @@ class Args:
     weight_think: int = 2
     weight_words: int = 4
     simulate: int = 0
-    sim_rate: float = 1.0
+    sim_delay: float = 1.0
     sim_directory: str = ""
 
     @staticmethod
@@ -80,7 +80,7 @@ class Args:
             "weight_words",
             "maximize",
             "simulate",
-            "sim_rate",
+            "sim_delay",
             "sim_directory",
         ]
 

@@ -471,23 +471,16 @@ class Game:
 
     @staticmethod
     def simulation_step() -> None:
-        if Game.simulate_timer and (Game.simulate_tick >= Args.simulate):
+        if Game.simulate_tick >= Args.simulate:
             Game.simulate_timer.stop()
             Game.finish_simulation()
             return
 
         Game.get_status()
-
         QApplication.processEvents()
-
-        top_widget = Window.view.parentWidget().window()
-        pixmap = top_widget.grab()
-
+        pixmap = Window.scroll_area.grab()
         frame_path = Game.simulate_dir / f"frame_{Game.simulate_tick:04d}.png"
-
-        # PySide6 expects a string for the save path
         pixmap.save(str(frame_path))
-
         Game.simulate_tick += 1
 
     @staticmethod
@@ -497,20 +490,25 @@ class Game:
         output_file = Game.get_output_filename()
         input_pattern = str(Game.simulate_dir / "frame_%04d.png")
 
+        delay = Args.sim_delay
+
+        if delay <= 0:
+            delay = 1.0
+
+        # Convert the desired delay in seconds into a framerate fraction
+        input_framerate = 1.0 / delay
+
         try:
             subprocess.run(
                 [
                     "ffmpeg",
                     "-y",
-                    "-framerate",
-                    f"{Args.sim_rate}",
-                    "-i",
-                    input_pattern,
-                    "-c:v",
-                    "libx264",
-                    "-pix_fmt",
-                    "yuv420p",
-                    output_file,
+                    "-framerate", str(input_framerate),
+                    "-i", input_pattern,
+                    "-r", "30",
+                    "-c:v", "libx264",
+                    "-pix_fmt", "yuv420p",
+                    output_file
                 ],
                 check=True,
             )
