@@ -434,24 +434,18 @@ class Game:
 
     @staticmethod
     def simulation_step() -> None:
-        if Game.simulate_tick >= Args.simulate:
+
+        if Game.simulate_tick >= Config.simulate:
             Game.simulate_timer.stop()
             Game.finish_simulation()
             return
 
-        # Trigger the standard game logic
         Game.get_status()
-
-        # Crucial: Force Qt to process the drawing queue immediately
         QApplication.processEvents()
-
-        # Traverse up from the view layout to grab the top-level window
         top_widget = Window.view.parentWidget().window()
         pixmap = top_widget.grab()
-
         frame_path = os.path.join(Game.simulate_dir, f"frame_{Game.simulate_tick:04d}.png")
         pixmap.save(frame_path)
-
         Game.simulate_tick += 1
 
     @staticmethod
