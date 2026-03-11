@@ -443,7 +443,10 @@ class Game:
                 word2 = random.choice(nouns)
                 base_name = f"{word1}_{word2}"
 
-        videos_dir = Path.cwd() / "videos"
+        if Args.sim_directory:
+            videos_dir = Path(Args.sim_directory) / "videos"
+        else:
+            videos_dir = Path.cwd() / "videos"
 
         if not videos_dir.exists():
             videos_dir.mkdir(parents=True, exist_ok=True)
@@ -500,7 +503,7 @@ class Game:
                     "ffmpeg",
                     "-y",
                     "-framerate",
-                    f"{Args.simulate_rate}",
+                    f"{Args.sim_rate}",
                     "-i",
                     input_pattern,
                     "-c:v",

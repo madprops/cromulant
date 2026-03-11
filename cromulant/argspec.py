@@ -238,7 +238,13 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
-            "simulate_rate",
+            "sim_rate",
             type=float,
             info="Speed of the simulation",
+        )
+
+        ArgSpec.add_argument(
+            "sim_directory",
+            type=str,
+            info="Where to save simulations",
         )
