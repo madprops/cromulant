@@ -434,8 +434,7 @@ class Game:
 
     @staticmethod
     def simulation_step() -> None:
-
-        if Game.simulate_tick >= Config.simulate:
+        if Game.simulate_tick >= Args.simulate:
             Game.simulate_timer.stop()
             Game.finish_simulation()
             return
