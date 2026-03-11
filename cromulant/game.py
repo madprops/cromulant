@@ -173,7 +173,7 @@ class Game:
 
         animation: QPropertyAnimation | None = None
 
-        if Game.started and Args.fade and Config.simulate == 0:
+        if Game.started and Args.fade and Args.simulate == 0:
             animation = Game.add_fade(item)
 
         Window.view.insertWidget(0, item)
