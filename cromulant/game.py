@@ -449,11 +449,9 @@ class Game:
 
     @staticmethod
     def get_output_filename() -> str:
-        # Resolve the absolute path of the directory containing game.py
         current_dir = os.path.dirname(os.path.abspath(__file__))
         nouns_path = os.path.join(current_dir, "data", "nouns.txt")
 
-        # Fallback in case the file is missing or path structure is different
         if not os.path.exists(nouns_path):
             Utils.print(f"Warning: Could not find {nouns_path}")
             base_name = "simulation"
@@ -468,14 +466,17 @@ class Game:
                 word2 = random.choice(nouns)
                 base_name = f"{word1}_{word2}"
 
-        # Ensure the output file goes into the directory where the command was run
         working_dir = os.getcwd()
-        output_file = os.path.join(working_dir, f"{base_name}.mp4")
+        videos_dir = os.path.join(working_dir, "videos")
 
+        if not os.path.exists(videos_dir):
+            os.makedirs(videos_dir)
+
+        output_file = os.path.join(videos_dir, f"{base_name}.mp4")
         counter = 2
 
         while os.path.exists(output_file):
-            output_file = os.path.join(working_dir, f"{base_name}_{counter}.mp4")
+            output_file = os.path.join(videos_dir, f"{base_name}_{counter}.mp4")
             counter += 1
 
         return output_file
