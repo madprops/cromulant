@@ -37,6 +37,7 @@ class Args:
     weight_think: int = 2
     weight_words: int = 4
     simulate: int = 0
+    simulate_rate: float = 1.0
 
     @staticmethod
     def prepare() -> None:
@@ -78,6 +79,7 @@ class Args:
             "weight_words",
             "maximize",
             "simulate",
+            "simulate_rate",
         ]
 
         for n_item in normals:

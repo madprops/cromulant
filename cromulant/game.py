@@ -500,7 +500,7 @@ class Game:
                     "ffmpeg",
                     "-y",
                     "-framerate",
-                    "1",
+                    f"{Args.simulate_rate}",
                     "-i",
                     input_pattern,
                     "-c:v",

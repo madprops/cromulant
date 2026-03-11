@@ -236,3 +236,9 @@ class ArgSpec:
             type=int,
             info="Run a simulation with these amount of ticks",
         )
+
+        ArgSpec.add_argument(
+            "simulate_rate",
+            type=float,
+            info="Speed of the simulation",
+        )

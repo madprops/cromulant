@@ -257,3 +257,23 @@ Maximize the window
 Default: False
 
 Action: store_true
+
+---
+
+### simulate
+
+Run a simulation with these amount of ticks
+
+Default: 0
+
+Type: int
+
+---
+
+### simulate-rate
+
+Speed of the simulation
+
+Default: 1.0
+
+Type: float
