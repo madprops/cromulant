@@ -36,6 +36,7 @@ class Args:
     weight_travel: int = 2
     weight_think: int = 2
     weight_words: int = 4
+    simulate: int = 0
 
     @staticmethod
     def prepare() -> None:
@@ -76,6 +77,7 @@ class Args:
             "weight_think",
             "weight_words",
             "maximize",
+            "simulate",
         ]
 
         for n_item in normals:

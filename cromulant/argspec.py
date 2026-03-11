@@ -230,3 +230,9 @@ class ArgSpec:
             action="store_true",
             info="Maximize the window",
         )
+
+        ArgSpec.add_argument(
+            "simulate",
+            type=int,
+            info="Run a simulation with these amount of ticks",
+        )

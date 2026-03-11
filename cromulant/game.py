@@ -1,6 +1,11 @@
 from __future__ import annotations
 
+import os
+import shutil
+import subprocess
+import tempfile
 import random
+from PySide6.QtWidgets import QApplication
 from typing import ClassVar
 
 from PySide6.QtWidgets import QHBoxLayout  # type: ignore
@@ -95,6 +100,9 @@ class Game:
     animations: ClassVar[list[QPropertyAnimation]] = []
     started: bool = False
     restart_dialog: ClassVar[RestartDialog | None] = None
+    simulate_timer: ClassVar[QTimer | None] = None
+    simulate_tick: int = 0
+    simulate_dir: str = ""
 
     @staticmethod
     def prepare() -> None:
@@ -165,7 +173,7 @@ class Game:
 
         animation: QPropertyAnimation | None = None
 
-        if Game.started and Args.fade:
+        if Game.started and Args.fade and Config.simulate == 0:
             animation = Game.add_fade(item)
 
         Window.view.insertWidget(0, item)
@@ -390,6 +398,11 @@ class Game:
     @staticmethod
     def start_loop() -> None:
         Game.timer.stop()
+
+        if Args.simulate > 0:
+            Game.start_simulation()
+            return
+
         speed = Settings.speed
 
         if speed == "fast":
@@ -410,6 +423,98 @@ class Game:
 
         Game.timer.setInterval(msecs)
         Game.timer.start()
+
+    @staticmethod
+    def start_simulation() -> None:
+        Game.simulate_dir = tempfile.mkdtemp(prefix="ants_sim_")
+        Game.simulate_tick = 0
+        Game.simulate_timer = QTimer()
+        Game.simulate_timer.timeout.connect(Game.simulation_step)
+        Game.simulate_timer.start(0)
+
+    @staticmethod
+    def simulation_step() -> None:
+        if Game.simulate_tick >= Args.simulate:
+            Game.simulate_timer.stop()
+            Game.finish_simulation()
+            return
+
+        # Trigger the standard game logic
+        Game.get_status()
+
+        # Crucial: Force Qt to process the drawing queue immediately
+        QApplication.processEvents()
+
+        # Traverse up from the view layout to grab the top-level window
+        top_widget = Window.view.parentWidget().window()
+        pixmap = top_widget.grab()
+
+        frame_path = os.path.join(Game.simulate_dir, f"frame_{Game.simulate_tick:04d}.png")
+        pixmap.save(frame_path)
+
+        Game.simulate_tick += 1
+
+    @staticmethod
+    def get_output_filename() -> str:
+        # Resolve the absolute path of the directory containing game.py
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        nouns_path = os.path.join(current_dir, "data", "nouns.txt")
+
+        # Fallback in case the file is missing or path structure is different
+        if not os.path.exists(nouns_path):
+            Utils.print(f"Warning: Could not find {nouns_path}")
+            base_name = "simulation"
+        else:
+            with open(nouns_path, "r", encoding="utf-8") as file:
+                nouns = [line.strip() for line in file if line.strip()]
+
+            if not nouns:
+                base_name = "simulation"
+            else:
+                word1 = random.choice(nouns)
+                word2 = random.choice(nouns)
+                base_name = f"{word1}_{word2}"
+
+        # Ensure the output file goes into the directory where the command was run
+        working_dir = os.getcwd()
+        output_file = os.path.join(working_dir, f"{base_name}.mp4")
+
+        counter = 2
+
+        while os.path.exists(output_file):
+            output_file = os.path.join(working_dir, f"{base_name}_{counter}.mp4")
+            counter += 1
+
+        return output_file
+
+    @staticmethod
+    def finish_simulation() -> None:
+        Utils.print(f"Encoding {Game.simulate_tick} frames...")
+
+        output_file = Game.get_output_filename()
+        input_pattern = os.path.join(Game.simulate_dir, "frame_%04d.png")
+
+        try:
+            subprocess.run(
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-framerate", "1",  # 1 frame per second = 1 second delay per frame
+                    "-i", input_pattern,
+                    "-c:v", "libx264",
+                    "-pix_fmt", "yuv420p",
+                    output_file
+                ],
+                check=True,
+            )
+
+            Utils.print(f"Video saved to {output_file}")
+        except subprocess.CalledProcessError as e:
+            Utils.print(f"FFmpeg failed: {e}")
+        finally:
+            shutil.rmtree(Game.simulate_dir)
+
+        QApplication.quit()
 
     @staticmethod
     def update_speed() -> None:
