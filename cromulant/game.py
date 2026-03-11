@@ -471,7 +471,7 @@ class Game:
 
     @staticmethod
     def simulation_step() -> None:
-        if Game.simulate_tick >= Args.simulate:
+        if Game.simulate_timer and Game.simulate_tick >= Args.simulate:
             Game.simulate_timer.stop()
             Game.finish_simulation()
             return
@@ -503,12 +503,17 @@ class Game:
                 [
                     "ffmpeg",
                     "-y",
-                    "-framerate", str(input_framerate),
-                    "-i", input_pattern,
-                    "-r", "30",
-                    "-c:v", "libx264",
-                    "-pix_fmt", "yuv420p",
-                    output_file
+                    "-framerate",
+                    str(input_framerate),
+                    "-i",
+                    input_pattern,
+                    "-r",
+                    "30",
+                    "-c:v",
+                    "libx264",
+                    "-pix_fmt",
+                    "yuv420p",
+                    output_file,
                 ],
                 check=True,
             )
