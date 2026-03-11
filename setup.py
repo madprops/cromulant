@@ -11,7 +11,6 @@ title = manifest["title"]
 program = manifest["program"]
 version = manifest["version"]
 
-
 def _post_install():
     system = platform.system()
 
@@ -22,12 +21,10 @@ def _post_install():
         except Exception as e:
             print(f"Error during post install: {e}")
 
-
 def _copy_icon_file():
     source = Path(f"{program}/img/icon_1.jpg").expanduser().resolve()
     destination = Path(f"~/.local/share/icons/{program}.png").expanduser().resolve()
     shutil.copy2(source, destination)
-
 
 def _create_desktop_file():
     content = f"""[Desktop Entry]
@@ -45,12 +42,11 @@ Categories=Utility;
     with open(file_path, 'w') as f:
         f.write(content)
 
-
 with open("requirements.txt") as f:
     requirements = f.read().splitlines()
 
 package_data = {}
-package_data[program] = ["**/*.png", "**/*.jpg", "**/*.json", "**/*.mp3", "**/*.ttf"]
+package_data[program] = ["**/*.png", "**/*.jpg", "**/*.json", "**/*.mp3", "**/*.ttf", "**/*.txt"]
 
 setup(
     name=title,
@@ -59,11 +55,7 @@ setup(
     packages=find_packages(where="."),
     package_dir={"": "."},
     package_data=package_data,
-    entry_points={
-        "console_scripts": [
-            f"{program}={program}.main:main",
-        ],
-    },
+    entry_points={"console_scripts": [f"{program}={program}.main:main"]},
 )
 
 _post_install()
