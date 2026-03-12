@@ -148,6 +148,12 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
+            "population",
+            type=int,
+            info="What population to use when generating ants",
+        )
+
+        ArgSpec.add_argument(
             "fast_seconds",
             type=int,
             info="The number of seconds between fast updates",

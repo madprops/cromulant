@@ -108,7 +108,7 @@ class Ants:
     @staticmethod
     def check() -> None:
         if not Ants.ants:
-            Ants.populate(Config.default_population)
+            Ants.populate(Args.population)
 
     @staticmethod
     def hatch(num: int = 1, ignore: list[str] | None = None) -> None:

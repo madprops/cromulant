@@ -55,7 +55,6 @@ class Config:
     settings_json: Path
     countries_json: Path
     filter_debouncer_delay: int = 80
-    default_population: int = 100
     merge_goal: int = 10
     manifest_path: Path
     manifest: dict[str, str]

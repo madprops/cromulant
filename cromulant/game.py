@@ -210,7 +210,8 @@ class Game:
         container = QVBoxLayout()
         container.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        title_label = QLabel(title)
+        # Prepend the invisible Left-To-Right Mark (\u200E)
+        title_label = QLabel(f"\u200E{title}")
 
         title_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse
@@ -219,9 +220,12 @@ class Game:
         title_label.setStyleSheet("font-weight: bold;")
         title_label.setWordWrap(True)
         title_label.setObjectName("view_title")
+        title_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+
         Window.expand(title_label)
 
-        message_label = QLabel(message)
+        # Prepend the invisible Left-To-Right Mark (\u200E)
+        message_label = QLabel(f"\u200E{message}")
 
         message_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse
@@ -229,6 +233,8 @@ class Game:
 
         message_label.setWordWrap(True)
         message_label.setObjectName("view_message")
+        message_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+
         Window.expand(message_label)
 
         container.addWidget(title_label)
@@ -574,7 +580,7 @@ class Game:
         defindex = 0
 
         for i, opt in enumerate(sizes):
-            if int(opt) == Config.default_population:
+            if int(opt) == Args.population:
                 defindex = i
                 break
 
