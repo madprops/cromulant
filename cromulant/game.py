@@ -210,8 +210,8 @@ class Game:
         container = QVBoxLayout()
         container.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        # Prepend the invisible Left-To-Right Mark (\u200E)
-        title_label = QLabel(f"\u200E{title}")
+        # Prepend the invisible Left-To-Right Mark
+        title_label = QLabel(f"\u200e{title}")
 
         title_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse
@@ -225,7 +225,7 @@ class Game:
         Window.expand(title_label)
 
         # Prepend the invisible Left-To-Right Mark (\u200E)
-        message_label = QLabel(f"\u200E{message}")
+        message_label = QLabel(f"\u200e{message}")
 
         message_label.setTextInteractionFlags(
             Qt.TextInteractionFlag.TextSelectableByMouse
