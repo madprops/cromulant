@@ -40,6 +40,7 @@ class Args:
     simulate: int = 0
     sim_delay: float = 1.0
     sim_directory: str = ""
+    font_size: int = 20
 
     @staticmethod
     def prepare() -> None:
@@ -84,6 +85,7 @@ class Args:
             "simulate",
             "sim_delay",
             "sim_directory",
+            "font_size",
         ]
 
         for n_item in normals:

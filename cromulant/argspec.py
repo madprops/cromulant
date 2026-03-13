@@ -190,6 +190,12 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
+            "font_size",
+            type=int,
+            info="Font size for the content",
+        )
+
+        ArgSpec.add_argument(
             "no_fade",
             action="store_false",
             info="Don't apply a fade-in effect on new updates",

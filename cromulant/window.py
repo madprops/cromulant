@@ -328,6 +328,8 @@ class Window:
         Window.scroll_area.setWidgetResizable(True)
 
         container = QWidget()
+        container.setStyleSheet(f"font-size: {Args.font_size}px;")
+
         parent = QVBoxLayout(container)
         Window.view = QVBoxLayout()
         parent.addLayout(Window.view)
