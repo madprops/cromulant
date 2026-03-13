@@ -122,6 +122,16 @@ Action: store_true
 
 ---
 
+### population
+
+What population to use when generating ants
+
+Default: 100
+
+Type: int
+
+---
+
 ### fast-seconds
 
 The number of seconds between fast updates
@@ -179,6 +189,16 @@ Use a monospace font
 Default: False
 
 Action: store_true
+
+---
+
+### font-size
+
+Font size for the content
+
+Default: 20
+
+Type: int
 
 ---
 
@@ -270,10 +290,20 @@ Type: int
 
 ---
 
-### simulate-rate
+### sim-delay
 
 Speed of the simulation
 
 Default: 1.0
 
 Type: float
+
+---
+
+### sim-directory
+
+Where to save simulations
+
+Default: [Empty string]
+
+Type: str
