@@ -40,6 +40,7 @@ class Args:
     simulate: int = 0
     sim_delay: float = 1.0
     sim_directory: str = ""
+    sim_name: str = ""
     font_size: int = 20
     use_names: int = True
 
@@ -87,6 +88,7 @@ class Args:
             "simulate",
             "sim_delay",
             "sim_directory",
+            "sim_name",
             "font_size",
         ]
 

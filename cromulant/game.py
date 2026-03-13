@@ -435,7 +435,9 @@ class Game:
         current_dir = Path(__file__).parent.resolve()
         nouns_path = current_dir / "data" / "nouns.txt"
 
-        if not nouns_path.exists():
+        if Args.sim_name:
+            base_name = Args.sim_name
+        elif not nouns_path.exists():
             Utils.print(f"Warning: Could not find {nouns_path}")
             base_name = "simulation"
         else:

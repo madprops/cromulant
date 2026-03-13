@@ -266,3 +266,9 @@ class ArgSpec:
             type=str,
             info="Where to save simulations",
         )
+
+        ArgSpec.add_argument(
+            "sim_name",
+            type=str,
+            info="Name for the simulation video",
+        )
