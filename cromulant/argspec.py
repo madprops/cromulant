@@ -81,6 +81,12 @@ class ArgSpec:
         )
 
         ArgSpec.add_argument(
+            "no_names",
+            action="store_false",
+            info="Don't use name lists and make up all the names",
+        )
+
+        ArgSpec.add_argument(
             "ants",
             type=str,
             info="Path to a JSON file with ants data. Use this instead of the default one",

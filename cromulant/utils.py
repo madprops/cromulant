@@ -218,7 +218,13 @@ class Utils:
         return [Utils.make_word() for _ in range(num)]
 
     @staticmethod
-    def make_name() -> str:
-        words = Utils.make_words(2)
-        words = [word.capitalize() for word in words]
-        return " ".join(words)
+    def make_name(ignore: set[str], num_words: int = 2) -> str:
+        for _ in range(100):
+            words = Utils.make_words(num_words)
+            words = [word.capitalize() for word in words]
+            name = " ".join(words)
+
+            if name not in ignore:
+                return name
+
+        return Utils.make_name(ignore, num_words + 1)

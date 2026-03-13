@@ -41,6 +41,7 @@ class Args:
     sim_delay: float = 1.0
     sim_directory: str = ""
     font_size: int = 20
+    use_names: int = True
 
     @staticmethod
     def prepare() -> None:
@@ -56,6 +57,7 @@ class Args:
             ("no_footer", "footer"),
             ("no_intro", "intro"),
             ("no_fade", "fade"),
+            ("no_names", "use_names"),
         ]
 
         for r_item in other_name:

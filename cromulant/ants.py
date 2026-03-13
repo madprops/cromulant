@@ -214,7 +214,10 @@ class Ants:
                 if name not in names:
                     names.append(name)
 
-        return Utils.random_name(names)
+        if Args.use_names:
+            return Utils.random_name(names)
+        else:
+            return Utils.make_name(names)
 
     @staticmethod
     def get_top() -> None:
