@@ -107,7 +107,7 @@ class Utils:
         filtered = [name for name in Utils.names if name not in ignore]
 
         if not filtered:
-            return Utils.make_name()
+            return Utils.make_name(ignore)
 
         return random.choice(filtered)
 
@@ -218,7 +218,7 @@ class Utils:
         return [Utils.make_word() for _ in range(num)]
 
     @staticmethod
-    def make_name(ignore: set[str], num_words: int = 2) -> str:
+    def make_name(ignore: list[str], num_words: int = 2) -> str:
         for _ in range(100):
             words = Utils.make_words(num_words)
             words = [word.capitalize() for word in words]
