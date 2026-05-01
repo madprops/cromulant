@@ -72,7 +72,7 @@
             ];
 
             postInstall = ''
-              install -Dm644 ${manifest.program}/img/icon_1.jpg $out/share/icons/hicolor/256x256/apps/${manifest.program}.jpg
+              install -Dm644 ${manifest.program}/img/icon.jpg $out/share/icons/hicolor/256x256/apps/${manifest.program}.jpg
             '';
           };
         });

@@ -22,7 +22,7 @@ def _post_install():
             print(f"Error during post install: {e}")
 
 def _copy_icon_file():
-    source = Path(f"{program}/img/icon_1.jpg").expanduser().resolve()
+    source = Path(f"{program}/img/icon.jpg").expanduser().resolve()
     destination = Path(f"~/.local/share/icons/{program}.png").expanduser().resolve()
     shutil.copy2(source, destination)
 
