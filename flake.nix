@@ -54,8 +54,10 @@
               wonderwords
             ];
 
-            postPatch = ''
-              sed -i '/_post_install()/d' setup.py
+          postPatch = ''
+              # Remove the invocation of _post_install() at the bottom of the file
+              # The function definition is left intact but harmless
+              sed -i 's/^_post_install()//g' setup.py
             '';
 
             desktopItems = [
