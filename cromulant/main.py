@@ -4,7 +4,11 @@ import os
 import sys
 import fcntl
 import tempfile
+import platform
 from pathlib import Path
+
+if platform.system() == "Linux":
+    os.environ["QT_QPA_PLATFORM"] = "xcb"
 
 from .config import Config
 from .utils import Utils

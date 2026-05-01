@@ -16,6 +16,17 @@
           pkgs = import nixpkgs {inherit system;};
           pythonPackages = pkgs.python3Packages;
           manifest = builtins.fromJSON (builtins.readFile ./cromulant/manifest.json);
+
+          wonderwords = pythonPackages.buildPythonPackage rec {
+            pname = "wonderwords";
+            version = "2.2.0";
+            format = "setuptools";
+            src = pythonPackages.fetchPypi {
+              inherit pname version;
+              sha256 = "0b7ec6f591062afc55603bfea71463afbab06794b3064d9f7b04d0ce251a13d0";
+            };
+            doCheck = false;
+          };
         in
         {
           default = pythonPackages.buildPythonApplication rec {
@@ -36,13 +47,14 @@
               qt6.qtwayland
             ];
 
-            # Add the Python dependencies listed in your requirements.txt here
             propagatedBuildInputs = with pythonPackages; [
-              # pyqt6
+              pyside6
+              appdirs
+              fonttools
+              wonderwords
             ];
 
             postPatch = ''
-              # The _post_install hook attempts to write to ~/.local, which violates the Nix sandbox
               sed -i '/_post_install()/d' setup.py
             '';
 
@@ -67,13 +79,27 @@
         let
           pkgs = import nixpkgs {inherit system;};
           pythonPackages = pkgs.python3Packages;
+
+          wonderwords = pythonPackages.buildPythonPackage rec {
+            pname = "wonderwords";
+            version = "2.2.0";
+            format = "setuptools";
+            src = pythonPackages.fetchPypi {
+              inherit pname version;
+              sha256 = "0b7ec6f591062afc55603bfea71463afbab06794b3064d9f7b04d0ce251a13d0";
+            };
+            doCheck = false;
+          };
         in
         {
           default = pkgs.mkShell {
             packages = with pkgs; [
               (pythonPackages.python.withPackages (ps: with ps; [
                 gitpython
-                # pyqt6
+                pyside6
+                appdirs
+                fonttools
+                wonderwords
               ]))
               ruff
               mypy
